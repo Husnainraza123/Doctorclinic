@@ -1,0 +1,129 @@
+﻿@model DoctorApp.Models.Department
+
+@{
+    ViewBag.Title = "EditDepartment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    label {
+        display: block;
+    }
+</style>
+
+<div>
+
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Edit Department</h4>
+            </div>
+        </div>
+        @Html.HiddenFor(x => x.DepartmentsID, new { id = "hdnID" })
+        <div class="row">
+            <div class=" col-lg-8 offset-lg-2">
+
+                <div class="form-group">
+                    <label>Department Name</label>
+                    @Html.EditorFor(model => model.DepartmentsName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Department Status", htmlAttributes: new { @class = "control-label" })
+
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(model => model.Status, "Active", new { @id = "status_active", @class = "form-check-input" })
+                        @Html.Label("Active", htmlAttributes: new { @for = "status_active", @class = "form-check-label" })
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(model => model.Status, "Inactive", new { @id = "status_inactive", @class = "form-check-input" })
+                        @Html.Label("Inactive", htmlAttributes: new { @for = "status_inactive", @class = "form-check-label" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="m-t-20 text-center">
+                    @*<a class="btn btn-primary submit-btn" id="btnSave" onclick="save()">Save Doctor</a>*@
+                    <button class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 12px;">Save Department</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+    }
+</div>
+
+<script>
+    function readURL(input, hiddenInputId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the base64 string or data URL to the hidden input field
+                document.getElementById(hiddenInputId).value = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function Edit() {
+        debugger;
+        var id = $('#hdnID').val();
+        var formData = new FormData();
+        var currentDate = new Date().toISOString();
+
+
+        if (id > 0) {
+            formData.append('DepartmentsID', id);
+            formData.append('DepartmentsName', $('#DepartmentsName').val());
+            formData.append('Description', $('#Description').val());
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+            formData.append('Status', $('input[name="Status"]:checked').val());
+
+        }
+
+        else {
+            formData.append('DepartmentsName', $('#DepartmentsName').val());
+            formData.append('Description', $('#Description').val());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('Status', $('input[name="Status"]:checked').val());
+        }
+
+        $.ajax({
+            url: "/Department/EditDepartment",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    alert("Data Updated Successfully");
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    alert("Data Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+</script>

@@ -1,0 +1,101 @@
+﻿@model DoctorApp.Models.Role
+
+@{
+    ViewBag.Title = "AddRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Add Role</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form>
+                <div class="form-group">
+                    <label>Role Name</label>
+                    <input ID="txtName" ClientIDMode="Static" class="form-control" placeholder="Name" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="display-block">Role Status</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_active" value="Active" checked>
+                        <label class="form-check-label" for="product_active">Active</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_inactive" value="Inactive">
+                        <label class="form-check-label" for="product_inactive">Inactive</label>
+                    </div>
+                </div>
+                <div class="m-t-20 text-center">
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function readURL(input, hiddenInputId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the base64 string or data URL to the hidden input field
+                document.getElementById(hiddenInputId).value = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function Add() {
+        debugger;
+        var id = $('#hdnID').val();
+        var formData = new FormData();
+        var currentDate = new Date().toISOString();
+
+
+        if (id > 0) {
+            formData.append('RoleName', $('#txtName').val());
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+
+        }
+
+        else {
+            formData.append('RoleName', $('#txtName').val());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+        }
+
+        $.ajax({
+            url: "/Role/AddRole",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    notifyDanger("Data Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+</script>

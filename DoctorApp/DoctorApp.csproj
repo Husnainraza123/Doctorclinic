@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{836220A7-0879-4C31-8A12-D888EAC986A1}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DoctorApp</RootNamespace>
+    <AssemblyName>DoctorApp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Omu.ValueInjecter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5692a4ecdffbe736, processorArchitecture=MSIL">
+      <HintPath>..\packages\ValueInjecter.3.2.0\lib\net45\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Appointment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppointmentViewModel.cs" />
+    <Compile Include="Models\BrowseAppointmentByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseAppointment_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDepartmentsByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDepartment_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDoctorByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDoctorBy_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDoctorEdID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDoctorExpBy_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseDoctor_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseEmployeeByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseEmployee_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowsePatientsByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowsePatients_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseRoleByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseRole_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Doctor.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EducationInformation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeViewModel.cs" />
+    <Compile Include="Models\ExperienceInformation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Login_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Patient.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\dataTables.bootstrap4.min.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
+    <Content Include="assets\css\fullcalendar.min.css" />
+    <Content Include="assets\css\select2.min.css" />
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\tagsinput.css" />
+    <Content Include="assets\DoctorImage\01694fa7-92f3-4d14-bc4f-79a1838e54e6_20240207_191807.png" />
+    <Content Include="assets\DoctorImage\04105a80-ae00-429d-82bf-67d1b788b207_20240612_075249.png" />
+    <Content Include="assets\DoctorImage\0797b4b3-f11e-4a6f-b057-e30bf465a36e_20240207_192252.png" />
+    <Content Include="assets\DoctorImage\0fc026b1-b801-4859-9a97-d5481c3d588c_20240201_130538.png" />
+    <Content Include="assets\DoctorImage\193816c8-c5ce-4eb1-b614-22e5b9d08230_20240612_081608.png" />
+    <Content Include="assets\DoctorImage\1a746b54-8b9f-41ae-b259-05f6f47c7524_20240612_074647.png" />
+    <Content Include="assets\DoctorImage\1c12ea85-0e2e-4519-b7fb-5723caedd698_20240611_074653.png" />
+    <Content Include="assets\DoctorImage\20988294-8dd1-44b6-8370-4f668d1bdf05_20240612_074442.png" />
+    <Content Include="assets\DoctorImage\235acd6c-aefc-4a63-a1ae-67cae87aa51f_20240201_150413.png" />
+    <Content Include="assets\DoctorImage\24f18bb5-a24a-4040-a027-2e6aedca7134_20240201_151320.png" />
+    <Content Include="assets\DoctorImage\2711770b-0036-4352-b80d-0a2c5b26252b_20240612_074834.png" />
+    <Content Include="assets\DoctorImage\27c686ad-d597-4bdd-85d5-aac1f7dfd7d4_20240612_081410.png" />
+    <Content Include="assets\DoctorImage\2c64a32e-e108-4646-96b1-5fb9101c8534_20240612_081828.png" />
+    <Content Include="assets\DoctorImage\307caaa1-4380-46c5-9108-7fd126a72540_20240611_085943.png" />
+    <Content Include="assets\DoctorImage\343f26b9-360f-439a-a51c-3fe7b8773148_20240201_165817.png" />
+    <Content Include="assets\DoctorImage\34a24f08-886e-414c-9a91-ebe8236252df_20240215_174257.png" />
+    <Content Include="assets\DoctorImage\397b958e-0516-40af-8e7b-1a4a594b4721_20240612_075140.png" />
+    <Content Include="assets\DoctorImage\3af89f2b-44d7-4058-9bf4-c08e50b724d9_20240612_082040.png" />
+    <Content Include="assets\DoctorImage\3ebf2285-d274-427f-af20-eb54ddd98823_20240201_150954.png" />
+    <Content Include="assets\DoctorImage\432e07c1-6c92-478b-badd-571c07a22a40_20240611_085156.png" />
+    <Content Include="assets\DoctorImage\4428b30b-4060-4aeb-9c88-df49caf7ad98_20240208_035350.png" />
+    <Content Include="assets\DoctorImage\4b903f27-092e-4331-a67b-f3f572450f2b_20240612_075059.png" />
+    <Content Include="assets\DoctorImage\4cf71a86-baf2-4044-807d-ba17a96f98a1_20240611_085116.png" />
+    <Content Include="assets\DoctorImage\4d35cc96-cf92-4648-8e61-899fe7eddae1_20240611_075029.png" />
+    <Content Include="assets\DoctorImage\4ff2d4c7-229a-4d6f-a72e-38e17d71e5fd_20240215_173907.png" />
+    <Content Include="assets\DoctorImage\53ad76b5-063b-4b2b-b50a-dc44efe43fcb_20240611_085134.png" />
+    <Content Include="assets\DoctorImage\55b3df00-2503-40d9-92c2-c2ff1906df1b_20240208_035357.png" />
+    <Content Include="assets\DoctorImage\5aa3ef05-1561-401d-8d32-daf8860c1480_20240611_073325.png" />
+    <Content Include="assets\DoctorImage\5d246fa2-4a81-45bf-a893-1ecd192f20bd_20240215_173905.png" />
+    <Content Include="assets\DoctorImage\62acaa1e-a329-4159-a495-82ad5791ac1b_20240611_085709.png" />
+    <Content Include="assets\DoctorImage\64902200-a8c4-49fc-b866-73ccef2dae98_20240201_130634.png" />
+    <Content Include="assets\DoctorImage\65deede2-7901-4acb-b4ec-3f25a321226d_20240611_085521.png" />
+    <Content Include="assets\DoctorImage\6664e5af-d1a8-4721-940b-4cb2aa6bb492_20240201_150111.png" />
+    <Content Include="assets\DoctorImage\6a6ed6d4-cd4f-47e4-83ca-4fe7f4983bc0_20240612_074306.png" />
+    <Content Include="assets\DoctorImage\7272efee-c177-49c5-a57d-457e9bc42aad_20240201_130559.png" />
+    <Content Include="assets\DoctorImage\73160163-2660-49fa-b210-1692767ec98c_20240611_073705.png" />
+    <Content Include="assets\DoctorImage\750af39b-81df-4f1b-929f-e44ce71d1587_20240611_073306.png" />
+    <Content Include="assets\DoctorImage\75f2d154-fd55-474b-8a44-9c044238e538_20240207_114901.png" />
+    <Content Include="assets\DoctorImage\7ba8d425-b0ed-4f52-9f1e-30fea7c664b7_20240612_074306.png" />
+    <Content Include="assets\DoctorImage\7c2d8b0a-9bdb-47e0-92ea-dac2ced824df_20240611_085954.png" />
+    <Content Include="assets\DoctorImage\7d4f4b6e-9502-439b-9271-c1425e8088d0_20240611_085505.png" />
+    <Content Include="assets\DoctorImage\7f47c9c3-68df-4c9f-b268-e5c1d5504b48_20240201_150059.png" />
+    <Content Include="assets\DoctorImage\80022372-48f5-4710-9df7-d5c172c042be_20240201_163047.png" />
+    <Content Include="assets\DoctorImage\816a62d4-2d62-4c19-89cc-9c5a2f2d2767_20240611_074403.png" />
+    <Content Include="assets\DoctorImage\8a1f28a9-15dd-4a74-aac4-ced14749745c_20240201_150525.png" />
+    <Content Include="assets\DoctorImage\92163902-1e23-449a-93c2-b7447d66c192_20240207_191801.png" />
+    <Content Include="assets\DoctorImage\923e828e-1342-4f84-a0f9-9ea150f8652b_20240611_073441.png" />
+    <Content Include="assets\DoctorImage\94e3e88a-3415-49d7-b3c2-a753b7e91eab_20240612_074130.png" />
+    <Content Include="assets\DoctorImage\996c5d76-2d91-4f4e-81cc-dfb9d60b83d2_20240611_073304.png" />
+    <Content Include="assets\DoctorImage\99f5b794-6c01-4421-8cfe-80c64c4d0be3_20240208_035240.png" />
+    <Content Include="assets\DoctorImage\9edef8e3-0588-4c81-ae09-774b1fe5227b_20240612_072857.png" />
+    <Content Include="assets\DoctorImage\a0951275-9947-47df-bcb3-1a41cfb72e13_20240215_173907.png" />
+    <Content Include="assets\DoctorImage\a446a9fe-6400-4205-89fb-f2dd45c7b840_20240612_075131.png" />
+    <Content Include="assets\DoctorImage\ab7c359e-7fcf-47b5-83a0-3dc3d45fc360_20240611_090231.png" />
+    <Content Include="assets\DoctorImage\b6908927-84a1-4ce9-ab91-1a5587705787_20240202_105731.png" />
+    <Content Include="assets\DoctorImage\c1a816b5-0712-48a7-a462-ecc85a3053bb_20240215_173907.png" />
+    <Content Include="assets\DoctorImage\c4f6851e-c9b4-4b33-82c0-c06b8a78283b_20240215_173950.png" />
+    <Content Include="assets\DoctorImage\cc4eb683-16d6-4a16-a37e-af17216a4478_20240611_090234.png" />
+    <Content Include="assets\DoctorImage\ce983192-7864-4a04-a1a2-10060bb8006e_20240207_114542.png" />
+    <Content Include="assets\DoctorImage\d0c518c9-6ba8-4fe0-b606-eac36650501f_20240201_164010.png" />
+    <Content Include="assets\DoctorImage\d2ba93b1-f43f-4ae3-9c01-fb05f2a7bba1_20240612_074033.png" />
+    <Content Include="assets\DoctorImage\d71464e2-9ef8-4c64-bba2-afd49d3c191f_20240612_074300.png" />
+    <Content Include="assets\DoctorImage\dd5fe771-8f5d-4e0b-be7d-3d00657974e1_20240202_103805.png" />
+    <Content Include="assets\DoctorImage\dr.jpg" />
+    <Content Include="assets\DoctorImage\e02aedd8-efb2-4708-8510-0c894b157a46_20240612_074802.png" />
+    <Content Include="assets\DoctorImage\ee575919-d6ea-4001-bbc4-1c7fe8912e52_20240611_074151.png" />
+    <Content Include="assets\DoctorImage\fb5c9537-d3e7-4756-952c-980c68d2b590_20240207_192044.png" />
+    <Content Include="assets\DoctorImage\fc4bf971-3e18-4f85-be12-e3e3dde49528_20240201_145750.png" />
+    <Content Include="assets\DoctorImage\fe2b27b4-c38a-4de2-b6e7-28be72c165b3_20240202_150913.png" />
+    <Content Include="assets\DoctorImage\feac2279-a9a1-4c7b-8abd-ca5216ac4e06_20240201_130342.png" />
+    <Content Include="assets\fonts\fontawesome-webfont3e6e.html" />
+    <Content Include="assets\fonts\fontawesome-webfont3e6e.svg" />
+    <Content Include="assets\img\attachment.png" />
+    <Content Include="assets\img\blog\blog-01.jpg" />
+    <Content Include="assets\img\blog\blog-02.jpg" />
+    <Content Include="assets\img\blog\blog-03.jpg" />
+    <Content Include="assets\img\blog\blog-04.jpg" />
+    <Content Include="assets\img\blog\blog-thumb-01.jpg" />
+    <Content Include="assets\img\blog\blog-thumb-02.jpg" />
+    <Content Include="assets\img\blog\blog-thumb-03.jpg" />
+    <Content Include="assets\img\blog\blog-thumb-04.jpg" />
+    <Content Include="assets\img\calander.png" />
+    <Content Include="assets\img\clock.png" />
+    <Content Include="assets\img\doctor-03.jpg" />
+    <Content Include="assets\img\doctor-thumb-01.jpg" />
+    <Content Include="assets\img\doctor-thumb-02.jpg" />
+    <Content Include="assets\img\doctor-thumb-03.jpg" />
+    <Content Include="assets\img\doctor-thumb-04.jpg" />
+    <Content Include="assets\img\doctor-thumb-05.jpg" />
+    <Content Include="assets\img\doctor-thumb-06.jpg" />
+    <Content Include="assets\img\doctor-thumb-07.jpg" />
+    <Content Include="assets\img\doctor-thumb-08.jpg" />
+    <Content Include="assets\img\doctor-thumb-09.jpg" />
+    <Content Include="assets\img\doctor-thumb-10.jpg" />
+    <Content Include="assets\img\doctor-thumb-11.jpg" />
+    <Content Include="assets\img\doctor-thumb-12.jpg" />
+    <Content Include="assets\img\favicon.ico" />
+    <Content Include="assets\img\logo-dark.png" />
+    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\patient-thumb-01.jpg" />
+    <Content Include="assets\img\patient-thumb-02.jpg" />
+    <Content Include="assets\img\placeholder-thumb.jpg" />
+    <Content Include="assets\img\placeholder.jpg" />
+    <Content Include="assets\img\sent.png" />
+    <Content Include="assets\img\user-02.jpg" />
+    <Content Include="assets\img\user-03.jpg" />
+    <Content Include="assets\img\user-04.jpg" />
+    <Content Include="assets\img\user-05.jpg" />
+    <Content Include="assets\img\user-06.jpg" />
+    <Content Include="assets\img\user.jpg" />
+    <Content Include="assets\img\video-call.jpg" />
+    <Content Include="assets\js\app.js" />
+    <Content Include="assets\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\Chart.bundle.js" />
+    <Content Include="assets\js\chart.js" />
+    <Content Include="assets\js\dataTables.bootstrap4.min.js" />
+    <Content Include="assets\js\fullcalendar.min.js" />
+    <Content Include="assets\js\jquery-3.2.1.min.js" />
+    <Content Include="assets\js\jquery-ui.min.html" />
+    <Content Include="assets\js\jquery.dataTables.min.js" />
+    <Content Include="assets\js\jquery.fullcalendar.js" />
+    <Content Include="assets\js\jquery.slimscroll.js" />
+    <Content Include="assets\js\moment.min.js" />
+    <Content Include="assets\js\popper.min.js" />
+    <Content Include="assets\js\select2.min.js" />
+    <Content Include="assets\js\tagsinput.js" />
+    <Content Include="assets\plugins\light-gallery\css\lightgallery.min.css" />
+    <Content Include="assets\plugins\light-gallery\fonts\lgd641.svg" />
+    <Content Include="assets\plugins\light-gallery\img\loading.gif" />
+    <Content Include="assets\plugins\light-gallery\img\video-play.png" />
+    <Content Include="assets\plugins\light-gallery\img\vimeo-play.png" />
+    <Content Include="assets\plugins\light-gallery\img\youtube-play.png" />
+    <Content Include="assets\plugins\light-gallery\js\lightgallery-all.min.js" />
+    <Content Include="assets\plugins\summernote\dist\summernote-bs4.css" />
+    <Content Include="assets\plugins\summernote\dist\summernote-bs4.min.js" />
+    <Content Include="assets\vendor\css\core.css" />
+    <Content Include="assets\vendor\css\pages\page-account-settings.css" />
+    <Content Include="assets\vendor\css\pages\page-auth.css" />
+    <Content Include="assets\vendor\css\pages\page-icons.css" />
+    <Content Include="assets\vendor\css\pages\page-misc.css" />
+    <Content Include="assets\vendor\css\theme-default.css" />
+    <Content Include="assets\vendor\fonts\boxicons.css" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.svg" />
+    <Content Include="assets\vendor\js\bootstrap.js" />
+    <Content Include="assets\vendor\js\helpers.js" />
+    <Content Include="assets\vendor\js\menu.js" />
+    <Content Include="assets\vendor\libs\apex-charts\apex-charts.css" />
+    <Content Include="assets\vendor\libs\apex-charts\apexcharts.js" />
+    <Content Include="assets\vendor\libs\highlight\highlight-github.css" />
+    <Content Include="assets\vendor\libs\highlight\highlight.css" />
+    <Content Include="assets\vendor\libs\highlight\highlight.js" />
+    <Content Include="assets\vendor\libs\jquery\jquery.js" />
+    <Content Include="assets\vendor\libs\masonry\masonry.js" />
+    <Content Include="assets\vendor\libs\perfect-scrollbar\perfect-scrollbar.css" />
+    <Content Include="assets\vendor\libs\perfect-scrollbar\perfect-scrollbar.js" />
+    <Content Include="assets\vendor\libs\popper\popper.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Models\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="assets\fonts\fontawesome-webfont3e6e.eot" />
+    <Content Include="assets\fonts\fontawesome-webfont3e6e.ttf" />
+    <Content Include="assets\fonts\fontawesome-webfont3e6e.woff" />
+    <Content Include="assets\fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="assets\plugins\light-gallery\fonts\lgd41d.eot" />
+    <Content Include="assets\plugins\light-gallery\fonts\lgd641.eot" />
+    <Content Include="assets\plugins\light-gallery\fonts\lgd641.ttf" />
+    <Content Include="assets\plugins\light-gallery\fonts\lgd641.woff" />
+    <Content Include="assets\plugins\summernote\dist\font\summernote4c4d.eot" />
+    <Content Include="assets\plugins\summernote\dist\font\summernote4c4d.ttf" />
+    <Content Include="assets\plugins\summernote\dist\font\summernote4c4d.woff" />
+    <Content Include="assets\plugins\summernote\dist\font\summernoted41d.eot" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.eot" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.ttf" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.woff" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.woff2" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.1.js" />
+    <Content Include="Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.1.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_NotLoggedIn.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Doctor\Doctor.cshtml" />
+    <Content Include="Views\Doctor\AddDoctor.cshtml" />
+    <Content Include="Views\Doctor\EditDoctor.cshtml" />
+    <Content Include="Views\Patient\Patient.cshtml" />
+    <Content Include="Views\Patient\AddPatient.cshtml" />
+    <Content Include="Views\Patient\EditPatient.cshtml" />
+    <Content Include="Views\Department\Department.cshtml" />
+    <Content Include="Views\Department\AddDepartment.cshtml" />
+    <Content Include="Views\Department\EditDepartment.cshtml" />
+    <Content Include="Views\Appointment\Appointment.cshtml" />
+    <Content Include="Views\Appointment\AddAppointment.cshtml" />
+    <Content Include="Views\Appointment\EditAppointment.cshtml" />
+    <Content Include="Views\Role\Role.cshtml" />
+    <Content Include="Views\Role\AddRole.cshtml" />
+    <Content Include="Views\Role\EditRole.cshtml" />
+    <Content Include="Views\Employee\Employee.cshtml" />
+    <Content Include="Views\Employee\AddEmployee.cshtml" />
+    <Content Include="Views\Employee\EditEmployee.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53868</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:53868/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,284 @@
+﻿@model DoctorApp.Models.AppointmentViewModel
+
+@{
+    ViewBag.Title = "AddAppointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Add Appointment</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Appointment ID</label>
+                            <input class="form-control" type="text" value="APT-0001" readonly="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Patient Name</label>
+                            <select name="ddlPatient" id="ddlPatient" class="form-control">
+                                <option value="">Select Patient Name</option>
+                                @if (ViewBag.patientnames != null)
+                                {
+                                    foreach (var pn in ViewBag.patientnames)
+                                    {
+                                        <option value="@pn.PatientsID">@pn.FirstName @pn.LastName</option>
+                                    }
+                                }
+                            </select>
+                            @*<asp:DropDownList ID="ddlPatient" class="form-control" runat="server" DataSourceID="sdsPatient" DataTextField="FirstName" DataValueField="ID"></asp:DropDownList>*@
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input ID="txtAge" ClientIDMode="Static" class="form-control" placeholder="Age" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select name="ddlDep" id="ddlDep" class="form-control">
+                                <option value="">Select Patient Name</option>
+                                @if (ViewBag.Department != null)
+                                {
+                                    foreach (var den in ViewBag.Department)
+                                    {
+                                        <option value="@den.DepartmentsID">@den.DepartmentsName </option>
+                                    }
+                                }
+                            </select>
+                            @*<asp:DropDownList ID="ddlDep" class="form-control" runat="server" DataSourceID="sdsDepartment" DataTextField="Name" DataValueField="ID"></asp:DropDownList>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Doctor</label>
+                            <select name="ddlDoctor" id="ddlDoctor" class="form-control">
+                                <option value="">Select Doctor Name</option>
+                                @if (ViewBag.doctornames != null)
+                                {
+                                    foreach (var sn in ViewBag.doctornames)
+                                    {
+                                        <option value="@sn.DoctorID">@sn.FirstName @sn.LastName</option>
+                                }
+                            }
+                            </select>
+                            @*<asp:DropDownList ID="ddlDoctor" class="form-control" runat="server" DataSourceID="sdsDoctor" DataTextField="FirstName" DataValueField="ID"></asp:DropDownList>*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <div class="cal-icon">
+                                <input ID="txtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <div>
+                                <input type="time" class="form-control" id="datetimepicker" runat="server" clientidmode="Static">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <div>
+                                <input type="time" class="form-control" id="EndTimepicker" runat="server" clientidmode="Static">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label id="lblEmail" runat="server" clientidmode="Static">Patient Email</label>
+                            <input ID="txtEmail" ClientIDMode="Static" class="form-control" placeholder="Email" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label id="lblPhone" runat="server" clientidmode="Static">Patient Phone Number</label>
+                            <input ID="txtPhone" ClientIDMode="Static" class="form-control" placeholder="Phone" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Avatar</label>
+                        <div class="profile-upload">
+                            <div class="upload-img">
+                                <img alt="" src="../assets/img/user.jpg">
+                            </div>
+                            <div class="upload-input" style="display: flex; justify-content: center; align-items: center;">
+                                <input id="AppointmentImage" type="file" class="form-control">
+
+                                <asp:HiddenField ID="hdnImg" ClientIDMode="Static" runat="server" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="txtMessage" clientidmode="Static" runat="server" placeholder="Message" cols="30" rows="4" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="display-block">Appointment Status</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_active" value="True" checked>
+                        <label class="form-check-label" for="product_active">
+                            Active
+
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_inactive" value="False">
+                        <label class="form-check-label" for="product_inactive">
+                            Inactive
+
+                        </label>
+                    </div>
+                </div>
+                <div class="m-t-20 text-center">
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function readURL(input, hiddenInputId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the base64 string or data URL to the hidden input field
+                document.getElementById(hiddenInputId).value = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Function to handle image upload
+    function uploadImage() {
+        var fileInput = document.getElementById('AppointmentImage');
+        if (fileInput.files && fileInput.files[0]) {
+            var file = fileInput.files[0];
+
+            // Use readURL to set the data URL to the hidden input
+            readURL(fileInput, 'hdnImg');
+        } else {
+            console.error('No file selected');
+        }
+    }
+
+
+
+
+    function Add() {
+        debugger;
+        /*var imgFiles = $("#PatientImage")[0];*/
+        var currentDate = new Date().toISOString();
+        var hdnimg = $('#hdnImg').val();
+
+        var img = "";
+        var id = $('#hdnID').val();
+
+        var formData = new FormData();
+        var imgFiles = $("#AppointmentImage").get(0).files;
+
+        if (imgFiles.length > 0) {
+            formData.append('ImageFile', imgFiles[0]);
+        }
+        else {
+            formData.append('ImageFile', $("#imgProfile").attr('src'));
+        }
+
+        if (id > 0) {
+
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Age', $('#txtAge').val());
+            formData.append('DepartmentsID', $('#ddlDep').val());
+            formData.append('DoctorID', $('#ddlDoctor').val());
+            formData.append('DOB', $('#txtDate').val());
+            formData.append('Time', $('#datetimepicker').val());
+            formData.append('EndTime', $('#EndTimepicker').val());
+            formData.append('Email', $('txtEmail').val());
+            formData.append('Phone', $('#txtPhone').val());
+            formData.append('Description', $('#txtMessage').val());
+            formData.append('Image', imgFiles[0]);
+            //formData.append('ImageFile', hdnimg);
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+
+        }
+
+        else {
+
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Age', $('#txtAge').val());
+            formData.append('DepartmentsID', $('#ddlDep').val());
+            formData.append('DoctorID', $('#ddlDoctor').val());
+            formData.append('DOB', $('#txtDate').val());
+            formData.append('Time', $('#datetimepicker').val());
+            formData.append('EndTime', $('#EndTimepicker').val());
+            formData.append('Email', $('txtEmail').val());
+            formData.append('Phone', $('#txtPhone').val());
+            formData.append('Description', $('#txtMessage').val());
+            formData.append('Image', imgFiles[0]);
+            //formData.append('ImageFile', hdnimg);
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+        }
+
+        $.ajax({
+            url: "/Appointment/AddAppointment",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    notifyDanger("Data Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+</script>

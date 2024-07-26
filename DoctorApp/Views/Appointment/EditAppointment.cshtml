@@ -1,0 +1,258 @@
+﻿@model DoctorApp.Models.AppointmentViewModel
+
+@{
+    ViewBag.Title = "EditAppointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Edit Appointment</h4>
+        </div>
+    </div>
+    @Html.HiddenFor(x => x.AppointmentID, new { id = "hdnID" })
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Appointment ID</label>
+                            @Html.HiddenFor(model => model.AppointmentID)
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Patient Name</label>
+                            @Html.EditorFor(model => model.PatientName, new { htmlAttributes = new { @class = "form-control" } })
+                            @*<asp:DropDownList ID="ddlPatient" class="form-control" runat="server" DataSourceID="sdsPatient" DataTextField="FirstName" DataValueField="ID"></asp:DropDownList>*@
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Age</label>
+                            @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Department</label>
+                            @Html.EditorFor(model => model.DepartmentsName, new { htmlAttributes = new { @class = "form-control" } })
+                            @*<asp:DropDownList ID="ddlDep" class="form-control" runat="server" DataSourceID="sdsDepartment" DataTextField="Name" DataValueField="ID"></asp:DropDownList>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Doctor</label>
+                            @Html.EditorFor(model => model.DoctorName, new { htmlAttributes = new { @class = "form-control" } })
+                            @*<asp:DropDownList ID="ddlDoctor" class="form-control" runat="server" DataSourceID="sdsDoctor" DataTextField="FirstName" DataValueField="ID"></asp:DropDownList>*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <div class="cal-icon">
+                                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <div>
+                                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <div>
+                                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Patient Email</label>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Patient Phone Number</label>
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Avatar</label>
+                        <div class="profile-upload">
+                            <div class="upload-img">
+                                <img alt="" src="../assets/img/user.jpg">
+                            </div>
+                            <div class="upload-input" style="display: flex; justify-content: center; align-items: center;">
+                                <input id="AppointmentImage" type="file" class="form-control">
+
+                                <asp:HiddenField ID="hdnImg" ClientIDMode="Static" runat="server" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="txtMessage" clientidmode="Static" runat="server" placeholder="Message" cols="30" rows="4" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="display-block">Appointment Status</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_active" value="True" checked>
+                        <label class="form-check-label" for="product_active">
+                            Active
+
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_inactive" value="False">
+                        <label class="form-check-label" for="product_inactive">
+                            Inactive
+
+                        </label>
+                    </div>
+                </div>
+                <div class="m-t-20 text-center">
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 12px;">Save Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function readURL(input, hiddenInputId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the base64 string or data URL to the hidden input field
+                document.getElementById(hiddenInputId).value = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Function to handle image upload
+    function uploadImage() {
+        var fileInput = document.getElementById('AppointmentImage');
+        if (fileInput.files && fileInput.files[0]) {
+            var file = fileInput.files[0];
+
+            // Use readURL to set the data URL to the hidden input
+            readURL(fileInput, 'hdnImg');
+        } else {
+            console.error('No file selected');
+        }
+    }
+
+
+
+
+    function Edit() {
+        debugger;
+        /*var imgFiles = $("#PatientImage")[0];*/
+        var currentDate = new Date().toISOString();
+        var hdnimg = $('#hdnImg').val();
+
+        var img = "";
+        var id = $('#hdnID').val();
+
+        var formData = new FormData();
+        var imgFiles = $("#AppointmentImage").get(0).files;
+
+        if (imgFiles.length > 0) {
+            formData.append('ImageFile', imgFiles[0]);
+        }
+        else {
+            formData.append('ImageFile', $("#imgProfile").attr('src'));
+        }
+
+        if (id > 0) {
+
+            formData.append('AppointmentID', id);
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Age', $('#txtAge').val());
+            formData.append('DepartmentsID', $('#ddlDep').val());
+            formData.append('DoctorID', $('#ddlDoctor').val());
+            formData.append('DOB', $('#txtDate').val());
+            formData.append('Time', $('#datetimepicker').val());
+            formData.append('EndTime', $('#EndTimepicker').val());
+            formData.append('Email', $('txtEmail').val());
+            formData.append('Phone', $('#txtPhone').val());
+            formData.append('Description', $('#txtMessage').val());
+            formData.append('Image', imgFiles[0]);
+            //formData.append('ImageFile', hdnimg);
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+
+        }
+
+        else {
+            formData.append('AppointmentID', id);
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Age', $('#txtAge').val());
+            formData.append('DepartmentsID', $('#ddlDep').val());
+            formData.append('DoctorID', $('#ddlDoctor').val());
+            formData.append('DOB', $('#txtDate').val());
+            formData.append('Time', $('#datetimepicker').val());
+            formData.append('EndTime', $('#EndTimepicker').val());
+            formData.append('Email', $('txtEmail').val());
+            formData.append('Phone', $('#txtPhone').val());
+            formData.append('Description', $('#txtMessage').val());
+            formData.append('Image', imgFiles[0]);
+            //formData.append('ImageFile', hdnimg);
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+        }
+
+        $.ajax({
+            url: "/Appointment/EditAppointment",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    notifyDanger("Data Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+</script>
