@@ -131,10 +131,11 @@ namespace DoctorApp.Controllers
                     string iconFileSavePath = System.IO.Path.Combine(rootpath, uniquename);
                     e.ImageFile = string.Format("/assets/DoctorImage/EmpImage/{0}", uniquename);
                     e.Image = string.Format("/assets/DoctorImage/EmpImage/{0}", uniquename);
+
                     Imgfile.SaveAs(iconFileSavePath);
                     db.Entry(e).State = EntityState.Modified;
-                    int c = db.SaveChanges();
-                    if (c > 0)
+                    int a = db.SaveChanges();
+                    if (a > 0)
                     {
                         return Json(data: 1);
                     }
