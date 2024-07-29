@@ -187,8 +187,13 @@ namespace DoctorApp.Controllers
         }
 
 
+        public ActionResult DoctorProfile(int? id)
+        {
+            List<Doctor> doctors = db.Doctors.Where(x=>x.DoctorID == id).ToList();
+            return View(doctors);
+        }
 
-     
+
 
     }
 }
