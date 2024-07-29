@@ -149,5 +149,35 @@ namespace DoctorApp.Controllers
 
             return Json(new { data = 0 });
         }
+
+
+        [HttpPost]
+        public ActionResult DeleteEmployee(int id)
+        {
+            if (id > 0)
+            {
+                try
+                {
+                    var EmployeeIdRow = db.Employees.FirstOrDefault(model => model.EmployeeID == id);
+                    if (EmployeeIdRow != null)
+                    {
+                        db.Entry(EmployeeIdRow).State = EntityState.Deleted;
+                        int a = db.SaveChanges();
+
+                        if (a > 0)
+                        {
+                            return Json(data: 1);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            return Json(data: 0);
+
+        }
     }
 }
