@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DoctorApp.Models.Doctor>
+﻿@model DoctorApp.Models.DoctorProfileViewModal
 
 @{
     ViewBag.Title = "DoctorProfile";
@@ -13,7 +13,7 @@
 
         <div class="col-sm-5 col-6 text-right m-b-30">
             <asp:HiddenField ID="HDNDoctorID" ClientIDMode="Static" runat="server" />
-            <a href="javascript:void(0);" id="editProfileBtn" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i>Edit Profile</a>
+            <a href="../Doctor/AddEducation" id="editProfileBtn" class="btn btn-primary btn-rounded" style="font-size:13px;width:100px;"><i class="fa fa-plus"></i>Edit Profile</a>
         </div>
     </div>
     <div class="card-box profile-header">
@@ -21,51 +21,50 @@
             <div class="col-md-12">
                 <div class="profile-view">
 
-                    @foreach (var doctor in Model)
-                    {
-                        <div class="profile-img-wrap">
-                            <div class="profile-img">
-                                <a class="avatar" href="#">
-                                    <img id="lblImg" src="@doctor.Image" alt="" runat="server" clientidmode="Static" />
-                                </a>
+
+                    <div class="profile-img-wrap">
+                        <div class="profile-img">
+                            <a class="avatar" href="#">
+                                <img id="lblImg" src="@Model.Doctor.Image" alt="" runat="server" clientidmode="Static" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="profile-basic">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="profile-info-left">
+                                    <h4 class="user-name m-t-0 mb-0">@Model.Doctor.FirstName @Model.Doctor.LastName</h4>
+                                    <small class="text-muted">Gynecologist</small>
+                                    <div class="staff-id">Doctor ID : @Model.Doctor.DoctorID</div>
+                                    <div class="staff-msg"><a href="#" class="btn btn-primary" style="font-size: 14px;">Send Message</a></div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <ul class="personal-info">
+                                    <li>
+                                        <span class="title">Phone:</span>
+                                        <span class="text"><a href="tel:@Model.Doctor.Phone">@Model.Doctor.Phone</a></span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Email:</span>
+                                        <span class="text"><a href="mailto:@Model.Doctor.Email">@Model.Doctor.Email</a></span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Birthday:</span>
+                                        <span class="text">@Model.Doctor.DOB.ToString("d MMMM")</span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Address:</span>
+                                        <span class="text">@Model.Doctor.Address</span>
+                                    </li>
+                                    <li>
+                                        <span class="title">Gender:</span>
+                                        <span class="text">@Model.Doctor.Gender</span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="profile-basic">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="profile-info-left">
-                                        <h4 class="user-name m-t-0 mb-0">@doctor.FirstName @doctor.LastName</h4>
-                                        <small class="text-muted">Gynecologist</small>
-                                        <div class="staff-id">Doctor ID : @doctor.DoctorID</div>
-                                        <div class="staff-msg"><a href="#" class="btn btn-primary">Send Message</a></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-7">
-                                    <ul class="personal-info">
-                                        <li>
-                                            <span class="title">Phone:</span>
-                                            <span class="text"><a href="tel:@doctor.Phone">@doctor.Phone</a></span>
-                                        </li>
-                                        <li>
-                                            <span class="title">Email:</span>
-                                            <span class="text"><a href="mailto:@doctor.Email">@doctor.Email</a></span>
-                                        </li>
-                                        <li>
-                                            <span class="title">Birthday:</span>
-                                            <span class="text">@doctor.DOB.ToString("d MMMM")</span>
-                                        </li>
-                                        <li>
-                                            <span class="title">Address:</span>
-                                            <span class="text">@doctor.Address</span>
-                                        </li>
-                                        <li>
-                                            <span class="title">Gender:</span>
-                                            <span class="text">@doctor.Gender</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>}
+                    </div>
 
                 </div>
             </div>
@@ -82,79 +81,60 @@
             <div class="tab-pane show active" id="about-cont">
                 <div class="row">
                     <div class="col-md-12">
+
                         <div class="card-box">
                             <h3 class="card-title">Education Informations</h3>
                             <div class="experience-box">
-                                <ul class="experience-list">
-                                    <asp:Repeater ID="ProfileRepeater" runat="server" DataSourceID="sdsProfile">
-                                        <ItemTemplate>
-                                            <li>
-                                                <div class="experience-user">
-                                                    <div class="before-circle"></div>
+                                @foreach (var Education in Model.EducationList)
+                                {
+                                    <ul class="experience-list">
+                                        <li>
+                                            <div class="experience-user">
+                                                <div class="before-circle"></div>
+                                            </div>
+                                            <div class="experience-content">
+                                                <div class="timeline-content">
+                                                    <a href="#" id="lblFirst" runat="server" clientidmode="Static" class="name">@Education.InstitutionName</a>
+                                                    <div id="lblDeg" runat="server" clientidmode="Static">@Education.Degree</div>
+                                                    <span class="time" id="lblYear" runat="server" clientidmode="Static">@Education.StartingDate @Education.CompleteDate</span>
                                                 </div>
-                                                <div class="experience-content">
-                                                    <div class="timeline-content">
-                                                        <a href="#" id="lblFirst" runat="server" clientidmode="Static" class="name"></a>
-                                                        <div id="lblDeg" runat="server" clientidmode="Static"></div>
-                                                        <span class="time" id="lblYear" runat="server" clientidmode="Static"></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="experience-content">
-                                                    <div class="timeline-content">
-                                                        <a href="#" id="lblS" runat="server" clientidmode="Static" class="name"></a>
-                                                        <div id="lblDegr" runat="server" clientidmode="Static"></div>
-                                                        <span class="time" id="lblYears" runat="server" clientidmode="Static"></span>
-                                                    </div>
-                                                </div>
-
-                                            </li>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-
-
-                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
                             </div>
                         </div>
 
                         <div class="card-box mb-0">
                             <h3 class="card-title">Experience</h3>
                             <div class="experience-box">
-                                <ul class="experience-list">
-                                    <asp:Repeater ID="ExpRepeater" runat="server" DataSourceID="sdsExp">
-                                        <ItemTemplate>
-                                            <li>
-                                                <div class="experience-user">
-                                                    <div class="before-circle"></div>
-                                                </div>
-                                                <div class="experience-content">
-                                                    <div class="timeline-content">
-                                                        <a href="#" id="lblFirstExp" runat="server" clientidmode="Static" class="name"></a>
-                                                        <div id="lblPos" runat="server" clientidmode="Static"></div>
-                                                        <span class="time" id="lblYears" runat="server" clientidmode="Static"></span>
-                                                        <a href="#" id="lblFExp" runat="server" clientidmode="Static" class="name"></a>
-                                                        <span class="time"></span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
+                                @foreach (var experiences in Model.ExperienceList)
+                                {
+                                    <ul class="experience-list">
 
-                                </ul>
+                                        <li>
+                                            <div class="experience-user">
+                                                <div class="before-circle"></div>
+                                            </div>
+                                            <div class="experience-content">
+                                                <div class="timeline-content">
+                                                    <a href="#" id="lblFirstExp" runat="server" clientidmode="Static" class="name">@experiences.CompanyName</a>
+                                                    <div id="lblPos" runat="server" clientidmode="Static">@experiences.Position</div>
+                                                    <span class="time" id="lblYears" runat="server" clientidmode="Static">@experiences.PeriodFrom</span>
+                                                    <a href="#" id="lblFExp" runat="server" clientidmode="Static" class="name"></a>
+                                                    <span class="time"></span>
+                                                </div>
+                                            </div>                                           
+                                        </li>
+                                    </ul>
+                                }
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="bottom-tab2">
-                Tab content 2
 
-            </div>
-            <div class="tab-pane" id="bottom-tab3">
-                Tab content 3
-
-            </div>
         </div>
     </div>
 </div>

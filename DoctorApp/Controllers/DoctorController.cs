@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -189,11 +190,68 @@ namespace DoctorApp.Controllers
 
         public ActionResult DoctorProfile(int? id)
         {
-            List<Doctor> doctors = db.Doctors.Where(x=>x.DoctorID == id).ToList();
-            return View(doctors);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Fetch the doctor
+            var doctor = db.Doctors.FirstOrDefault(d => d.DoctorID == id);
+
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Fetch the doctor's experiences
+            var experiences = db.ExperienceInformations.Where(e => e.DoctorID == id).ToList();
+            var educations = db.EducationInformations.Where(e => e.DoctorID == id).ToList();
+
+            // Create and populate the view model
+            var viewModel = new DoctorProfileViewModal
+            {
+                // Map other Doctor properties here
+                ExperienceList = experiences,
+                Doctor = doctor,
+                EducationList = educations
+            };
+
+            return View(viewModel);
+        }
+
+        public ActionResult AddEducation()
+        {
+            return View();
         }
 
 
+        [HttpPost]
+        public JsonResult AddEducationinformation(EductionViewModel ed)
+        {
+            db.EducationInformations.Add(new EducationInformation()
+            {
+                DoctorID = ed.DoctorID,
+                CompleteDate = ed.CompleteDate,
+                Degree = ed.Degree,
+                InstitutionName = ed.InstitutionName,
+                StartingDate= ed.StartingDate,
+            });
+            db.ExperienceInformations.Add(new ExperienceInformation()
+            {
+                DoctorID = ed.DoctorID,
+                CompanyName= ed.CompanyName,
+                PeriodFrom = ed.PeriodFrom,
+                PeriodTo = ed.PeriodTo,
+                Position = ed.Position,
+            });
+
+            int c = db.SaveChanges();
+            if (c > 0)
+            {
+                return Json(data: 1);
+            }
+            return Json(data:1,JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

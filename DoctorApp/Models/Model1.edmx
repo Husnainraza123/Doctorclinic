@@ -82,17 +82,17 @@
           </Key>
           <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleID" Type="int" />
-          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="DOB" Type="date" Nullable="false" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Image" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
           <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ExperienceInformation">
           <Key>
@@ -103,7 +103,7 @@
           <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Position" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PeriodFrom" Type="date" Nullable="false" />
-          <Property Name="PeriodTo" Type="date" Nullable="false" />
+          <Property Name="PeriodTo" Type="date" />
         </EntityType>
         <EntityType Name="Patients">
           <Key>
@@ -439,7 +439,7 @@
           <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PeriodFrom" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PeriodTo" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PeriodTo" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -995,17 +995,17 @@
           </Key>
           <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleID" Type="Int32" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Role">
           <Key>

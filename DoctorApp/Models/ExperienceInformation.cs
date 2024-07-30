@@ -19,6 +19,6 @@ namespace DoctorApp.Models
         public string CompanyName { get; set; }
         public string Position { get; set; }
         public System.DateTime PeriodFrom { get; set; }
-        public System.DateTime PeriodTo { get; set; }
+        public Nullable<System.DateTime> PeriodTo { get; set; }
     }
 }

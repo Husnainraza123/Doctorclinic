@@ -210,9 +210,11 @@
     <Compile Include="Models\Doctor.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DoctorProfileViewModal.cs" />
     <Compile Include="Models\EducationInformation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EductionViewModel.cs" />
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -507,6 +509,7 @@
     <Content Include="Views\Employee\AddEmployee.cshtml" />
     <Content Include="Views\Employee\EditEmployee.cshtml" />
     <Content Include="Views\Doctor\DoctorProfile.cshtml" />
+    <Content Include="Views\Doctor\AddEducation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
