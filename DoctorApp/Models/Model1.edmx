@@ -491,9 +491,6 @@
           <FunctionImport Name="BrowseDoctorEdID_sp" ReturnType="Collection(DoctorClinicModel.BrowseDoctorEdID_sp_Result)">
           <Parameter Name="DoctorID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="BrowseDoctorExpBy_sp" ReturnType="Collection(DoctorClinicModel.BrowseDoctorExpBy_sp_Result)">
-          <Parameter Name="DoctorID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="DeleteDoctor_sp">
           <Parameter Name="DoctorID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -739,6 +736,9 @@
           </FunctionImport>
           <EntitySet Name="Employees" EntityType="DoctorClinicModel.Employee" />
           <EntitySet Name="Roles" EntityType="DoctorClinicModel.Role" />
+          <FunctionImport Name="BrowseDoctorExpBy_sp" ReturnType="Collection(DoctorClinicModel.BrowseDoctorExpBy_sp_Result)">
+            <Parameter Name="DoctorID" Mode="In" Type="Int32" />
+          </FunctionImport>
           
         </EntityContainer>
         <ComplexType Name="BrowseDoctor_sp_Result">
@@ -810,13 +810,6 @@
           <Property Type="DateTime" Name="PeriodFrom" Nullable="true" />
           <Property Type="DateTime" Name="PeriodTo" Nullable="true" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="BrowseDoctorExpBy_sp_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="ComName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Position" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="PeriodFrom" Nullable="false" />
-          <Property Type="DateTime" Name="PeriodTo" Nullable="false" />
         </ComplexType>
         <ComplexType Name="Login_sp_Result">
           <Property Type="Int32" Name="UID" Nullable="false" />
@@ -1019,6 +1012,13 @@
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="BrowseDoctorExpBy_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="DoctorID" Nullable="true" />
+          <Property Type="String" Name="ComName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Position" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ExperiencePeriod" Nullable="false" MaxLength="72" />
+        </ComplexType>
         
       </Schema>
     </edmx:ConceptualModels>
@@ -1173,17 +1173,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="BrowseDoctorExpBy_sp" FunctionName="DoctorClinicModel.Store.BrowseDoctorExpBy_sp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseDoctorExpBy_sp_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ComName" ColumnName="ComName" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="PeriodFrom" ColumnName="PeriodFrom" />
-                <ScalarProperty Name="PeriodTo" ColumnName="PeriodTo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          
           <FunctionImportMapping FunctionImportName="DeleteDoctor_sp" FunctionName="DoctorClinicModel.Store.DeleteDoctor_sp" />
           <FunctionImportMapping FunctionImportName="DeleteEducationInformation_sp" FunctionName="DoctorClinicModel.Store.DeleteEducationInformation_sp" />
           <FunctionImportMapping FunctionImportName="DeleteExperienceInformation_sp" FunctionName="DoctorClinicModel.Store.DeleteExperienceInformation_sp" />
@@ -1458,6 +1448,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BrowseDoctorExpBy_sp" FunctionName="DoctorClinicModel.Store.BrowseDoctorExpBy_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseDoctorExpBy_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="ComName" ColumnName="ComName" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="ExperiencePeriod" ColumnName="ExperiencePeriod" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           
         </EntityContainerMapping>
       </Mapping>

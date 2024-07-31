@@ -21,12 +21,12 @@ namespace DoctorApp.Models
         public string Email { get; set; }
         public Nullable<System.DateTime> DOB { get; set; }
         public string Phone { get; set; }
+        public string ImageFile { get; set; }
         public string Image { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ModifyBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string Status { get; set; }
-        public string ImageFile { get; internal set; }
     }
 }

@@ -69,15 +69,6 @@ namespace DoctorApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseDoctorEdID_sp_Result>("BrowseDoctorEdID_sp", doctorIDParameter);
         }
     
-        public virtual ObjectResult<BrowseDoctorExpBy_sp_Result> BrowseDoctorExpBy_sp(Nullable<int> doctorID)
-        {
-            var doctorIDParameter = doctorID.HasValue ?
-                new ObjectParameter("DoctorID", doctorID) :
-                new ObjectParameter("DoctorID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseDoctorExpBy_sp_Result>("BrowseDoctorExpBy_sp", doctorIDParameter);
-        }
-    
         public virtual int DeleteDoctor_sp(Nullable<int> doctorID)
         {
             var doctorIDParameter = doctorID.HasValue ?
@@ -951,6 +942,15 @@ namespace DoctorApp.Models
                 new ObjectParameter("Status", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateRole_sp", roleIDParameter, roleNameParameter, modifyByParameter, modifyDateParameter, statusParameter);
+        }
+    
+        public virtual ObjectResult<BrowseDoctorExpBy_sp_Result> BrowseDoctorExpBy_sp(Nullable<int> doctorID)
+        {
+            var doctorIDParameter = doctorID.HasValue ?
+                new ObjectParameter("DoctorID", doctorID) :
+                new ObjectParameter("DoctorID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseDoctorExpBy_sp_Result>("BrowseDoctorExpBy_sp", doctorIDParameter);
         }
     }
 }

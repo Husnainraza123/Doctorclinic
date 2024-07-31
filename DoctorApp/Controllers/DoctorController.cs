@@ -204,7 +204,14 @@ namespace DoctorApp.Controllers
             }
 
             // Fetch the doctor's experiences
-            var experiences = db.ExperienceInformations.Where(e => e.DoctorID == id).ToList();
+            var experiences = db.BrowseDoctorExpBy_sp(id).Where(e => e.DoctorID == id).Select(s=> new ExperienceInformation()
+            {
+                ExperienceID = s.ID,
+                DoctorID= s.DoctorID.Value,
+                ExperiencePeriod = s.ExperiencePeriod,
+                Position = s.Position,
+                CompanyName = s.ComName
+            }).ToList();
             var educations = db.EducationInformations.Where(e => e.DoctorID == id).ToList();
 
             // Create and populate the view model

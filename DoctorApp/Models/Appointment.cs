@@ -23,6 +23,7 @@ namespace DoctorApp.Models
         public System.DateTime EndTime { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public string ImageFile { get; set; }
         public string Image { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -30,6 +31,5 @@ namespace DoctorApp.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public bool Status { get; set; }
         public string Description { get; set; }
-        public string ImageFile { get; internal set; }
     }
 }

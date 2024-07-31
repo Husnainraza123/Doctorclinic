@@ -96,7 +96,7 @@
                                                 <div class="timeline-content">
                                                     <a href="#" id="lblFirst" runat="server" clientidmode="Static" class="name">@Education.InstitutionName</a>
                                                     <div id="lblDeg" runat="server" clientidmode="Static">@Education.Degree</div>
-                                                    <span class="time" id="lblYear" runat="server" clientidmode="Static">@Education.StartingDate @Education.CompleteDate</span>
+                                                    <span class="time" id="lblYear" runat="server" clientidmode="Static">@Education.StartingDate.ToString("yyyy")-@Education.CompleteDate.ToString("yyyy")</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -120,7 +120,7 @@
                                                 <div class="timeline-content">
                                                     <a href="#" id="lblFirstExp" runat="server" clientidmode="Static" class="name">@experiences.CompanyName</a>
                                                     <div id="lblPos" runat="server" clientidmode="Static">@experiences.Position</div>
-                                                    <span class="time" id="lblYears" runat="server" clientidmode="Static">@experiences.PeriodFrom</span>
+                                                    <span class="time" id="lblYears" runat="server" clientidmode="Static">@experiences.ExperiencePeriod</span>
                                                     <a href="#" id="lblFExp" runat="server" clientidmode="Static" class="name"></a>
                                                     <span class="time"></span>
                                                 </div>

@@ -14,9 +14,9 @@ namespace DoctorApp.Models
     public partial class BrowseDoctorExpBy_sp_Result
     {
         public int ID { get; set; }
+        public Nullable<int> DoctorID { get; set; }
         public string ComName { get; set; }
         public string Position { get; set; }
-        public System.DateTime PeriodFrom { get; set; }
-        public System.DateTime PeriodTo { get; set; }
+        public string ExperiencePeriod { get; set; }
     }
 }
