@@ -1,0 +1,247 @@
+﻿@model DoctorApp.Models.ScheduleViewModel
+
+@{
+    ViewBag.Title = "AddSchedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Add Schedule</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Doctor</label>
+                            <select name="ddlDoctor" id="ddlDoctor" class="form-control">
+                                <option value="">Select Doctor Name</option>
+                                @if (ViewBag.doctornames != null)
+                                {
+                                    foreach (var sn in ViewBag.doctornames)
+                                    {
+                                        <option value="@sn.DoctorID">@sn.FirstName @sn.LastName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select name="ddlDep" id="ddlDep" class="form-control">
+                                <option value="">Select Patient Name</option>
+                                @if (ViewBag.Department != null)
+                                {
+                                    foreach (var den in ViewBag.Department)
+                                    {
+                                        <option value="@den.DepartmentsID">@den.DepartmentsName </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                  
+
+                    <div class="col-md-6">
+                        <div class="form-group" style="width:280px">
+                            <label>Available Days</label>
+                            <select class="select"id="availableDays"  multiple>
+                                <option>Select Days</option>
+                                <option>Sunday</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <div>
+                                <input type="time" class="form-control" id="timepicker" runat="server" clientidmode="Static" value="00:00">
+
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <div>
+                                <input type="time" class="form-control" id="EndTimepicker" runat="server" clientidmode="Static" value="00:00">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Avatar</label>
+                            <div class="profile-upload">
+                                <div class="upload-img">
+                                    <img alt="" src="../assets/img/user.jpg">
+                                </div>
+                                <div class="upload-input" style="display: flex; justify-content: center; align-items: center;">
+                                    <input id="ScheduleImage" type="file" class="form-control">
+
+                                    <asp:HiddenField ID="hdnImg" ClientIDMode="Static" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <div class="form-group">
+                        <label class="display-block">Schedule Status</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="product_active" value="option1" checked>
+                            <label class="form-check-label" for="product_active">
+                                Active
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="product_inactive" value="option2">
+                            <label class="form-check-label" for="product_inactive">
+                                Inactive
+                            </label>
+                        </div>
+                    </div>
+                    <div class="m-t-20 text-center">
+                        <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Create Schedule</button>
+                    </div>
+</form>
+        </div>
+    </div>
+</div>
+<script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const timePicker = document.getElementById('timepicker');
+        timePicker.value = "00:00"; // Set initial value
+
+        timePicker.addEventListener('change', (event) => {
+            const selectedTime = event.target.value;
+            console.log('Time changed to:', selectedTime);
+            // Here you can handle the new selected time as needed
+        });
+    });
+
+
+
+    function readURL(input, hiddenInputId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the base64 string or data URL to the hidden input field
+                document.getElementById(hiddenInputId).value = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Function to handle image upload
+    function uploadImage() {
+        var fileInput = document.getElementById('ScheduleImage');
+        if (fileInput.files && fileInput.files[0]) {
+            var file = fileInput.files[0];
+
+            // Use readURL to set the data URL to the hidden input
+            readURL(fileInput, 'hdnImg');
+        } else {
+            console.error('No file selected');
+        }
+    }
+
+
+
+
+    function Add() {
+        debugger;
+        /*var imgFiles = $("#PatientImage")[0];*/
+        var currentDate = new Date().toISOString();
+        var hdnimg = $('#hdnImg').val();
+
+        var img = "";
+        var id = $('#hdnID').val();
+
+        var formData = new FormData();
+        var imgFiles = $("#ScheduleImage").get(0).files;
+
+        if (imgFiles.length > 0) {
+            formData.append('ImageFile', imgFiles[0]);
+        }
+        else {
+            formData.append('ImageFile', $("#imgProfile").attr('src'));
+        }
+
+        if (id > 0) {
+            formData.append('DoctorID', $('#ddlDoctor').val());
+            formData.append('DepartmentsID', $('#ddlDep').val());
+            formData.append('StartTime', $('#timepicker').val());
+            formData.append('EndTime', $('#EndTimepicker').val());
+            formData.append('Days', $('#availableDays').val());
+            formData.append('Image', imgFiles[0]);
+            //formData.append('ImageFile', hdnimg);
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+
+        }
+
+        else {
+
+            formData.append('DoctorID', $('#ddlDoctor').val());
+            formData.append('DepartmentsID', $('#ddlDep').val());
+            formData.append('StartTime', $('#datetimepicker').val());
+            formData.append('EndTime', $('#EndTimepicker').val());
+            formData.append('Days', $('txtEmail').val());
+            formData.append('Image', imgFiles[0]);
+            //formData.append('ImageFile', hdnimg);
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+        }
+
+        $.ajax({
+            url: "/Schedule/AddSchedule",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    notifyDanger("Data Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+
+</script>
+
