@@ -37,7 +37,7 @@
                                 <td>@item.Days</td>
                                 <td>@item.StartTime.ToShortTimeString() - @item.EndTime.ToShortTimeString()</td>
                                 <td>
-                                    @if (item.Status == true)
+                                    @if (item.Status == "Active")
                                     {
                                         <span class="custom-badge status-green">Active</span>
 

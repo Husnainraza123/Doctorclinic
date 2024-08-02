@@ -142,6 +142,23 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentsID" Type="int" Nullable="false" />
+          <Property Name="DoctorID" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="Days" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Image" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UID" />
@@ -184,6 +201,10 @@
         <Function Name="BrowseRoleByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BrowseSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="BrowseScheduleByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ScheduleID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeleteAppointment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AppointmentID" Type="int" Mode="In" />
         </Function>
@@ -207,6 +228,9 @@
         </Function>
         <Function Name="DeleteRole_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ScheduleID" Type="int" Mode="In" />
         </Function>
         <Function Name="insertAppointment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PatientsID" Type="int" Mode="In" />
@@ -296,6 +320,17 @@
         <Function Name="insertRole_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="insertSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepartmentsID" Type="int" Mode="In" />
+          <Parameter Name="DoctorID" Type="int" Mode="In" />
+          <Parameter Name="StartTime" Type="datetime" Mode="In" />
+          <Parameter Name="EndTime" Type="datetime" Mode="In" />
+          <Parameter Name="Days" Type="nvarchar" Mode="In" />
+          <Parameter Name="Image" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
         </Function>
@@ -404,6 +439,18 @@
           <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="UpdateSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepartmentsID" Type="int" Mode="In" />
+          <Parameter Name="DoctorID" Type="int" Mode="In" />
+          <Parameter Name="StartTime" Type="datetime" Mode="In" />
+          <Parameter Name="EndTime" Type="datetime" Mode="In" />
+          <Parameter Name="Days" Type="nvarchar" Mode="In" />
+          <Parameter Name="Image" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="ScheduleID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="DoctorClinicModelStoreContainer">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
@@ -413,6 +460,7 @@
           <EntitySet Name="ExperienceInformation" EntityType="Self.ExperienceInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -737,7 +785,39 @@
           <EntitySet Name="Employees" EntityType="DoctorClinicModel.Employee" />
           <EntitySet Name="Roles" EntityType="DoctorClinicModel.Role" />
           <FunctionImport Name="BrowseDoctorExpBy_sp" ReturnType="Collection(DoctorClinicModel.BrowseDoctorExpBy_sp_Result)">
+          <Parameter Name="DoctorID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          
+          <FunctionImport Name="DeleteSchedule_sp">
+          <Parameter Name="ScheduleID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Schedules" EntityType="DoctorClinicModel.Schedule" />
+          <FunctionImport Name="insertSchedule_sp">
+            <Parameter Name="DepartmentsID" Mode="In" Type="Int32" />
             <Parameter Name="DoctorID" Mode="In" Type="Int32" />
+            <Parameter Name="StartTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EndTime" Mode="In" Type="DateTime" />
+            <Parameter Name="Days" Mode="In" Type="String" />
+            <Parameter Name="Image" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateSchedule_sp">
+            <Parameter Name="DepartmentsID" Mode="In" Type="Int32" />
+            <Parameter Name="DoctorID" Mode="In" Type="Int32" />
+            <Parameter Name="StartTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EndTime" Mode="In" Type="DateTime" />
+            <Parameter Name="Days" Mode="In" Type="String" />
+            <Parameter Name="Image" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="ScheduleID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BrowseSchedule_sp" ReturnType="Collection(DoctorClinicModel.BrowseSchedule_sp_Result)" />
+          <FunctionImport Name="BrowseScheduleByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseScheduleByID_sp_Result)">
+            <Parameter Name="ScheduleID" Mode="In" Type="Int32" />
           </FunctionImport>
           
         </EntityContainer>
@@ -1018,6 +1098,44 @@
           <Property Type="String" Name="ComName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Position" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="ExperiencePeriod" Nullable="false" MaxLength="72" />
+        </ComplexType>
+        
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentsID" Type="Int32" Nullable="false" />
+          <Property Name="DoctorID" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Days" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="BrowseSchedule_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Image" Nullable="false" />
+          <Property Type="String" Name="DoctorName" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="DepartmentsName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Days" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="AvailableTime" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="EndTime" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="BrowseScheduleByID_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Image" Nullable="false" />
+          <Property Type="String" Name="DoctorName" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="DepartmentsName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Days" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="AvailableTime" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="EndTime" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
         </ComplexType>
         
       </Schema>
@@ -1456,6 +1574,57 @@
                 <ScalarProperty Name="ComName" ColumnName="ComName" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="ExperiencePeriod" ColumnName="ExperiencePeriod" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          
+          
+          <FunctionImportMapping FunctionImportName="DeleteSchedule_sp" FunctionName="DoctorClinicModel.Store.DeleteSchedule_sp" />
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="DoctorClinicModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="DepartmentsID" ColumnName="DepartmentsID" />
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="insertSchedule_sp" FunctionName="DoctorClinicModel.Store.insertSchedule_sp" />
+          <FunctionImportMapping FunctionImportName="UpdateSchedule_sp" FunctionName="DoctorClinicModel.Store.UpdateSchedule_sp" />
+          <FunctionImportMapping FunctionImportName="BrowseSchedule_sp" FunctionName="DoctorClinicModel.Store.BrowseSchedule_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseSchedule_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DepartmentsName" ColumnName="DepartmentsName" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="AvailableTime" ColumnName="AvailableTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowseScheduleByID_sp" FunctionName="DoctorClinicModel.Store.BrowseScheduleByID_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseScheduleByID_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DepartmentsName" ColumnName="DepartmentsName" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="AvailableTime" ColumnName="AvailableTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

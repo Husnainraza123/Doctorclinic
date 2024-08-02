@@ -20,9 +20,9 @@ namespace DoctorApp.Controllers
                  {
                      ScheduleID = s.ID,
                      Image = s.Image,
+                     Days=s.Days,
                      DoctorName = s.DoctorName,
                      DepartmentsName = s.DepartmentsName,
-                     
                      StartTime = Convert.ToDateTime(s.AvailableTime),
                      EndTime = Convert.ToDateTime( s.EndTime),
                      Status = s.Status
@@ -62,7 +62,7 @@ namespace DoctorApp.Controllers
                     string iconFileSavePath = System.IO.Path.Combine(rootpath, uniquename);
                     s.ImageFile = string.Format("/assets/DoctorImage/ScheduleImage/{0}", uniquename);
                     s.Image = string.Format("/assets/DoctorImage/ScheduleImage/{0}", uniquename);
-
+                    //s.StartTime = Convert.ToDateTime("01/01/2024 12:00:00 AM");
                     Imgfile.SaveAs(iconFileSavePath);
                     db.Schedules.Add(s);
                     int c = db.SaveChanges();

@@ -14,6 +14,10 @@
         <EntityTypeShape EntityType="DoctorClinicModel.Department" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="DoctorClinicModel.Employee" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="DoctorClinicModel.Role" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DoctorClinicModel.Schedule" Width="1.5" PointX="0.75" PointY="9.75" />
+      </Diagram>
+      <Diagram DiagramId="7abb58c62c4742d3b4d1beaaeb5982b7" Name="Diagram2" >
+        <EntityTypeShape EntityType="DoctorClinicModel.Schedule" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

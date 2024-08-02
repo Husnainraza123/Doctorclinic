@@ -36,6 +36,7 @@ namespace DoctorApp.Models
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Schedule> Schedules { get; set; }
     
         public virtual ObjectResult<BrowseDoctor_sp_Result> BrowseDoctor_sp()
         {
@@ -951,6 +952,115 @@ namespace DoctorApp.Models
                 new ObjectParameter("DoctorID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseDoctorExpBy_sp_Result>("BrowseDoctorExpBy_sp", doctorIDParameter);
+        }
+    
+        public virtual int DeleteSchedule_sp(Nullable<int> scheduleID)
+        {
+            var scheduleIDParameter = scheduleID.HasValue ?
+                new ObjectParameter("ScheduleID", scheduleID) :
+                new ObjectParameter("ScheduleID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSchedule_sp", scheduleIDParameter);
+        }
+    
+        public virtual int insertSchedule_sp(Nullable<int> departmentsID, Nullable<int> doctorID, Nullable<System.DateTime> startTime, Nullable<System.DateTime> endTime, string days, string image, string createdBy, Nullable<System.DateTime> createdDate, string status)
+        {
+            var departmentsIDParameter = departmentsID.HasValue ?
+                new ObjectParameter("DepartmentsID", departmentsID) :
+                new ObjectParameter("DepartmentsID", typeof(int));
+    
+            var doctorIDParameter = doctorID.HasValue ?
+                new ObjectParameter("DoctorID", doctorID) :
+                new ObjectParameter("DoctorID", typeof(int));
+    
+            var startTimeParameter = startTime.HasValue ?
+                new ObjectParameter("StartTime", startTime) :
+                new ObjectParameter("StartTime", typeof(System.DateTime));
+    
+            var endTimeParameter = endTime.HasValue ?
+                new ObjectParameter("EndTime", endTime) :
+                new ObjectParameter("EndTime", typeof(System.DateTime));
+    
+            var daysParameter = days != null ?
+                new ObjectParameter("Days", days) :
+                new ObjectParameter("Days", typeof(string));
+    
+            var imageParameter = image != null ?
+                new ObjectParameter("Image", image) :
+                new ObjectParameter("Image", typeof(string));
+    
+            var createdByParameter = createdBy != null ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(string));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("CreatedDate", createdDate) :
+                new ObjectParameter("CreatedDate", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertSchedule_sp", departmentsIDParameter, doctorIDParameter, startTimeParameter, endTimeParameter, daysParameter, imageParameter, createdByParameter, createdDateParameter, statusParameter);
+        }
+    
+        public virtual int UpdateSchedule_sp(Nullable<int> departmentsID, Nullable<int> doctorID, Nullable<System.DateTime> startTime, Nullable<System.DateTime> endTime, string days, string image, string createdBy, Nullable<System.DateTime> createdDate, string status, Nullable<int> scheduleID)
+        {
+            var departmentsIDParameter = departmentsID.HasValue ?
+                new ObjectParameter("DepartmentsID", departmentsID) :
+                new ObjectParameter("DepartmentsID", typeof(int));
+    
+            var doctorIDParameter = doctorID.HasValue ?
+                new ObjectParameter("DoctorID", doctorID) :
+                new ObjectParameter("DoctorID", typeof(int));
+    
+            var startTimeParameter = startTime.HasValue ?
+                new ObjectParameter("StartTime", startTime) :
+                new ObjectParameter("StartTime", typeof(System.DateTime));
+    
+            var endTimeParameter = endTime.HasValue ?
+                new ObjectParameter("EndTime", endTime) :
+                new ObjectParameter("EndTime", typeof(System.DateTime));
+    
+            var daysParameter = days != null ?
+                new ObjectParameter("Days", days) :
+                new ObjectParameter("Days", typeof(string));
+    
+            var imageParameter = image != null ?
+                new ObjectParameter("Image", image) :
+                new ObjectParameter("Image", typeof(string));
+    
+            var createdByParameter = createdBy != null ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(string));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("CreatedDate", createdDate) :
+                new ObjectParameter("CreatedDate", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var scheduleIDParameter = scheduleID.HasValue ?
+                new ObjectParameter("ScheduleID", scheduleID) :
+                new ObjectParameter("ScheduleID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateSchedule_sp", departmentsIDParameter, doctorIDParameter, startTimeParameter, endTimeParameter, daysParameter, imageParameter, createdByParameter, createdDateParameter, statusParameter, scheduleIDParameter);
+        }
+    
+        public virtual ObjectResult<BrowseSchedule_sp_Result> BrowseSchedule_sp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseSchedule_sp_Result>("BrowseSchedule_sp");
+        }
+    
+        public virtual ObjectResult<BrowseScheduleByID_sp_Result> BrowseScheduleByID_sp(Nullable<int> scheduleID)
+        {
+            var scheduleIDParameter = scheduleID.HasValue ?
+                new ObjectParameter("ScheduleID", scheduleID) :
+                new ObjectParameter("ScheduleID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseScheduleByID_sp_Result>("BrowseScheduleByID_sp", scheduleIDParameter);
         }
     }
 }

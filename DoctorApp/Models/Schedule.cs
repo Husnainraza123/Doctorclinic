@@ -22,10 +22,10 @@ namespace DoctorApp.Models
         public string Days { get; set; }
         public string Image { get; set; }
         public string CreatedBy { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ModifyBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
         public string ImageFile { get; internal set; }
     }
 }

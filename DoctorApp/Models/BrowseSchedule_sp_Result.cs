@@ -17,8 +17,9 @@ namespace DoctorApp.Models
         public string Image { get; set; }
         public string DoctorName { get; set; }
         public string DepartmentsName { get; set; }
+        public string Days { get; set; }
         public string AvailableTime { get; set; }
         public string EndTime { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
     }
 }

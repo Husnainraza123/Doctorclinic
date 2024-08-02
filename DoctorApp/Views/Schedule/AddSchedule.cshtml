@@ -45,12 +45,12 @@
                             </select>
                         </div>
                     </div>
-                  
+
 
                     <div class="col-md-6">
                         <div class="form-group" style="width:280px">
                             <label>Available Days</label>
-                            <select class="select"id="availableDays"  multiple>
+                            <select class="select" id="availableDays" multiple>
                                 <option>Select Days</option>
                                 <option>Sunday</option>
                                 <option>Monday</option>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
                 </div>
                 <div class="row">
@@ -81,7 +81,7 @@
                             <label>End Time</label>
                             <div>
                                 <input type="time" class="form-control" id="EndTimepicker" runat="server" clientidmode="Static" value="00:00">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -103,40 +103,36 @@
 
                 </div>
 
-                    <div class="form-group">
-                        <label class="display-block">Schedule Status</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="product_active" value="option1" checked>
-                            <label class="form-check-label" for="product_active">
-                                Active
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="product_inactive" value="option2">
-                            <label class="form-check-label" for="product_inactive">
-                                Inactive
-                            </label>
-                        </div>
+                <div class="form-group">
+                    <label class="display-block">Schedule Status</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_active" value="Active" checked>
+                        <label class="form-check-label" for="product_active">Active</label>
                     </div>
-                    <div class="m-t-20 text-center">
-                        <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Create Schedule</button>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="product_inactive" value="Inactive">
+                        <label class="form-check-label" for="product_inactive">Inactive</label>
                     </div>
-</form>
+                </div>
+                <div class="m-t-20 text-center">
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Create Schedule</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <script>
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const timePicker = document.getElementById('timepicker');
-        timePicker.value = "00:00"; // Set initial value
+    //document.addEventListener('DOMContentLoaded', (event) => {
+    //    const timePicker = document.getElementById('timepicker');
+    //    timePicker.value = "00:00"; // Set initial value
 
-        timePicker.addEventListener('change', (event) => {
-            const selectedTime = event.target.value;
-            console.log('Time changed to:', selectedTime);
-            // Here you can handle the new selected time as needed
-        });
-    });
+    //    timePicker.addEventListener('change', (event) => {
+    //        const selectedTime = event.target.value;
+    //        console.log('Time changed to:', selectedTime);
+    //        // Here you can handle the new selected time as needed
+    //    });
+    //});
 
 
 
@@ -204,9 +200,9 @@
 
             formData.append('DoctorID', $('#ddlDoctor').val());
             formData.append('DepartmentsID', $('#ddlDep').val());
-            formData.append('StartTime', $('#datetimepicker').val());
+            formData.append('StartTime', $('#timepicker').val());
             formData.append('EndTime', $('#EndTimepicker').val());
-            formData.append('Days', $('txtEmail').val());
+            formData.append('Days', $('#availableDays').val());
             formData.append('Image', imgFiles[0]);
             //formData.append('ImageFile', hdnimg);
             formData.append('CreatedBy', 'Husnain Memon');

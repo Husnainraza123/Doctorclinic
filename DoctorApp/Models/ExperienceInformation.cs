@@ -18,8 +18,8 @@ namespace DoctorApp.Models
         public int DoctorID { get; set; }
         public string CompanyName { get; set; }
         public string Position { get; set; }
-        public string ExperiencePeriod { get; set; }
         public System.DateTime PeriodFrom { get; set; }
         public Nullable<System.DateTime> PeriodTo { get; set; }
+        public string ExperiencePeriod { get; internal set; }
     }
 }
