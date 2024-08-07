@@ -230,10 +230,8 @@ namespace DoctorApp.Controllers
         {
             return View();
         }
-
-
         [HttpPost]
-        public JsonResult AddEducationinformation(EductionViewModel ed)
+        public JsonResult AddEducation(EductionViewModel ed)
         {
             db.EducationInformations.Add(new EducationInformation()
             {
@@ -241,12 +239,13 @@ namespace DoctorApp.Controllers
                 CompleteDate = ed.CompleteDate,
                 Degree = ed.Degree,
                 InstitutionName = ed.InstitutionName,
-                StartingDate= ed.StartingDate,
+                StartingDate = ed.StartingDate,
             });
+
             db.ExperienceInformations.Add(new ExperienceInformation()
             {
                 DoctorID = ed.DoctorID,
-                CompanyName= ed.CompanyName,
+                CompanyName = ed.CompanyName,
                 PeriodFrom = ed.PeriodFrom,
                 PeriodTo = ed.PeriodTo,
                 Position = ed.Position,
@@ -257,8 +256,37 @@ namespace DoctorApp.Controllers
             {
                 return Json(data: 1);
             }
-            return Json(data:1,JsonRequestBehavior.AllowGet);
+            return Json(data: 0);
         }
+
+
+        //[HttpPost]
+        //public JsonResult AddEducationinformation(EductionViewModel ed)
+        //{
+        //    db.EducationInformations.Add(new EducationInformation()
+        //    {
+        //        DoctorID = ed.DoctorID,
+        //        CompleteDate = ed.CompleteDate,
+        //        Degree = ed.Degree,
+        //        InstitutionName = ed.InstitutionName,
+        //        StartingDate= ed.StartingDate,
+        //    });
+        //    db.ExperienceInformations.Add(new ExperienceInformation()
+        //    {
+        //        DoctorID = ed.DoctorID,
+        //        CompanyName= ed.CompanyName,
+        //        PeriodFrom = ed.PeriodFrom,
+        //        PeriodTo = ed.PeriodTo,
+        //        Position = ed.Position,
+        //    });
+
+        //    int c = db.SaveChanges();
+        //    if (c > 0)
+        //    {
+        //        return Json(data: 1);
+        //    }
+        //    return Json(data:1,JsonRequestBehavior.AllowGet);
+        //}
 
     }
 }
