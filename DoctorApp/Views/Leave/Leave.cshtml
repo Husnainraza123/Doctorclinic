@@ -1,0 +1,91 @@
+﻿@model IEnumerable<DoctorApp.Models.LeaveViewModel>
+
+@{
+    ViewBag.Title = "Leave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content">
+    <div class="row">
+        <div class="col-sm-8 col-6">
+            <h4 class="page-title">Leave Request</h4>
+        </div>
+        <div class="col-sm-4 col-6 text-right m-b-30">
+            <a href="../Leave/AddLeave" class="btn btn-primary btn-rounded float-right" style=" width: 114px; height: 32px; padding-top: 7px; font-size: 12px;"><i class="fa fa-plus"></i> Add Leave</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-striped custom-table mb-0 datatable" id="mytable">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>No of Days</th>
+                            <th>Reason</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="#" class="avatar">A</a>
+                                    <h2><a href="#">@item.EmployeeName</a></h2>
+                                </td>
+
+                                <td>@item.FromDate.ToShortDateString()</td>
+                                <td>@item.FromDate.ToShortDateString()</td>
+                                <td>@item.Days</td>
+                                <td>@item.Reason</td>
+                                <td class="text-center">
+                                    <div class="dropdown action-label">
+                                        <a class="custom-badge status-purple dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                            New
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            @if (item.Status == "undefined")
+                                            {
+                                                <a class="dropdown-item custom-badge status-yellow" href="#">Pending</a>
+                                                <a class="dropdown-item ustom-badge status-green" href="#">Approved</a>
+                                                <a class="dropdown-item custom-badge status-red" href="#">Declined</a>
+                                            }
+                                            else if (item.Status == "New")
+                                            {
+                                                <a class="dropdown-item custom-badge status-yellow" href="#">Pending</a>
+                                                <a class="dropdown-item ustom-badge status-green" href="#">Approved</a>
+                                                <a class="dropdown-item custom-badge status-red" href="#">Declined</a>
+                                            }
+                                            else if (item.Status == "Approved")
+                                            {
+                                                <a class="dropdown-item custom-badge status-yellow" href="#">Pending</a>
+                                                <a class="dropdown-item ustom-badge status-green" href="#">Approved</a>
+                                                <a class="dropdown-item custom-badge status-red" href="#">Declined</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" onclick="EditAppointment(@item.LeaveID)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                            <a class="dropdown-item" onclick="Delete(@item.LeaveID)"><i class="fa fa-trash-o m-r-5"></i>Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

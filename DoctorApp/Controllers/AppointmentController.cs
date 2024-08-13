@@ -81,7 +81,7 @@ namespace DoctorApp.Controllers
                     {
                         return Json(data: 1);
                     }
-                }
+                } 
             }
 
             else

@@ -105,6 +105,21 @@
           <Property Name="PeriodFrom" Type="date" Nullable="false" />
           <Property Name="PeriodTo" Type="date" />
         </EntityType>
+        <EntityType Name="Leave ">
+          <Key>
+            <PropertyRef Name="LeaveID" />
+          </Key>
+          <Property Name="LeaveID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="FromDate" Type="datetime" Nullable="false" />
+          <Property Name="ToDate" Type="datetime" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Patients">
           <Key>
             <PropertyRef Name="PatientsID" />
@@ -193,6 +208,10 @@
         <Function Name="BrowseEmployeeByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmployeeID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BrowseLeave__sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="BrowseLeave _sp" />
+        <Function Name="BrowseLeaveByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LeaveID" Type="int" Mode="In" />
+        </Function>
         <Function Name="BrowsePatients_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="BrowsePatientsByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PatientsID" Type="int" Mode="In" />
@@ -204,9 +223,6 @@
         <Function Name="BrowseSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="BrowseScheduleByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ScheduleID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="DeleteAppointment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="AppointmentID" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteDepartement_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
@@ -222,6 +238,9 @@
         </Function>
         <Function Name="DeleteExperienceInformation_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExperienceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteLeave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LeaveID" Type="int" Mode="In" />
         </Function>
         <Function Name="DeletePatient_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PatientsID" Type="int" Mode="In" />
@@ -297,6 +316,15 @@
           <Parameter Name="Position" Type="varchar" Mode="In" />
           <Parameter Name="PeriodFrom" Type="date" Mode="In" />
           <Parameter Name="PeriodTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="insertleave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="Reason" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="insertPatient_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
@@ -399,6 +427,16 @@
           <Parameter Name="PeriodTo" Type="date" Mode="In" />
           <Parameter Name="ExperienceID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateLeave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="Reason" Type="nvarchar" Mode="In" />
+          <Parameter Name="ModifyBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="LeaveID" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdatEmployee_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleID" Type="int" Mode="In" />
           <Parameter Name="FirstName" Type="varchar" Mode="In" />
@@ -458,6 +496,7 @@
           <EntitySet Name="EducationInformation" EntityType="Self.EducationInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExperienceInformation" EntityType="Self.ExperienceInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Leave " EntityType="Self.Leave " Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
@@ -817,8 +856,40 @@
           </FunctionImport>
           <FunctionImport Name="BrowseSchedule_sp" ReturnType="Collection(DoctorClinicModel.BrowseSchedule_sp_Result)" />
           <FunctionImport Name="BrowseScheduleByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseScheduleByID_sp_Result)">
-            <Parameter Name="ScheduleID" Mode="In" Type="Int32" />
+          <Parameter Name="ScheduleID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Leave_" EntityType="DoctorClinicModel.Leave_" />
+          <FunctionImport Name="BrowseLeave__sp" ReturnType="Collection(DoctorClinicModel.BrowseLeave__sp_Result)" />
+          <FunctionImport Name="BrowseLeaveByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseLeaveByID_sp_Result)">
+          <Parameter Name="LeaveID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteLeave_sp">
+          <Parameter Name="LeaveID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertleave_sp">
+            <Parameter Name="EmployeeID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Reason" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateLeave_sp">
+            <Parameter Name="EmployeeID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Reason" Mode="In" Type="String" />
+            <Parameter Name="ModifyBy" Mode="In" Type="String" />
+            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="LeaveID" Mode="In" Type="Int32" />
+          </FunctionImport>
+       
+          
+         
+          
+         
           
         </EntityContainer>
         <ComplexType Name="BrowseDoctor_sp_Result">
@@ -1137,6 +1208,45 @@
           <Property Type="String" Name="EndTime" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="Leave_">
+          <Key>
+            <PropertyRef Name="LeaveID" />
+          </Key>
+          <Property Name="LeaveID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="BrowseLeave__sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
+          <Property Type="DateTime" Name="FromDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Days" Nullable="true" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="BrowseLeaveByID_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
+          <Property Type="DateTime" Name="FromDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Days" Nullable="true" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+        </ComplexType>
+     
+        
+        
+        
+        
+        
         
       </Schema>
     </edmx:ConceptualModels>
@@ -1457,7 +1567,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="DeleteAppointment_sp" FunctionName="DoctorClinicModel.Store.DeleteAppointment_sp" />
           <FunctionImportMapping FunctionImportName="DeleteDepartement_sp" FunctionName="DoctorClinicModel.Store.DeleteDepartement_sp" />
           <FunctionImportMapping FunctionImportName="insertAppointment_sp" FunctionName="DoctorClinicModel.Store.insertAppointment_sp" />
           <FunctionImportMapping FunctionImportName="insertDepartment_sp" FunctionName="DoctorClinicModel.Store.insertDepartment_sp" />
@@ -1628,8 +1737,57 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Leave_">
+            <EntityTypeMapping TypeName="DoctorClinicModel.Leave_">
+              <MappingFragment StoreEntitySet="Leave ">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="LeaveID" ColumnName="LeaveID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BrowseLeave__sp" FunctionName="DoctorClinicModel.Store.BrowseLeave__sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseLeave__sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowseLeaveByID_sp" FunctionName="DoctorClinicModel.Store.BrowseLeaveByID_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseLeaveByID_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteLeave_sp" FunctionName="DoctorClinicModel.Store.DeleteLeave_sp" />
+          <FunctionImportMapping FunctionImportName="insertleave_sp" FunctionName="DoctorClinicModel.Store.insertleave_sp" />
+          <FunctionImportMapping FunctionImportName="UpdateLeave_sp" FunctionName="DoctorClinicModel.Store.UpdateLeave_sp" />
+         
+         
+         
           
-        </EntityContainerMapping>
+         
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

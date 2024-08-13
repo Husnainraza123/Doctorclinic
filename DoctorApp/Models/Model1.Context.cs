@@ -37,6 +37,7 @@ namespace DoctorApp.Models
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
+        public virtual DbSet<Leave_> Leave_ { get; set; }
     
         public virtual ObjectResult<BrowseDoctor_sp_Result> BrowseDoctor_sp()
         {
@@ -1061,6 +1062,99 @@ namespace DoctorApp.Models
                 new ObjectParameter("ScheduleID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseScheduleByID_sp_Result>("BrowseScheduleByID_sp", scheduleIDParameter);
+        }
+    
+        public virtual ObjectResult<BrowseLeave__sp_Result> BrowseLeave__sp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseLeave__sp_Result>("BrowseLeave__sp");
+        }
+    
+        public virtual ObjectResult<BrowseLeaveByID_sp_Result> BrowseLeaveByID_sp(Nullable<int> leaveID)
+        {
+            var leaveIDParameter = leaveID.HasValue ?
+                new ObjectParameter("LeaveID", leaveID) :
+                new ObjectParameter("LeaveID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseLeaveByID_sp_Result>("BrowseLeaveByID_sp", leaveIDParameter);
+        }
+    
+        public virtual int DeleteLeave_sp(Nullable<int> leaveID)
+        {
+            var leaveIDParameter = leaveID.HasValue ?
+                new ObjectParameter("LeaveID", leaveID) :
+                new ObjectParameter("LeaveID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteLeave_sp", leaveIDParameter);
+        }
+    
+        public virtual int insertleave_sp(string employeeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string reason, string createdBy, Nullable<System.DateTime> createdDate, string status)
+        {
+            var employeeIDParameter = employeeID != null ?
+                new ObjectParameter("EmployeeID", employeeID) :
+                new ObjectParameter("EmployeeID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            var reasonParameter = reason != null ?
+                new ObjectParameter("Reason", reason) :
+                new ObjectParameter("Reason", typeof(string));
+    
+            var createdByParameter = createdBy != null ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(string));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("CreatedDate", createdDate) :
+                new ObjectParameter("CreatedDate", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertleave_sp", employeeIDParameter, fromDateParameter, toDateParameter, reasonParameter, createdByParameter, createdDateParameter, statusParameter);
+        }
+    
+        public virtual int UpdateLeave_sp(string employeeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string reason, string modifyBy, Nullable<System.DateTime> modifyDate, string status, Nullable<int> leaveID)
+        {
+            var employeeIDParameter = employeeID != null ?
+                new ObjectParameter("EmployeeID", employeeID) :
+                new ObjectParameter("EmployeeID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            var reasonParameter = reason != null ?
+                new ObjectParameter("Reason", reason) :
+                new ObjectParameter("Reason", typeof(string));
+    
+            var modifyByParameter = modifyBy != null ?
+                new ObjectParameter("ModifyBy", modifyBy) :
+                new ObjectParameter("ModifyBy", typeof(string));
+    
+            var modifyDateParameter = modifyDate.HasValue ?
+                new ObjectParameter("ModifyDate", modifyDate) :
+                new ObjectParameter("ModifyDate", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var leaveIDParameter = leaveID.HasValue ?
+                new ObjectParameter("LeaveID", leaveID) :
+                new ObjectParameter("LeaveID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateLeave_sp", employeeIDParameter, fromDateParameter, toDateParameter, reasonParameter, modifyByParameter, modifyDateParameter, statusParameter, leaveIDParameter);
         }
     }
 }
