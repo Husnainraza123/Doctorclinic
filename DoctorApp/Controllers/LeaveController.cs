@@ -35,6 +35,8 @@ namespace DoctorApp.Controllers
 
             return View();
         }
+
+
         [HttpPost]
         public JsonResult AddLeave(Leave_ l)
         {
@@ -50,5 +52,64 @@ namespace DoctorApp.Controllers
                 return Json(new { success = false, message = "Error occurred while adding the Leave." });
             }
         }
+        public ActionResult EditLeave(int id)
+        {
+            var row = db.BrowseLeaveByID_sp(id).FirstOrDefault();
+            LeaveViewModel model1 = new LeaveViewModel()
+            {
+                LeaveID = row.ID,
+                EmployeeName = row.EmployeeName,
+                FromDate = Convert.ToDateTime(row.FromDate),
+                ToDate = Convert.ToDateTime(row.ToDate),
+                Days = row.Days,
+                Reason = row.Reason,
+                Status = row.Status
+            };
+            return View(model1);
+        }
+        [HttpPost]
+        public JsonResult EditLeave(Leave_ l)
+        {
+            db.Entry(l).State = EntityState.Modified;
+            int c = db.SaveChanges();
+            if (c > 0)
+            {
+                return Json(new { success = true, message = "Leave Edit successfully." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Error occurred while adding the Leave." });
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteLeave(int id)
+        {
+            if (id > 0)
+            {
+                try
+                {
+                    var LeaveIdRow = db.Leave_.FirstOrDefault(model => model.LeaveID == id);
+                    if (LeaveIdRow != null)
+                    {
+                        db.Entry(LeaveIdRow).State = EntityState.Deleted;
+                        int a = db.SaveChanges();
+
+                        if (a > 0)
+                        {
+                            return Json(data: 1);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            return Json(data: 0);
+
+        }
+
+
     }
 }

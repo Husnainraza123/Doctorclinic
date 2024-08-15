@@ -197,6 +197,9 @@
     <Compile Include="Models\BrowseLeaveByID_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BrowseLeaveByID_sp_Result1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BrowseLeave__sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -537,6 +540,7 @@
     <Content Include="Views\Leave\Leave.cshtml" />
     <Content Include="Views\Leave\AddLeave.cshtml" />
     <Content Include="Views\Schedule\EditSchedule.cshtml" />
+    <Content Include="Views\Leave\EditLeave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

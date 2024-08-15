@@ -860,9 +860,6 @@
           </FunctionImport>
           <EntitySet Name="Leave_" EntityType="DoctorClinicModel.Leave_" />
           <FunctionImport Name="BrowseLeave__sp" ReturnType="Collection(DoctorClinicModel.BrowseLeave__sp_Result)" />
-          <FunctionImport Name="BrowseLeaveByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseLeaveByID_sp_Result)">
-          <Parameter Name="LeaveID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="DeleteLeave_sp">
           <Parameter Name="LeaveID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -883,6 +880,9 @@
             <Parameter Name="ModifyBy" Mode="In" Type="String" />
             <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
             <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="LeaveID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BrowseLeaveByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseLeaveByID_sp_Result1)">
             <Parameter Name="LeaveID" Mode="In" Type="Int32" />
           </FunctionImport>
        
@@ -1237,6 +1237,16 @@
           <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
           <Property Type="DateTime" Name="FromDate" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="ToDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Days" Nullable="true" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="BrowseLeaveByID_sp_Result1">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="true" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
+          <Property Type="DateTime" Name="FromDate" Nullable="true" />
+          <Property Type="DateTime" Name="ToDate" Nullable="true" />
           <Property Type="Int32" Name="Days" Nullable="true" />
           <Property Type="String" Name="Reason" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
@@ -1766,10 +1776,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteLeave_sp" FunctionName="DoctorClinicModel.Store.DeleteLeave_sp" />
+          <FunctionImportMapping FunctionImportName="insertleave_sp" FunctionName="DoctorClinicModel.Store.insertleave_sp" />
+          <FunctionImportMapping FunctionImportName="UpdateLeave_sp" FunctionName="DoctorClinicModel.Store.UpdateLeave_sp" />
           <FunctionImportMapping FunctionImportName="BrowseLeaveByID_sp" FunctionName="DoctorClinicModel.Store.BrowseLeaveByID_sp">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseLeaveByID_sp_Result">
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseLeaveByID_sp_Result1">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="ToDate" ColumnName="ToDate" />
@@ -1779,9 +1793,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="DeleteLeave_sp" FunctionName="DoctorClinicModel.Store.DeleteLeave_sp" />
-          <FunctionImportMapping FunctionImportName="insertleave_sp" FunctionName="DoctorClinicModel.Store.insertleave_sp" />
-          <FunctionImportMapping FunctionImportName="UpdateLeave_sp" FunctionName="DoctorClinicModel.Store.UpdateLeave_sp" />
          
          
          

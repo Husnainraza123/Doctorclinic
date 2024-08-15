@@ -1,0 +1,166 @@
+﻿@model DoctorApp.Models.LeaveViewModel
+
+@{
+    ViewBag.Title = "EditLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Add Leave</h4>
+        </div>
+    </div>
+    @Html.HiddenFor(x => x.LeaveID, new { id = "hdnID" })
+    @Html.HiddenFor(x => x.EmployeeID, new { id = "hdnEmployeeID" })
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form>
+                <div class="form-group">
+                    <label>Employee</label>
+                    @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", Enabled = "false" } })
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fromDate">From Date <span class="text-danger">*</span></label>
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="toDate">To Date <span class="text-danger">*</span></label>
+                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Number of Days <span class="text-danger">*</span></label>
+                            <input id="numberOfDays" class="form-control" readonly type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Leave Reason <span class="text-danger">*</span></label>
+                        @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="display-block">Leave Status</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="status_pending" value="Pending" checked>
+                        <label class="form-check-label" for="status_pending">Pending</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="status_approved" value="Approved">
+                        <label class="form-check-label" for="status_approved">Approved</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="status_declined" value="Declined">
+                        <label class="form-check-label" for="status_declined">Declined</label>
+                    </div>
+                </div>
+
+                <div class="m-t-20 text-center">
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 15px;">Create Leave</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('fromDate').addEventListener('change', calculateDays);
+    document.getElementById('toDate').addEventListener('change', calculateDays);
+
+    function calculateDays() {
+        const fromDateValue = document.getElementById('fromDate').value;
+        const toDateValue = document.getElementById('toDate').value;
+
+        if (fromDateValue && toDateValue) {
+            const fromDate = new Date(fromDateValue);
+            const toDate = new Date(toDateValue);
+
+            // Calculate the difference in milliseconds
+            const timeDifference = toDate.getTime() - fromDate.getTime();
+            // Convert milliseconds to days
+            let dayDifference = timeDifference / (1000 * 3600 * 24);
+
+            // If dates are the same, show 1 day
+            if (dayDifference === 0) {
+                dayDifference = 1;
+            } else if (dayDifference < 0) {
+                // Handle invalid date range
+                dayDifference = 'Invalid Date Range';
+            } else {
+                // Add 1 to include both dates in the range
+                dayDifference += 1;
+            }
+
+            document.getElementById('numberOfDays').value = dayDifference;
+        }
+    }
+
+
+
+    function Edit() {
+        debugger;
+        var currentDate = new Date().toISOString();
+        var id = $('#hdnID').val();
+        var formData = new FormData();
+        if (id > 0) {
+            formData.append('LeaveID', id);
+            formData.append('EmployeeID', $('#hdnEmployeeID').val());
+            formData.append('FromDate', $('#FromDate').val());
+            formData.append('ToDate', $('#ToDate').val());
+            formData.append('Reason', $('#Reason').val());
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+
+        }
+
+        else {
+            formData.append('LeaveID', id);
+            formData.append('EmployeeID', $('#hdnEmployeeID').val());
+            formData.append('FromDate', $('#FromDate').val());
+            formData.append('ToDate', $('#ToDate').val());
+            formData.append('Reason', $('#Reason').val());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('Status', $('input[name="status"]:checked').val());
+        }
+
+        $.ajax({
+            url: "/Leave/EditLeave",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    notifyDanger("Data Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+</script>

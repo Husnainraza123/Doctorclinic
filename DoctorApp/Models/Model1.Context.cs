@@ -1069,15 +1069,6 @@ namespace DoctorApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseLeave__sp_Result>("BrowseLeave__sp");
         }
     
-        public virtual ObjectResult<BrowseLeaveByID_sp_Result> BrowseLeaveByID_sp(Nullable<int> leaveID)
-        {
-            var leaveIDParameter = leaveID.HasValue ?
-                new ObjectParameter("LeaveID", leaveID) :
-                new ObjectParameter("LeaveID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseLeaveByID_sp_Result>("BrowseLeaveByID_sp", leaveIDParameter);
-        }
-    
         public virtual int DeleteLeave_sp(Nullable<int> leaveID)
         {
             var leaveIDParameter = leaveID.HasValue ?
@@ -1155,6 +1146,15 @@ namespace DoctorApp.Models
                 new ObjectParameter("LeaveID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateLeave_sp", employeeIDParameter, fromDateParameter, toDateParameter, reasonParameter, modifyByParameter, modifyDateParameter, statusParameter, leaveIDParameter);
+        }
+    
+        public virtual ObjectResult<BrowseLeaveByID_sp_Result1> BrowseLeaveByID_sp(Nullable<int> leaveID)
+        {
+            var leaveIDParameter = leaveID.HasValue ?
+                new ObjectParameter("LeaveID", leaveID) :
+                new ObjectParameter("LeaveID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseLeaveByID_sp_Result1>("BrowseLeaveByID_sp", leaveIDParameter);
         }
     }
 }
