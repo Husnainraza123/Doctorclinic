@@ -1,16 +1,16 @@
 ﻿@model DoctorApp.Models.ScheduleViewModel
 
 @{
-    ViewBag.Title = "AddSchedule";
+    ViewBag.Title = "EditSchedule";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="content">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <h4 class="page-title">Add Schedule</h4>
         </div>
     </div>
+    @Html.HiddenFor(x => x.ScheduleID, new { id = "hdnID" })
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <form>
@@ -18,31 +18,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Doctor</label>
-                            <select name="ddlDoctor" id="ddlDoctor" class="form-control">
-                                <option value="">Select Doctor Name</option>
-                                @if (ViewBag.doctornames != null)
-                                {
-                                    foreach (var sn in ViewBag.doctornames)
-                                    {
-                                        <option value="@sn.DoctorID">@sn.FirstName @sn.LastName</option>
-                                    }
-                                }
-                            </select>
+                            @Html.EditorFor(model => model.DoctorName, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Department</label>
-                            <select name="ddlDep" id="ddlDep" class="form-control">
-                                <option value="">Select Department Name</option>
-                                @if (ViewBag.Department != null)
-                                {
-                                    foreach (var den in ViewBag.Department)
-                                    {
-                                        <option value="@den.DepartmentsID">@den.DepartmentsName </option>
-                                    }
-                                }
-                            </select>
+                            @Html.EditorFor(model => model.DepartmentsName, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
 
@@ -50,16 +32,7 @@
                     <div class="col-md-6">
                         <div class="form-group" style="width:280px">
                             <label>Available Days</label>
-                            <select class="select" id="availableDays" multiple>
-                                <option>Select Days</option>
-                                <option>Sunday</option>
-                                <option>Monday</option>
-                                <option>Tuesday</option>
-                                <option>Wednesday</option>
-                                <option>Thursday</option>
-                                <option>Friday</option>
-                                <option>Saturday</option>
-                            </select>
+                            @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
 
@@ -67,7 +40,7 @@
                         <div class="form-group">
                             <label>Start Time</label>
                             <div>
-                                <input type="time" class="form-control" id="timepicker" runat="server" clientidmode="Static" value="00:00">
+                                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
 
                             </div>
                         </div>
@@ -80,7 +53,7 @@
                         <div class="form-group">
                             <label>End Time</label>
                             <div>
-                                <input type="time" class="form-control" id="EndTimepicker" runat="server" clientidmode="Static" value="00:00">
+                                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
 
                             </div>
                         </div>
@@ -115,27 +88,14 @@
                     </div>
                 </div>
                 <div class="m-t-20 text-center">
-                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Create Schedule</button>
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 12px;">Create Schedule</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <script>
-
-    //document.addEventListener('DOMContentLoaded', (event) => {
-    //    const timePicker = document.getElementById('timepicker');
-    //    timePicker.value = "00:00"; // Set initial value
-
-    //    timePicker.addEventListener('change', (event) => {
-    //        const selectedTime = event.target.value;
-    //        console.log('Time changed to:', selectedTime);
-    //        // Here you can handle the new selected time as needed
-    //    });
-    //});
-
-
-
     function readURL(input, hiddenInputId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -149,7 +109,7 @@
 
     // Function to handle image upload
     function uploadImage() {
-        var fileInput = document.getElementById('ScheduleImage');
+        var fileInput = document.getElementById('AppointmentImage');
         if (fileInput.files && fileInput.files[0]) {
             var file = fileInput.files[0];
 
@@ -163,7 +123,7 @@
 
 
 
-    function Add() {
+    function Edit() {
         debugger;
         /*var imgFiles = $("#PatientImage")[0];*/
         var currentDate = new Date().toISOString();
@@ -183,6 +143,8 @@
         }
 
         if (id > 0) {
+
+            formData.append('model.ScheduleID)', id);
             formData.append('DoctorID', $('#ddlDoctor').val());
             formData.append('DepartmentsID', $('#ddlDep').val());
             formData.append('StartTime', $('#timepicker').val());
@@ -195,9 +157,8 @@
             formData.append('Status', $('input[name="status"]:checked').val());
 
         }
-
         else {
-
+            formData.append('model.ScheduleID)', id);
             formData.append('DoctorID', $('#ddlDoctor').val());
             formData.append('DepartmentsID', $('#ddlDep').val());
             formData.append('StartTime', $('#timepicker').val());
@@ -211,7 +172,7 @@
         }
 
         $.ajax({
-            url: "/Schedule/AddSchedule",
+            url: "/Schedule/EditSchedule",
             dataType: "json", // Lowercase "json"
             type: "POST",
             contentType: false, // Set contentType to false
@@ -224,8 +185,6 @@
 
                     $('#exampleModal').find('.close').click();
                     Bind();
-
-
                     //window.location.href = '/Admin/DisplayTeacher';
                 } else {
                     notifyDanger("Data Not Added");
@@ -236,8 +195,5 @@
                 console.error("Error:", xhr.responseText);
             }
         });
-
     }
-
 </script>
-

@@ -536,6 +536,7 @@
     <Content Include="Views\Schedule\AddSchedule.cshtml" />
     <Content Include="Views\Leave\Leave.cshtml" />
     <Content Include="Views\Leave\AddLeave.cshtml" />
+    <Content Include="Views\Schedule\EditSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

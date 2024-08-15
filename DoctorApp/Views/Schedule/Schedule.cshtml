@@ -30,8 +30,8 @@
                         {
                             <tr>   
                                 <td>
-                                    <img width="28" height="28" src="@item.Image" style="border-radius:50px;">
-                                    <span style="padding-left:10px;"> @item.DoctorName</span>
+                                    <img src="@item.Image" alt="Doctor Image" width="28" height="28" style="border-radius: 50%;">
+                                    <span style="padding-left: 10px;">@item.DoctorName</span>
                                 </td>
                                 <td>@item.DepartmentsName</td>
                                 <td>@item.Days</td>
@@ -53,7 +53,7 @@
                                     <div class="dropdown dropdown-action">
                                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" onclick="EditAppointment(@item.ScheduleID)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                            <a class="dropdown-item" onclick="EditSchedule(@item.ScheduleID)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
                                             <a class="dropdown-item" onclick="Delete(@item.ScheduleID)"><i class="fa fa-trash-o m-r-5"></i>Delete</a>
 
                                         </div>
@@ -70,3 +70,74 @@
     </div>
 
 </div>
+
+
+<script>
+    function EditSchedule(ScheduleID) {
+
+        window.location.href = '/Schedule/EditSchedule?Id=' + ScheduleID;
+        return;
+    }
+
+    $('Edit').click(function () {
+        debugger;
+        var ScheduleID = $(this).data('id');
+
+        $('#exampleModalLabel').text("Edit Schedule");
+
+        $.ajax({
+            url: "/Schedule/EditSchedule",
+            dataType: "json",
+            type: "POST",
+            data: { id: ScheduleID },
+            success: function (response) {
+                debugger;
+                if (response) {
+                    console.log(response);
+                    $('#DoctorID').val(response.DoctorID);
+                    $('#DepartmentsID').val(response.DepartmentsID);
+                    $('#Days').val(response.Days);
+                    $('#StartTime').val(response.StartTime);
+                    $('#EndTime').val(response.EndTime);
+                    $('#Image').val(response.Image);
+                    $('#Status').val(response.Status);
+                }
+
+                else {
+                    notifyDanger("Schedule data not found");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+                notifyDanger("Error occurred while fetching Appointment data");
+            }
+        });
+    });
+
+    function Delete(id) {
+        debugger;
+        console.log("Deleting ScheduleID with ID:", id);
+
+        $.ajax({
+            url: "/Schedule/DeleteSchedule",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json", // Set the contentType to "application/json" for sending JSON data
+            data: JSON.stringify({ id: id }), // Send data as a JSON string
+            success: function (response) {
+                if (response && response.data === 1) {
+                    notifySuccess("Schedule deleted successfully");
+                    $('#exampleModal').find('.close').click();
+                    Bind(); // Refresh the data
+                } else {
+                    notifyDanger("Failed to delete Patient");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+                notifyDanger("An error occurred while deleting the doctor");
+            }
+        });
+    }
+
+</script>
