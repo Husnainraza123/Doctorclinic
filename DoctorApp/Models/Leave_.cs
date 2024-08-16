@@ -15,7 +15,7 @@ namespace DoctorApp.Models
     public partial class Leave_
     {
         public int LeaveID { get; set; }
-        public int EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
         public System.DateTime FromDate { get; set; }
         public System.DateTime ToDate { get; set; }
         public string Reason { get; set; }

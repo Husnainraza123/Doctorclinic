@@ -14,7 +14,7 @@ namespace DoctorApp.Models
     public partial class BrowseLeaveByID_sp_Result1
     {
         public int ID { get; set; }
-        public Nullable<int> EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
         public string EmployeeName { get; set; }
         public Nullable<System.DateTime> FromDate { get; set; }
         public Nullable<System.DateTime> ToDate { get; set; }

@@ -36,7 +36,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="#" class="avatar">@item.EmployeeName</a>
+                                    <a href="#" class="avatar">@(item.EmployeeName!= null && item.EmployeeName.Length> 0 ? item.EmployeeName[0].ToString() : item.EmployeeName)</a>
                                     <h2><a href="#">@item.EmployeeName</a></h2>
                                 </td>
 

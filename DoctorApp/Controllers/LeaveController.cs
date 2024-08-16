@@ -59,6 +59,7 @@ namespace DoctorApp.Controllers
             {
                 LeaveID = row.ID,
                 EmployeeName = row.EmployeeName,
+                EmployeeID = row.EmployeeID,
                 FromDate = Convert.ToDateTime(row.FromDate),
                 ToDate = Convert.ToDateTime(row.ToDate),
                 Days = row.Days,
