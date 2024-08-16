@@ -26,6 +26,19 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentsID" />
@@ -187,6 +200,10 @@
         <Function Name="BrowseAppointmentByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AppointmentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BrowseAttendance_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="BrowseAttendanceByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AttendanceID" Type="int" Mode="In" />
+        </Function>
         <Function Name="BrowseDepartment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="BrowseDepartmentsByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
@@ -223,6 +240,9 @@
         <Function Name="BrowseSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="BrowseScheduleByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ScheduleID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteAttendance_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AttendanceID" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteDepartement_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
@@ -265,6 +285,13 @@
           <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
           <Parameter Name="Status" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="insertAttendance_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="int" Mode="In" />
+          <Parameter Name="DOB" Type="date" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="insertDepartment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsName" Type="nvarchar" Mode="In" />
@@ -382,6 +409,14 @@
           <Parameter Name="Status" Type="bit" Mode="In" />
           <Parameter Name="AppointmentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateAttendance_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="int" Mode="In" />
+          <Parameter Name="DOB" Type="date" Mode="In" />
+          <Parameter Name="ModifyBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="AttendanceID" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdateDepartment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
           <Parameter Name="DepartmentsName" Type="nvarchar" Mode="In" />
@@ -491,6 +526,7 @@
         </Function>
         <EntityContainer Name="DoctorClinicModelStoreContainer">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EducationInformation" EntityType="Self.EducationInformation" Schema="dbo" store:Type="Tables" />
@@ -883,7 +919,30 @@
             <Parameter Name="LeaveID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="BrowseLeaveByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseLeaveByID_sp_Result1)">
-            <Parameter Name="LeaveID" Mode="In" Type="Int32" />
+          <Parameter Name="LeaveID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Attendances" EntityType="DoctorClinicModel.Attendance" />
+          <FunctionImport Name="BrowseAttendance_sp" ReturnType="Collection(DoctorClinicModel.BrowseAttendance_sp_Result)" />
+          <FunctionImport Name="BrowseAttendanceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseAttendanceByID_sp_Result)">
+            <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteAttendance_sp">
+            <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertAttendance_sp">
+            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateAttendance_sp">
+            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifyBy" Mode="In" Type="String" />
+            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
           </FunctionImport>
        
           
@@ -1249,6 +1308,31 @@
           <Property Type="DateTime" Name="ToDate" Nullable="true" />
           <Property Type="Int32" Name="Days" Nullable="true" />
           <Property Type="String" Name="Reason" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="BrowseAttendance_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="BrowseAttendanceByID_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
         </ComplexType>
      
@@ -1793,6 +1877,43 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="DoctorClinicModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="AttendanceID" ColumnName="AttendanceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BrowseAttendance_sp" FunctionName="DoctorClinicModel.Store.BrowseAttendance_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseAttendance_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowseAttendanceByID_sp" FunctionName="DoctorClinicModel.Store.BrowseAttendanceByID_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseAttendanceByID_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteAttendance_sp" FunctionName="DoctorClinicModel.Store.DeleteAttendance_sp" />
+          <FunctionImportMapping FunctionImportName="insertAttendance_sp" FunctionName="DoctorClinicModel.Store.insertAttendance_sp" />
+          <FunctionImportMapping FunctionImportName="UpdateAttendance_sp" FunctionName="DoctorClinicModel.Store.UpdateAttendance_sp" />
          
          
          

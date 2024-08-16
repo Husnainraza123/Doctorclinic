@@ -38,6 +38,7 @@ namespace DoctorApp.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<Leave_> Leave_ { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
     
         public virtual ObjectResult<BrowseDoctor_sp_Result> BrowseDoctor_sp()
         {
@@ -1155,6 +1156,83 @@ namespace DoctorApp.Models
                 new ObjectParameter("LeaveID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseLeaveByID_sp_Result1>("BrowseLeaveByID_sp", leaveIDParameter);
+        }
+    
+        public virtual ObjectResult<BrowseAttendance_sp_Result> BrowseAttendance_sp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseAttendance_sp_Result>("BrowseAttendance_sp");
+        }
+    
+        public virtual ObjectResult<BrowseAttendanceByID_sp_Result> BrowseAttendanceByID_sp(Nullable<int> attendanceID)
+        {
+            var attendanceIDParameter = attendanceID.HasValue ?
+                new ObjectParameter("AttendanceID", attendanceID) :
+                new ObjectParameter("AttendanceID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseAttendanceByID_sp_Result>("BrowseAttendanceByID_sp", attendanceIDParameter);
+        }
+    
+        public virtual int DeleteAttendance_sp(Nullable<int> attendanceID)
+        {
+            var attendanceIDParameter = attendanceID.HasValue ?
+                new ObjectParameter("AttendanceID", attendanceID) :
+                new ObjectParameter("AttendanceID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteAttendance_sp", attendanceIDParameter);
+        }
+    
+        public virtual int insertAttendance_sp(Nullable<int> employeeID, Nullable<System.DateTime> dOB, string createdBy, Nullable<System.DateTime> createdDate, string status)
+        {
+            var employeeIDParameter = employeeID.HasValue ?
+                new ObjectParameter("EmployeeID", employeeID) :
+                new ObjectParameter("EmployeeID", typeof(int));
+    
+            var dOBParameter = dOB.HasValue ?
+                new ObjectParameter("DOB", dOB) :
+                new ObjectParameter("DOB", typeof(System.DateTime));
+    
+            var createdByParameter = createdBy != null ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(string));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("CreatedDate", createdDate) :
+                new ObjectParameter("CreatedDate", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertAttendance_sp", employeeIDParameter, dOBParameter, createdByParameter, createdDateParameter, statusParameter);
+        }
+    
+        public virtual int UpdateAttendance_sp(Nullable<int> employeeID, Nullable<System.DateTime> dOB, string modifyBy, Nullable<System.DateTime> modifyDate, string status, Nullable<int> attendanceID)
+        {
+            var employeeIDParameter = employeeID.HasValue ?
+                new ObjectParameter("EmployeeID", employeeID) :
+                new ObjectParameter("EmployeeID", typeof(int));
+    
+            var dOBParameter = dOB.HasValue ?
+                new ObjectParameter("DOB", dOB) :
+                new ObjectParameter("DOB", typeof(System.DateTime));
+    
+            var modifyByParameter = modifyBy != null ?
+                new ObjectParameter("ModifyBy", modifyBy) :
+                new ObjectParameter("ModifyBy", typeof(string));
+    
+            var modifyDateParameter = modifyDate.HasValue ?
+                new ObjectParameter("ModifyDate", modifyDate) :
+                new ObjectParameter("ModifyDate", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var attendanceIDParameter = attendanceID.HasValue ?
+                new ObjectParameter("AttendanceID", attendanceID) :
+                new ObjectParameter("AttendanceID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateAttendance_sp", employeeIDParameter, dOBParameter, modifyByParameter, modifyDateParameter, statusParameter, attendanceIDParameter);
         }
     }
 }
