@@ -31,5 +31,21 @@ namespace DoctorApp.Controllers
             ViewBag.employeenames = row;
             return View();
         }
+
+        [HttpPost]
+        public JsonResult AddAttendance(Attendance a)
+        {
+            a.CreatedDate = DateTime.Now;
+            db.Attendances.Add(a);
+            int c = db.SaveChanges();
+            if (c > 0)
+            {
+                return Json(new { success = true, message = "Leave added successfully." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Error occurred while adding the Leave." });
+            }
+        }
     }
 }
