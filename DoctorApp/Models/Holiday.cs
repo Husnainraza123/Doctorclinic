@@ -12,17 +12,14 @@ namespace DoctorApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Leave_
+    public partial class Holiday
     {
-        public int LeaveID { get; set; }
-        public int EmployeeID { get; set; }
-        public System.DateTime FromDate { get; set; }
-        public System.DateTime ToDate { get; set; }
-        public string Reason { get; set; }
+        public int HolidayID { get; set; }
+        public string HolidayName { get; set; }
+        public System.DateTime Date { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ModifyBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
-        public string Status { get; set; }
     }
 }

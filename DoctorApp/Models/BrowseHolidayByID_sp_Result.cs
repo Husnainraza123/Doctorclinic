@@ -11,12 +11,10 @@ namespace DoctorApp.Models
 {
     using System;
     
-    public partial class BrowseAttendanceByID_sp_Result
+    public partial class BrowseHolidayByID_sp_Result
     {
         public int ID { get; set; }
-        public Nullable<int> EmployeeID { get; set; }
-        public string EmployeeName { get; set; }
+        public string Name { get; set; }
         public System.DateTime Date { get; set; }
-        public string Status { get; set; }
     }
 }

@@ -1,16 +1,17 @@
 ﻿@model DoctorApp.Models.AttendanceViewModel
 
 @{
-    ViewBag.Title = "AddAttendance";
+    ViewBag.Title = "EditAttendance";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="content">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <h4 class="page-title">Add Attendance </h4>
         </div>
     </div>
+    @Html.HiddenFor(x => x.AttendanceID, new { id = "hdnID" })
+   
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div>
@@ -19,16 +20,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Employee Name</label>
-                            <select name="ddlEmp" id="ddlEmp" class="form-control">
-                                <option value="">Select Employee Name</option>
-                                @if (ViewBag.employeenames != null)
-                                {
-                                    foreach (var sn in ViewBag.employeenames)
-                                    {
-                                        <option value="@sn.EmployeeID">@sn.FirstName @sn.LastName</option>
-                                    }
-                                }
-                            </select>                           
+                            @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
 
@@ -36,14 +28,14 @@
                         <div class="form-group">
                             <label>Date</label>
                             <div>
-                                <input ID="txtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
                     </div>
 
 
                 </div>
-                              
+
                 <div class="form-group">
                     <label class="display-block">Attendance Status</label>
                     <div class="form-check form-check-inline">
@@ -60,7 +52,7 @@
                     </div>
                 </div>
                 <div class="m-t-20 text-center">
-                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Attendance</button>
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 12px;">Save Attendance</button>
                 </div>
             </div>
         </div>
@@ -70,15 +62,17 @@
 
 <script>
 
-    function Add() {
+    function Edit() {
         debugger;
         var currentDate = new Date().toISOString();
         var id = $('#hdnID').val();
         var formData = new FormData();
+
+        var h1 = 'Husnain Memon';
         if (id > 0) {
             formData.append('EmployeeID', $('#ddlEmp').val());
-            formData.append('DOB', $('#txtDate').val());
-            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('DOB', $('#DOB').val());
+            formData.append('ModifyBy', h1);
             formData.append('ModifyDate', currentDate);
             formData.append('Status', $('input[name="status"]:checked').val());
 
@@ -87,14 +81,14 @@
         else {
 
             formData.append('EmployeeID', $('#ddlEmp').val());
-            formData.append('DOB', $('#txtDate').val());
-            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('DOB', $('#DOB').val());
+            formData.append('CreatedBy', h1);
             formData.append('CreatedDate', currentDate);
             formData.append('Status', $('input[name="status"]:checked').val());
         }
 
         $.ajax({
-            url: "/Attendance/AddAttendance",
+            url: "/Attendance/EditAttendance",
             dataType: "json", // Lowercase "json"
             type: "POST",
             contentType: false, // Set contentType to false
@@ -103,7 +97,7 @@
             success: function (response) {
                 debugger;
                 if (response == 1) { // Assuming your response has a status field
-                    notifySuccess("Data Added Successfully");
+                    notifySuccess("Data update Successfully");
 
                     $('#exampleModal').find('.close').click();
                     Bind();
@@ -119,5 +113,6 @@
                 console.error("Error:", xhr.responseText);
             }
         });
+
     }
 </script>

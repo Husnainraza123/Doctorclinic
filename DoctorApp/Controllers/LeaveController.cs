@@ -52,6 +52,7 @@ namespace DoctorApp.Controllers
                 return Json(new { success = false, message = "Error occurred while adding the Leave." });
             }
         }
+
         public ActionResult EditLeave(int id)
         {
             var row = db.BrowseLeaveByID_sp(id).FirstOrDefault();
@@ -59,7 +60,7 @@ namespace DoctorApp.Controllers
             {
                 LeaveID = row.ID,
                 EmployeeName = row.EmployeeName,
-                EmployeeID = row.EmployeeID,
+                EmployeeID = (int)row.EmployeeID,
                 FromDate = Convert.ToDateTime(row.FromDate),
                 ToDate = Convert.ToDateTime(row.ToDate),
                 Days = row.Days,

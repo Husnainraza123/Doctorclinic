@@ -133,21 +133,21 @@
 
     function Delete(id) {
         debugger;
-        console.log("Deleting ScheduleID with ID:", id);
+        console.log("Deleting LeaveID with ID:", id);
 
         $.ajax({
-            url: "/Schedule/DeleteSchedule",
+            url: "/Leave/DeleteLeave",
             type: "POST",
             dataType: "json",
             contentType: "application/json", // Set the contentType to "application/json" for sending JSON data
             data: JSON.stringify({ id: id }), // Send data as a JSON string
             success: function (response) {
                 if (response && response.data === 1) {
-                    notifySuccess("Schedule deleted successfully");
+                    notifySuccess("Leave deleted successfully");
                     $('#exampleModal').find('.close').click();
                     Bind(); // Refresh the data
                 } else {
-                    notifyDanger("Failed to delete Patient");
+                    notifyDanger("Failed to delete Leave");
                 }
             },
             error: function (xhr, status, error) {

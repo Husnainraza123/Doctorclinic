@@ -8,8 +8,7 @@ namespace DoctorApp.Models
     public class AttendanceViewModel:Attendance
     {
         
-        public string EmployeeName { get; set; }
-        public DateTime Date { get; set; }      
+        public string EmployeeName { get; set; }     
         public Dictionary<int, string> DayStatus { get; set; } // Key: Day, Value: Status (Present/Absent)
     }
 }
