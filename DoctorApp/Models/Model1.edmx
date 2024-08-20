@@ -33,11 +33,11 @@
           <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
           <Property Name="DOB" Type="date" Nullable="false" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
-          <Property Name="CreatedDate" Type="datetime" />
-          <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -117,6 +117,18 @@
           <Property Name="Position" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PeriodFrom" Type="date" Nullable="false" />
           <Property Name="PeriodTo" Type="date" />
+        </EntityType>
+        <EntityType Name="Holiday">
+          <Key>
+            <PropertyRef Name="HolidayID" />
+          </Key>
+          <Property Name="HolidayID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HolidayName" Type="varchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifyDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Leave ">
           <Key>
@@ -225,6 +237,10 @@
         <Function Name="BrowseEmployeeByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmployeeID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BrowseHoliday_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="BrowseHolidayByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HolidayID" Type="int" Mode="In" />
+        </Function>
         <Function Name="BrowseLeave__sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="BrowseLeave _sp" />
         <Function Name="BrowseLeaveByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LeaveID" Type="int" Mode="In" />
@@ -258,6 +274,9 @@
         </Function>
         <Function Name="DeleteExperienceInformation_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExperienceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteHoliday_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HolidayID" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteLeave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LeaveID" Type="int" Mode="In" />
@@ -343,6 +362,12 @@
           <Parameter Name="Position" Type="varchar" Mode="In" />
           <Parameter Name="PeriodFrom" Type="date" Mode="In" />
           <Parameter Name="PeriodTo" Type="date" Mode="In" />
+        </Function>
+        <Function Name="insertHoliday_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HolidayName" Type="varchar" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="insertleave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmployeeID" Type="nvarchar" Mode="In" />
@@ -462,6 +487,14 @@
           <Parameter Name="PeriodTo" Type="date" Mode="In" />
           <Parameter Name="ExperienceID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateHoliday_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HolidayID" Type="int" Mode="In" />
+          <Parameter Name="HolidayName" Type="varchar" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="ModifyBy" Type="varchar" Mode="In" />
+          <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="UpdateLeave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmployeeID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -532,6 +565,7 @@
           <EntitySet Name="EducationInformation" EntityType="Self.EducationInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExperienceInformation" EntityType="Self.ExperienceInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Holiday" EntityType="Self.Holiday" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave " EntityType="Self.Leave " Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -922,12 +956,20 @@
           <Parameter Name="LeaveID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Attendances" EntityType="DoctorClinicModel.Attendance" />
+          <EntitySet Name="Holidays" EntityType="DoctorClinicModel.Holiday" />
           <FunctionImport Name="BrowseAttendance_sp" ReturnType="Collection(DoctorClinicModel.BrowseAttendance_sp_Result)" />
           <FunctionImport Name="BrowseAttendanceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseAttendanceByID_sp_Result)">
             <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="BrowseHoliday_sp" ReturnType="Collection(DoctorClinicModel.BrowseHoliday_sp_Result)" />
+          <FunctionImport Name="BrowseHolidayByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseHolidayByID_sp_Result)">
+            <Parameter Name="HolidayID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="DeleteAttendance_sp">
             <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteHoliday_sp">
+            <Parameter Name="HolidayID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="insertAttendance_sp">
             <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
@@ -935,6 +977,12 @@
             <Parameter Name="CreatedBy" Mode="In" Type="String" />
             <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
             <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertHoliday_sp">
+            <Parameter Name="HolidayName" Mode="In" Type="String" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="UpdateAttendance_sp">
             <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
@@ -944,6 +992,15 @@
             <Parameter Name="Status" Mode="In" Type="String" />
             <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UpdateHoliday_sp">
+            <Parameter Name="HolidayID" Mode="In" Type="Int32" />
+            <Parameter Name="HolidayName" Mode="In" Type="String" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifyBy" Mode="In" Type="String" />
+            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+         
        
           
          
@@ -1317,24 +1374,48 @@
           <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeID" Type="Int32" Nullable="false" />
           <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Holiday">
+          <Key>
+            <PropertyRef Name="HolidayID" />
+          </Key>
+          <Property Name="HolidayID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HolidayName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
         </EntityType>
         <ComplexType Name="BrowseAttendance_sp_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
           <Property Type="DateTime" Name="date" Nullable="false" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="BrowseAttendanceByID_sp_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="true" />
           <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="101" />
           <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="BrowseHoliday_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="BrowseHolidayByID_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+        </ComplexType>
+        
      
         
         
@@ -1891,6 +1972,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Holidays">
+            <EntityTypeMapping TypeName="DoctorClinicModel.Holiday">
+              <MappingFragment StoreEntitySet="Holiday">
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="HolidayName" ColumnName="HolidayName" />
+                <ScalarProperty Name="HolidayID" ColumnName="HolidayID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="BrowseAttendance_sp" FunctionName="DoctorClinicModel.Store.BrowseAttendance_sp">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseAttendance_sp_Result">
@@ -1905,15 +1999,39 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseAttendanceByID_sp_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowseHoliday_sp" FunctionName="DoctorClinicModel.Store.BrowseHoliday_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseHoliday_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowseHolidayByID_sp" FunctionName="DoctorClinicModel.Store.BrowseHolidayByID_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseHolidayByID_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DeleteAttendance_sp" FunctionName="DoctorClinicModel.Store.DeleteAttendance_sp" />
+          <FunctionImportMapping FunctionImportName="DeleteHoliday_sp" FunctionName="DoctorClinicModel.Store.DeleteHoliday_sp" />
           <FunctionImportMapping FunctionImportName="insertAttendance_sp" FunctionName="DoctorClinicModel.Store.insertAttendance_sp" />
+          <FunctionImportMapping FunctionImportName="insertHoliday_sp" FunctionName="DoctorClinicModel.Store.insertHoliday_sp" />
           <FunctionImportMapping FunctionImportName="UpdateAttendance_sp" FunctionName="DoctorClinicModel.Store.UpdateAttendance_sp" />
+          <FunctionImportMapping FunctionImportName="UpdateHoliday_sp" FunctionName="DoctorClinicModel.Store.UpdateHoliday_sp" />
+          
+       
          
          
          

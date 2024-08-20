@@ -24,14 +24,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="fromDate">From Date <span class="text-danger">*</span></label>
-                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control", } })
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="toDate">To Date <span class="text-danger">*</span></label>
-                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
-
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control",} })
                         </div>
                     </div>
                 </div>
@@ -118,6 +117,8 @@
             formData.append('FromDate', $('#FromDate').val());
             formData.append('ToDate', $('#ToDate').val());
             formData.append('Reason', $('#Reason').val());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
             formData.append('ModifyBy', 'Husnain Memon');
             formData.append('ModifyDate', currentDate);
             formData.append('Status', $('input[name="status"]:checked').val());

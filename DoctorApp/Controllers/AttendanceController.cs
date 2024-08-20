@@ -65,7 +65,6 @@ namespace DoctorApp.Controllers
         [HttpPost]
         public JsonResult EditAttendance(Attendance a)
         {
-            
             db.Entry(a).State = EntityState.Modified;
             int c = db.SaveChanges();
             if (c > 0)

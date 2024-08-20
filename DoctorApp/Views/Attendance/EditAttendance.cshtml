@@ -11,7 +11,7 @@
         </div>
     </div>
     @Html.HiddenFor(x => x.AttendanceID, new { id = "hdnID" })
-   
+    @Html.HiddenFor(x => x.EmployeeID, new { id = "hdnEmployeeID" })
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div>
@@ -67,22 +67,23 @@
         var currentDate = new Date().toISOString();
         var id = $('#hdnID').val();
         var formData = new FormData();
-
-        var h1 = 'Husnain Memon';
         if (id > 0) {
-            formData.append('EmployeeID', $('#ddlEmp').val());
+            formData.append('AttendanceID', id);
+            formData.append('EmployeeID', $('#hdnEmployeeID').val());
             formData.append('DOB', $('#DOB').val());
-            formData.append('ModifyBy', h1);
+            formData.append('ModifyBy', 'Husnain Memon');
             formData.append('ModifyDate', currentDate);
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
             formData.append('Status', $('input[name="status"]:checked').val());
 
         }
 
         else {
-
-            formData.append('EmployeeID', $('#ddlEmp').val());
+            formData.append('AttendanceID', id);
+            formData.append('EmployeeID', $('#hdnEmployeeID').val());
             formData.append('DOB', $('#DOB').val());
-            formData.append('CreatedBy', h1);
+            formData.append('CreatedBy', 'Husnain Memon');
             formData.append('CreatedDate', currentDate);
             formData.append('Status', $('input[name="status"]:checked').val());
         }
