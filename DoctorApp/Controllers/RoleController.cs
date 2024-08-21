@@ -27,7 +27,7 @@ namespace DoctorApp.Controllersl
         [HttpPost]
         public JsonResult AddRole(Role r)
         {
-            r.CreatedDate = DateTime.Now;
+            //r.CreatedDate = DateTime.Now;
             db.Roles.Add(r);
             int c = db.SaveChanges();
             if (c > 0)
