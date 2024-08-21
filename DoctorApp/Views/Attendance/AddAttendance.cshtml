@@ -5,13 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
 <div class="content">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <h4 class="page-title">Add Attendance </h4>
         </div>
     </div>
-    <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div>
                 <div class="row">
@@ -65,13 +67,14 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 <script>
-
     function Add() {
-        debugger;
+        if (!ValidateTimeTable()) {
+            return false;
+        }        
         var currentDate = new Date().toISOString();
         var id = $('#hdnID').val();
         var formData = new FormData();
@@ -101,9 +104,8 @@
             processData: false, // Set processData to false
             data: formData,
             success: function (response) {
-                debugger;
-                if (response == 1) { // Assuming your response has a status field
-                    notifySuccess("Data Added Successfully");
+                if (response.success == true) { // Assuming your response has a status field
+                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
 
                     $('#exampleModal').find('.close').click();
                     Bind();
@@ -111,13 +113,48 @@
 
                     //window.location.href = '/Admin/DisplayTeacher';
                 } else {
-                    notifyDanger("Data Not Added");
+                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
                 }
             },
             error: function (xhr, status, error) {
-                debugger
                 console.error("Error:", xhr.responseText);
             }
         });
+    }
+
+
+    function notifyDanger(message) {
+        $('#notificationElement').html(message).addClass('large-text').show();
+        // Add your existing code to display the message
+    }
+
+
+    function ValidateTimeTable() {
+        if ($('#ddlEmp').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#ddlEmp').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Employee Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtDate').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtDate').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Date is Required !</span>');
+            return false;
+        }
+
+        else if ($('#input[name="status"]:checked').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#input[name="status"]:checked').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Status is Required !</span>');
+            return false;
+        }
+        return true;
     }
 </script>

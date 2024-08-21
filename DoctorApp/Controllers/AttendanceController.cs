@@ -31,21 +31,30 @@ namespace DoctorApp.Controllers
             ViewBag.employeenames = row;
             return View();
         }
-
+       
         [HttpPost]
         public JsonResult AddAttendance(Attendance a)
         {
-            a.CreatedDate = DateTime.Now;
-            db.Attendances.Add(a);
-            int c = db.SaveChanges();
-            if (c > 0)
+            var existingRecord = db.Attendances.FirstOrDefault(x => x.EmployeeID == a.EmployeeID && x.DOB == a.DOB);
+            if (existingRecord != null)
             {
-                return Json(new { success = true, message = "Leave added successfully." });
+                return Json(new { success = false, message = "Attendance for this date already exists." });
             }
             else
             {
-                return Json(new { success = false, message = "Error occurred while adding the Leave." });
+                db.Attendances.Add(a);
+                int c = db.SaveChanges();
+                if (c > 0)
+                {
+                    return Json(new { success = true, message = "Leave added successfully." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Error occurred while adding the Leave." });
+                }
             }
+
+           
         }
 
         public ActionResult EditAttendance(int id)

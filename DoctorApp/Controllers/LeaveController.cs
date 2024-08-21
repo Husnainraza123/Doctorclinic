@@ -40,7 +40,7 @@ namespace DoctorApp.Controllers
         [HttpPost]
         public JsonResult AddLeave(Leave_ l)
         {
-            l.CreatedDate = DateTime.Now;
+            
             db.Leave_.Add(l);
             int c = db.SaveChanges();
             if (c > 0)

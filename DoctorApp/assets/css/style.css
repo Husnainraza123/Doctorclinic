@@ -4914,3 +4914,14 @@ blockquote p {
 		margin-bottom: 10px;
 	}
 }
+
+.large-text {
+	font-size: 10px; /* Adjust this value as needed */
+	font-weight: bold;
+	color: red; /* Example to make the message stand out more */
+}
+
+#notificationElement {
+	font-size: 10px; /* Adjust this value as needed */
+	font-weight: bold;
+}

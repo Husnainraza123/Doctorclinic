@@ -432,6 +432,10 @@
     <Content Include="assets\js\popper.min.js" />
     <Content Include="assets\js\select2.min.js" />
     <Content Include="assets\js\tagsinput.js" />
+    <Content Include="assets\notify\Focus.js" />
+    <Content Include="assets\notify\notify.js" />
+    <Content Include="assets\notify\toastr.css" />
+    <Content Include="assets\notify\toastr.js" />
     <Content Include="assets\plugins\light-gallery\css\lightgallery.min.css" />
     <Content Include="assets\plugins\light-gallery\fonts\lgd641.svg" />
     <Content Include="assets\plugins\light-gallery\img\loading.gif" />
