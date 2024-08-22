@@ -162,6 +162,7 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="20" />
           <Property Name="Age" Type="int" />
           <Property Name="PostalCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Image" Type="nvarchar(max)" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" />
@@ -390,6 +391,7 @@
           <Parameter Name="Phone" Type="nvarchar" Mode="In" />
           <Parameter Name="Age" Type="int" Mode="In" />
           <Parameter Name="PostalCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Image" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
@@ -530,6 +532,7 @@
           <Parameter Name="Phone" Type="nvarchar" Mode="In" />
           <Parameter Name="Age" Type="int" Mode="In" />
           <Parameter Name="PostalCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Image" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="ModifyBy" Type="nvarchar" Mode="In" />
           <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
@@ -727,7 +730,53 @@
             <Parameter Name="PeriodTo" Mode="In" Type="DateTime" />
             <Parameter Name="ExperienceID" Mode="In" Type="Int32" />
           </FunctionImport>
-        
+          <EntitySet Name="Patients" EntityType="DoctorClinicModel.Patient" />
+          <FunctionImport Name="BrowsePatients_sp" ReturnType="Collection(DoctorClinicModel.BrowsePatients_sp_Result)" />
+          <FunctionImport Name="BrowsePatientsByID_sp" ReturnType="Collection(DoctorClinicModel.BrowsePatientsByID_sp_Result)">
+          <Parameter Name="PatientsID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeletePatient_sp">
+          <Parameter Name="PatientsID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertPatient_sp">
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="Province" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="PostalCode" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Image" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePatient_sp">
+            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="Province" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="PostalCode" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Image" Mode="In" Type="String" />
+            <Parameter Name="ModifyBy" Mode="In" Type="String" />
+            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="Appointments" EntityType="DoctorClinicModel.Appointment" />
           <EntitySet Name="Departments" EntityType="DoctorClinicModel.Department" />
           <FunctionImport Name="BrowseAppointmentByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseAppointmentByID_sp_Result)">
@@ -910,17 +959,17 @@
           <EntitySet Name="Holidays" EntityType="DoctorClinicModel.Holiday" />
           <FunctionImport Name="BrowseAttendance_sp" ReturnType="Collection(DoctorClinicModel.BrowseAttendance_sp_Result)" />
           <FunctionImport Name="BrowseAttendanceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseAttendanceByID_sp_Result)">
-          <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
+            <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="BrowseHoliday_sp" ReturnType="Collection(DoctorClinicModel.BrowseHoliday_sp_Result)" />
           <FunctionImport Name="BrowseHolidayByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseHolidayByID_sp_Result)">
-          <Parameter Name="HolidayID" Mode="In" Type="Int32" />
+            <Parameter Name="HolidayID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteAttendance_sp">
-          <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
+            <Parameter Name="AttendanceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteHoliday_sp">
-          <Parameter Name="HolidayID" Mode="In" Type="Int32" />
+            <Parameter Name="HolidayID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="insertAttendance_sp">
             <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
@@ -947,51 +996,6 @@
             <Parameter Name="HolidayID" Mode="In" Type="Int32" />
             <Parameter Name="HolidayName" Mode="In" Type="String" />
             <Parameter Name="Date" Mode="In" Type="DateTime" />
-            <Parameter Name="ModifyBy" Mode="In" Type="String" />
-            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Status" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="Patients" EntityType="DoctorClinicModel.Patient" />
-          <FunctionImport Name="BrowsePatients_sp" ReturnType="Collection(DoctorClinicModel.BrowsePatients_sp_Result)" />
-          <FunctionImport Name="BrowsePatientsByID_sp" ReturnType="Collection(DoctorClinicModel.BrowsePatientsByID_sp_Result)">
-            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="DeletePatient_sp">
-            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="insertPatient_sp">
-            <Parameter Name="FirstName" Mode="In" Type="String" />
-            <Parameter Name="LastName" Mode="In" Type="String" />
-            <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="DOB" Mode="In" Type="DateTime" />
-            <Parameter Name="Gender" Mode="In" Type="String" />
-            <Parameter Name="Address" Mode="In" Type="String" />
-            <Parameter Name="Country" Mode="In" Type="String" />
-            <Parameter Name="City" Mode="In" Type="String" />
-            <Parameter Name="Province" Mode="In" Type="String" />
-            <Parameter Name="Phone" Mode="In" Type="String" />
-            <Parameter Name="Age" Mode="In" Type="Int32" />
-            <Parameter Name="PostalCode" Mode="In" Type="String" />
-            <Parameter Name="Image" Mode="In" Type="String" />
-            <Parameter Name="CreatedBy" Mode="In" Type="String" />
-            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Status" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="UpdatePatient_sp">
-            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
-            <Parameter Name="FirstName" Mode="In" Type="String" />
-            <Parameter Name="LastName" Mode="In" Type="String" />
-            <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="DOB" Mode="In" Type="DateTime" />
-            <Parameter Name="Gender" Mode="In" Type="String" />
-            <Parameter Name="Address" Mode="In" Type="String" />
-            <Parameter Name="Country" Mode="In" Type="String" />
-            <Parameter Name="City" Mode="In" Type="String" />
-            <Parameter Name="Province" Mode="In" Type="String" />
-            <Parameter Name="Phone" Mode="In" Type="String" />
-            <Parameter Name="Age" Mode="In" Type="Int32" />
-            <Parameter Name="PostalCode" Mode="In" Type="String" />
-            <Parameter Name="Image" Mode="In" Type="String" />
             <Parameter Name="ModifyBy" Mode="In" Type="String" />
             <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
             <Parameter Name="Status" Mode="In" Type="String" />
@@ -1080,7 +1084,67 @@
           <Property Type="String" Name="UEmail" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="UPass" Nullable="false" MaxLength="15" />
         </ComplexType>
-       
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PatientsID" />
+          </Key>
+          <Property Name="PatientsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Province" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="PostalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="BrowsePatients_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Image" Nullable="true" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Province" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Age" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="BrowsePatientsByID_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Image" Nullable="true" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Province" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Age" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+        </ComplexType>
         <EntityType Name="Appointment">
           <Key>
             <PropertyRef Name="AppointmentID" />
@@ -1351,64 +1415,6 @@
           <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
         </ComplexType>
-        <EntityType Name="Patient">
-          <Key>
-            <PropertyRef Name="PatientsID" />
-          </Key>
-          <Property Name="PatientsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Province" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="PostalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <ComplexType Name="BrowsePatients_sp_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Image" Nullable="true" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="String" Name="Gender" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Address" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Province" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Age" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="BrowsePatientsByID_sp_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Image" Nullable="true" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="String" Name="Gender" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Address" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Province" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Age" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-        </ComplexType>
         
      
         
@@ -1590,7 +1596,79 @@
           <FunctionImportMapping FunctionImportName="UpdateDoctor_sp" FunctionName="DoctorClinicModel.Store.UpdateDoctor_sp" />
           <FunctionImportMapping FunctionImportName="UpdateEducationInformation_sp" FunctionName="DoctorClinicModel.Store.UpdateEducationInformation_sp" />
           <FunctionImportMapping FunctionImportName="UpdateExperienceInformation_sp" FunctionName="DoctorClinicModel.Store.UpdateExperienceInformation_sp" />
-         
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="DoctorClinicModel.Patient">
+              <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="PatientsID" ColumnName="PatientsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BrowsePatients_sp" FunctionName="DoctorClinicModel.Store.BrowsePatients_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowsePatients_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowsePatientsByID_sp" FunctionName="DoctorClinicModel.Store.BrowsePatientsByID_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowsePatientsByID_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeletePatient_sp" FunctionName="DoctorClinicModel.Store.DeletePatient_sp" />
+          <FunctionImportMapping FunctionImportName="insertPatient_sp" FunctionName="DoctorClinicModel.Store.insertPatient_sp" />
+          <FunctionImportMapping FunctionImportName="UpdatePatient_sp" FunctionName="DoctorClinicModel.Store.UpdatePatient_sp" />
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="DoctorClinicModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
@@ -1952,76 +2030,6 @@
           <FunctionImportMapping FunctionImportName="insertHoliday_sp" FunctionName="DoctorClinicModel.Store.insertHoliday_sp" />
           <FunctionImportMapping FunctionImportName="UpdateAttendance_sp" FunctionName="DoctorClinicModel.Store.UpdateAttendance_sp" />
           <FunctionImportMapping FunctionImportName="UpdateHoliday_sp" FunctionName="DoctorClinicModel.Store.UpdateHoliday_sp" />
-          <EntitySetMapping Name="Patients">
-            <EntityTypeMapping TypeName="DoctorClinicModel.Patient">
-              <MappingFragment StoreEntitySet="Patients">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="PatientsID" ColumnName="PatientsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="BrowsePatients_sp" FunctionName="DoctorClinicModel.Store.BrowsePatients_sp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowsePatients_sp_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="BrowsePatientsByID_sp" FunctionName="DoctorClinicModel.Store.BrowsePatientsByID_sp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowsePatientsByID_sp_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="DeletePatient_sp" FunctionName="DoctorClinicModel.Store.DeletePatient_sp" />
-          <FunctionImportMapping FunctionImportName="insertPatient_sp" FunctionName="DoctorClinicModel.Store.insertPatient_sp" />
-          <FunctionImportMapping FunctionImportName="UpdatePatient_sp" FunctionName="DoctorClinicModel.Store.UpdatePatient_sp" />
           
        
          

@@ -43,6 +43,8 @@ public partial class DoctorClinicEntities : DbContext
 
     public virtual DbSet<Doctor> Doctors { get; set; }
 
+    public virtual DbSet<Patient> Patients { get; set; }
+
     public virtual DbSet<Appointment> Appointments { get; set; }
 
     public virtual DbSet<Department> Departments { get; set; }
@@ -58,8 +60,6 @@ public partial class DoctorClinicEntities : DbContext
     public virtual DbSet<Attendance> Attendances { get; set; }
 
     public virtual DbSet<Holiday> Holidays { get; set; }
-
-    public virtual DbSet<Patient> Patients { get; set; }
 
 
     public virtual ObjectResult<BrowseDoctor_sp_Result> BrowseDoctor_sp()
@@ -482,6 +482,226 @@ public partial class DoctorClinicEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateExperienceInformation_sp", doctorIDParameter, companyNameParameter, positionParameter, periodFromParameter, periodToParameter, experienceIDParameter);
+    }
+
+
+    public virtual ObjectResult<BrowsePatients_sp_Result> BrowsePatients_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowsePatients_sp_Result>("BrowsePatients_sp");
+    }
+
+
+    public virtual ObjectResult<BrowsePatientsByID_sp_Result> BrowsePatientsByID_sp(Nullable<int> patientsID)
+    {
+
+        var patientsIDParameter = patientsID.HasValue ?
+            new ObjectParameter("PatientsID", patientsID) :
+            new ObjectParameter("PatientsID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowsePatientsByID_sp_Result>("BrowsePatientsByID_sp", patientsIDParameter);
+    }
+
+
+    public virtual int DeletePatient_sp(Nullable<int> patientsID)
+    {
+
+        var patientsIDParameter = patientsID.HasValue ?
+            new ObjectParameter("PatientsID", patientsID) :
+            new ObjectParameter("PatientsID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeletePatient_sp", patientsIDParameter);
+    }
+
+
+    public virtual int insertPatient_sp(string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string description, string image, string createdBy, Nullable<System.DateTime> createdDate, string status)
+    {
+
+        var firstNameParameter = firstName != null ?
+            new ObjectParameter("FirstName", firstName) :
+            new ObjectParameter("FirstName", typeof(string));
+
+
+        var lastNameParameter = lastName != null ?
+            new ObjectParameter("LastName", lastName) :
+            new ObjectParameter("LastName", typeof(string));
+
+
+        var emailParameter = email != null ?
+            new ObjectParameter("Email", email) :
+            new ObjectParameter("Email", typeof(string));
+
+
+        var dOBParameter = dOB.HasValue ?
+            new ObjectParameter("DOB", dOB) :
+            new ObjectParameter("DOB", typeof(System.DateTime));
+
+
+        var genderParameter = gender != null ?
+            new ObjectParameter("Gender", gender) :
+            new ObjectParameter("Gender", typeof(string));
+
+
+        var addressParameter = address != null ?
+            new ObjectParameter("Address", address) :
+            new ObjectParameter("Address", typeof(string));
+
+
+        var countryParameter = country != null ?
+            new ObjectParameter("Country", country) :
+            new ObjectParameter("Country", typeof(string));
+
+
+        var cityParameter = city != null ?
+            new ObjectParameter("City", city) :
+            new ObjectParameter("City", typeof(string));
+
+
+        var provinceParameter = province != null ?
+            new ObjectParameter("Province", province) :
+            new ObjectParameter("Province", typeof(string));
+
+
+        var phoneParameter = phone != null ?
+            new ObjectParameter("Phone", phone) :
+            new ObjectParameter("Phone", typeof(string));
+
+
+        var ageParameter = age.HasValue ?
+            new ObjectParameter("Age", age) :
+            new ObjectParameter("Age", typeof(int));
+
+
+        var postalCodeParameter = postalCode != null ?
+            new ObjectParameter("PostalCode", postalCode) :
+            new ObjectParameter("PostalCode", typeof(string));
+
+
+        var descriptionParameter = description != null ?
+            new ObjectParameter("Description", description) :
+            new ObjectParameter("Description", typeof(string));
+
+
+        var imageParameter = image != null ?
+            new ObjectParameter("Image", image) :
+            new ObjectParameter("Image", typeof(string));
+
+
+        var createdByParameter = createdBy != null ?
+            new ObjectParameter("CreatedBy", createdBy) :
+            new ObjectParameter("CreatedBy", typeof(string));
+
+
+        var createdDateParameter = createdDate.HasValue ?
+            new ObjectParameter("CreatedDate", createdDate) :
+            new ObjectParameter("CreatedDate", typeof(System.DateTime));
+
+
+        var statusParameter = status != null ?
+            new ObjectParameter("Status", status) :
+            new ObjectParameter("Status", typeof(string));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertPatient_sp", firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, descriptionParameter, imageParameter, createdByParameter, createdDateParameter, statusParameter);
+    }
+
+
+    public virtual int UpdatePatient_sp(Nullable<int> patientsID, string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string description, string image, string modifyBy, Nullable<System.DateTime> modifyDate, string status)
+    {
+
+        var patientsIDParameter = patientsID.HasValue ?
+            new ObjectParameter("PatientsID", patientsID) :
+            new ObjectParameter("PatientsID", typeof(int));
+
+
+        var firstNameParameter = firstName != null ?
+            new ObjectParameter("FirstName", firstName) :
+            new ObjectParameter("FirstName", typeof(string));
+
+
+        var lastNameParameter = lastName != null ?
+            new ObjectParameter("LastName", lastName) :
+            new ObjectParameter("LastName", typeof(string));
+
+
+        var emailParameter = email != null ?
+            new ObjectParameter("Email", email) :
+            new ObjectParameter("Email", typeof(string));
+
+
+        var dOBParameter = dOB.HasValue ?
+            new ObjectParameter("DOB", dOB) :
+            new ObjectParameter("DOB", typeof(System.DateTime));
+
+
+        var genderParameter = gender != null ?
+            new ObjectParameter("Gender", gender) :
+            new ObjectParameter("Gender", typeof(string));
+
+
+        var addressParameter = address != null ?
+            new ObjectParameter("Address", address) :
+            new ObjectParameter("Address", typeof(string));
+
+
+        var countryParameter = country != null ?
+            new ObjectParameter("Country", country) :
+            new ObjectParameter("Country", typeof(string));
+
+
+        var cityParameter = city != null ?
+            new ObjectParameter("City", city) :
+            new ObjectParameter("City", typeof(string));
+
+
+        var provinceParameter = province != null ?
+            new ObjectParameter("Province", province) :
+            new ObjectParameter("Province", typeof(string));
+
+
+        var phoneParameter = phone != null ?
+            new ObjectParameter("Phone", phone) :
+            new ObjectParameter("Phone", typeof(string));
+
+
+        var ageParameter = age.HasValue ?
+            new ObjectParameter("Age", age) :
+            new ObjectParameter("Age", typeof(int));
+
+
+        var postalCodeParameter = postalCode != null ?
+            new ObjectParameter("PostalCode", postalCode) :
+            new ObjectParameter("PostalCode", typeof(string));
+
+
+        var descriptionParameter = description != null ?
+            new ObjectParameter("Description", description) :
+            new ObjectParameter("Description", typeof(string));
+
+
+        var imageParameter = image != null ?
+            new ObjectParameter("Image", image) :
+            new ObjectParameter("Image", typeof(string));
+
+
+        var modifyByParameter = modifyBy != null ?
+            new ObjectParameter("ModifyBy", modifyBy) :
+            new ObjectParameter("ModifyBy", typeof(string));
+
+
+        var modifyDateParameter = modifyDate.HasValue ?
+            new ObjectParameter("ModifyDate", modifyDate) :
+            new ObjectParameter("ModifyDate", typeof(System.DateTime));
+
+
+        var statusParameter = status != null ?
+            new ObjectParameter("Status", status) :
+            new ObjectParameter("Status", typeof(string));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdatePatient_sp", patientsIDParameter, firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, descriptionParameter, imageParameter, modifyByParameter, modifyDateParameter, statusParameter);
     }
 
 
@@ -1469,216 +1689,6 @@ public partial class DoctorClinicEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateHoliday_sp", holidayIDParameter, holidayNameParameter, dateParameter, modifyByParameter, modifyDateParameter, statusParameter);
-    }
-
-
-    public virtual ObjectResult<BrowsePatients_sp_Result> BrowsePatients_sp()
-    {
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowsePatients_sp_Result>("BrowsePatients_sp");
-    }
-
-
-    public virtual ObjectResult<BrowsePatientsByID_sp_Result> BrowsePatientsByID_sp(Nullable<int> patientsID)
-    {
-
-        var patientsIDParameter = patientsID.HasValue ?
-            new ObjectParameter("PatientsID", patientsID) :
-            new ObjectParameter("PatientsID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowsePatientsByID_sp_Result>("BrowsePatientsByID_sp", patientsIDParameter);
-    }
-
-
-    public virtual int DeletePatient_sp(Nullable<int> patientsID)
-    {
-
-        var patientsIDParameter = patientsID.HasValue ?
-            new ObjectParameter("PatientsID", patientsID) :
-            new ObjectParameter("PatientsID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeletePatient_sp", patientsIDParameter);
-    }
-
-
-    public virtual int insertPatient_sp(string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string image, string createdBy, Nullable<System.DateTime> createdDate, string status)
-    {
-
-        var firstNameParameter = firstName != null ?
-            new ObjectParameter("FirstName", firstName) :
-            new ObjectParameter("FirstName", typeof(string));
-
-
-        var lastNameParameter = lastName != null ?
-            new ObjectParameter("LastName", lastName) :
-            new ObjectParameter("LastName", typeof(string));
-
-
-        var emailParameter = email != null ?
-            new ObjectParameter("Email", email) :
-            new ObjectParameter("Email", typeof(string));
-
-
-        var dOBParameter = dOB.HasValue ?
-            new ObjectParameter("DOB", dOB) :
-            new ObjectParameter("DOB", typeof(System.DateTime));
-
-
-        var genderParameter = gender != null ?
-            new ObjectParameter("Gender", gender) :
-            new ObjectParameter("Gender", typeof(string));
-
-
-        var addressParameter = address != null ?
-            new ObjectParameter("Address", address) :
-            new ObjectParameter("Address", typeof(string));
-
-
-        var countryParameter = country != null ?
-            new ObjectParameter("Country", country) :
-            new ObjectParameter("Country", typeof(string));
-
-
-        var cityParameter = city != null ?
-            new ObjectParameter("City", city) :
-            new ObjectParameter("City", typeof(string));
-
-
-        var provinceParameter = province != null ?
-            new ObjectParameter("Province", province) :
-            new ObjectParameter("Province", typeof(string));
-
-
-        var phoneParameter = phone != null ?
-            new ObjectParameter("Phone", phone) :
-            new ObjectParameter("Phone", typeof(string));
-
-
-        var ageParameter = age.HasValue ?
-            new ObjectParameter("Age", age) :
-            new ObjectParameter("Age", typeof(int));
-
-
-        var postalCodeParameter = postalCode != null ?
-            new ObjectParameter("PostalCode", postalCode) :
-            new ObjectParameter("PostalCode", typeof(string));
-
-
-        var imageParameter = image != null ?
-            new ObjectParameter("Image", image) :
-            new ObjectParameter("Image", typeof(string));
-
-
-        var createdByParameter = createdBy != null ?
-            new ObjectParameter("CreatedBy", createdBy) :
-            new ObjectParameter("CreatedBy", typeof(string));
-
-
-        var createdDateParameter = createdDate.HasValue ?
-            new ObjectParameter("CreatedDate", createdDate) :
-            new ObjectParameter("CreatedDate", typeof(System.DateTime));
-
-
-        var statusParameter = status != null ?
-            new ObjectParameter("Status", status) :
-            new ObjectParameter("Status", typeof(string));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertPatient_sp", firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, imageParameter, createdByParameter, createdDateParameter, statusParameter);
-    }
-
-
-    public virtual int UpdatePatient_sp(Nullable<int> patientsID, string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string image, string modifyBy, Nullable<System.DateTime> modifyDate, string status)
-    {
-
-        var patientsIDParameter = patientsID.HasValue ?
-            new ObjectParameter("PatientsID", patientsID) :
-            new ObjectParameter("PatientsID", typeof(int));
-
-
-        var firstNameParameter = firstName != null ?
-            new ObjectParameter("FirstName", firstName) :
-            new ObjectParameter("FirstName", typeof(string));
-
-
-        var lastNameParameter = lastName != null ?
-            new ObjectParameter("LastName", lastName) :
-            new ObjectParameter("LastName", typeof(string));
-
-
-        var emailParameter = email != null ?
-            new ObjectParameter("Email", email) :
-            new ObjectParameter("Email", typeof(string));
-
-
-        var dOBParameter = dOB.HasValue ?
-            new ObjectParameter("DOB", dOB) :
-            new ObjectParameter("DOB", typeof(System.DateTime));
-
-
-        var genderParameter = gender != null ?
-            new ObjectParameter("Gender", gender) :
-            new ObjectParameter("Gender", typeof(string));
-
-
-        var addressParameter = address != null ?
-            new ObjectParameter("Address", address) :
-            new ObjectParameter("Address", typeof(string));
-
-
-        var countryParameter = country != null ?
-            new ObjectParameter("Country", country) :
-            new ObjectParameter("Country", typeof(string));
-
-
-        var cityParameter = city != null ?
-            new ObjectParameter("City", city) :
-            new ObjectParameter("City", typeof(string));
-
-
-        var provinceParameter = province != null ?
-            new ObjectParameter("Province", province) :
-            new ObjectParameter("Province", typeof(string));
-
-
-        var phoneParameter = phone != null ?
-            new ObjectParameter("Phone", phone) :
-            new ObjectParameter("Phone", typeof(string));
-
-
-        var ageParameter = age.HasValue ?
-            new ObjectParameter("Age", age) :
-            new ObjectParameter("Age", typeof(int));
-
-
-        var postalCodeParameter = postalCode != null ?
-            new ObjectParameter("PostalCode", postalCode) :
-            new ObjectParameter("PostalCode", typeof(string));
-
-
-        var imageParameter = image != null ?
-            new ObjectParameter("Image", image) :
-            new ObjectParameter("Image", typeof(string));
-
-
-        var modifyByParameter = modifyBy != null ?
-            new ObjectParameter("ModifyBy", modifyBy) :
-            new ObjectParameter("ModifyBy", typeof(string));
-
-
-        var modifyDateParameter = modifyDate.HasValue ?
-            new ObjectParameter("ModifyDate", modifyDate) :
-            new ObjectParameter("ModifyDate", typeof(System.DateTime));
-
-
-        var statusParameter = status != null ?
-            new ObjectParameter("Status", status) :
-            new ObjectParameter("Status", typeof(string));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdatePatient_sp", patientsIDParameter, firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, imageParameter, modifyByParameter, modifyDateParameter, statusParameter);
     }
 
 }

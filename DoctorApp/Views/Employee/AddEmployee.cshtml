@@ -135,9 +135,6 @@
 
 
     function Add() {
-        if (!ValidateTimeTable()) {
-            return false;
-        }
         debugger;
         /*var imgFiles = $("#EmployeeImage")[0];*/
         var currentDate = new Date().toISOString();
@@ -195,8 +192,9 @@
             processData: false, // Set processData to false
             data: formData,
             success: function (response) {
-                if (response.success == true) { // Assuming your response has a status field
-                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
+                debugger;
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
 
                     $('#exampleModal').find('.close').click();
                     Bind();
@@ -204,7 +202,7 @@
 
                     //window.location.href = '/Admin/DisplayTeacher';
                 } else {
-                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
+                    notifyDanger("Data Not Added");
                 }
             },
             error: function (xhr, status, error) {
@@ -213,70 +211,5 @@
             }
         });
 
-    }
-    function notifyDanger(message) {
-        $('#notificationElement').html(message).addClass('large-text').show();
-        // Add your existing code to display the message
-    }
-
-
-    function ValidateTimeTable() {
-        if ($('#txtFName').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtFName').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">First Name is Required !</span>');
-            return false;
-        }
-        else if ($('#txtLName').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtLName').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Last Name is Required !</span>');
-            return false;
-        }
-        else if ($('#ddlRole').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#ddlRole').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Email is Required !</span>');
-            return false;
-        }
-        if ($('#txtEmail').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtEmail').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Date  is Required !</span>');
-            return false;
-        }
-        else if ($('#txtDate').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtDate').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Addrees is Required !</span>');
-            return false;
-        }
-        if ($('#txtPhone').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtPhone').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Country is Required !</span>');
-            return false;
-        }
-        else if ($('#input[name="status"]:checked').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#input[name="status"]:checked').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Status is Required !</span>');
-            return false;
-        }
-        return true;
     }
 </script>
