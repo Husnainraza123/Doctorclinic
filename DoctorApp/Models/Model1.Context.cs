@@ -516,7 +516,7 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual int insertPatient_sp(string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string description, string image, string createdBy, Nullable<System.DateTime> createdDate, string status)
+    public virtual int insertPatient_sp(string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string image, string createdBy, Nullable<System.DateTime> createdDate, string status)
     {
 
         var firstNameParameter = firstName != null ?
@@ -579,11 +579,6 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("PostalCode", typeof(string));
 
 
-        var descriptionParameter = description != null ?
-            new ObjectParameter("Description", description) :
-            new ObjectParameter("Description", typeof(string));
-
-
         var imageParameter = image != null ?
             new ObjectParameter("Image", image) :
             new ObjectParameter("Image", typeof(string));
@@ -604,11 +599,11 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("Status", typeof(string));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertPatient_sp", firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, descriptionParameter, imageParameter, createdByParameter, createdDateParameter, statusParameter);
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertPatient_sp", firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, imageParameter, createdByParameter, createdDateParameter, statusParameter);
     }
 
 
-    public virtual int UpdatePatient_sp(Nullable<int> patientsID, string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string description, string image, string modifyBy, Nullable<System.DateTime> modifyDate, string status)
+    public virtual int UpdatePatient_sp(Nullable<int> patientsID, string firstName, string lastName, string email, Nullable<System.DateTime> dOB, string gender, string address, string country, string city, string province, string phone, Nullable<int> age, string postalCode, string image, string modifyBy, Nullable<System.DateTime> modifyDate, string status)
     {
 
         var patientsIDParameter = patientsID.HasValue ?
@@ -676,11 +671,6 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("PostalCode", typeof(string));
 
 
-        var descriptionParameter = description != null ?
-            new ObjectParameter("Description", description) :
-            new ObjectParameter("Description", typeof(string));
-
-
         var imageParameter = image != null ?
             new ObjectParameter("Image", image) :
             new ObjectParameter("Image", typeof(string));
@@ -701,7 +691,7 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("Status", typeof(string));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdatePatient_sp", patientsIDParameter, firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, descriptionParameter, imageParameter, modifyByParameter, modifyDateParameter, statusParameter);
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdatePatient_sp", patientsIDParameter, firstNameParameter, lastNameParameter, emailParameter, dOBParameter, genderParameter, addressParameter, countryParameter, cityParameter, provinceParameter, phoneParameter, ageParameter, postalCodeParameter, imageParameter, modifyByParameter, modifyDateParameter, statusParameter);
     }
 
 
@@ -1516,25 +1506,6 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual ObjectResult<BrowseHoliday_sp_Result> BrowseHoliday_sp()
-    {
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseHoliday_sp_Result>("BrowseHoliday_sp");
-    }
-
-
-    public virtual ObjectResult<BrowseHolidayByID_sp_Result> BrowseHolidayByID_sp(Nullable<int> holidayID)
-    {
-
-        var holidayIDParameter = holidayID.HasValue ?
-            new ObjectParameter("HolidayID", holidayID) :
-            new ObjectParameter("HolidayID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseHolidayByID_sp_Result>("BrowseHolidayByID_sp", holidayIDParameter);
-    }
-
-
     public virtual int DeleteAttendance_sp(Nullable<int> attendanceID)
     {
 
@@ -1591,33 +1562,6 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual int insertHoliday_sp(string holidayName, Nullable<System.DateTime> date, string createdBy, Nullable<System.DateTime> createdDate)
-    {
-
-        var holidayNameParameter = holidayName != null ?
-            new ObjectParameter("HolidayName", holidayName) :
-            new ObjectParameter("HolidayName", typeof(string));
-
-
-        var dateParameter = date.HasValue ?
-            new ObjectParameter("Date", date) :
-            new ObjectParameter("Date", typeof(System.DateTime));
-
-
-        var createdByParameter = createdBy != null ?
-            new ObjectParameter("CreatedBy", createdBy) :
-            new ObjectParameter("CreatedBy", typeof(string));
-
-
-        var createdDateParameter = createdDate.HasValue ?
-            new ObjectParameter("CreatedDate", createdDate) :
-            new ObjectParameter("CreatedDate", typeof(System.DateTime));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertHoliday_sp", holidayNameParameter, dateParameter, createdByParameter, createdDateParameter);
-    }
-
-
     public virtual int UpdateAttendance_sp(Nullable<int> employeeID, Nullable<System.DateTime> dOB, string modifyBy, Nullable<System.DateTime> modifyDate, string status, Nullable<int> attendanceID)
     {
 
@@ -1655,7 +1599,58 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual int UpdateHoliday_sp(Nullable<int> holidayID, string holidayName, Nullable<System.DateTime> date, string modifyBy, Nullable<System.DateTime> modifyDate, string status)
+    public virtual ObjectResult<BrowseHoliday_sp_Result> BrowseHoliday_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseHoliday_sp_Result>("BrowseHoliday_sp");
+    }
+
+
+    public virtual ObjectResult<BrowseHolidayByID_sp_Result> BrowseHolidayByID_sp(Nullable<int> holidayID)
+    {
+
+        var holidayIDParameter = holidayID.HasValue ?
+            new ObjectParameter("HolidayID", holidayID) :
+            new ObjectParameter("HolidayID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseHolidayByID_sp_Result>("BrowseHolidayByID_sp", holidayIDParameter);
+    }
+
+
+    public virtual int insertHoliday_sp(string holidayName, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string createdBy, Nullable<System.DateTime> createdDate)
+    {
+
+        var holidayNameParameter = holidayName != null ?
+            new ObjectParameter("HolidayName", holidayName) :
+            new ObjectParameter("HolidayName", typeof(string));
+
+
+        var startDateParameter = startDate.HasValue ?
+            new ObjectParameter("StartDate", startDate) :
+            new ObjectParameter("StartDate", typeof(System.DateTime));
+
+
+        var endDateParameter = endDate.HasValue ?
+            new ObjectParameter("EndDate", endDate) :
+            new ObjectParameter("EndDate", typeof(System.DateTime));
+
+
+        var createdByParameter = createdBy != null ?
+            new ObjectParameter("CreatedBy", createdBy) :
+            new ObjectParameter("CreatedBy", typeof(string));
+
+
+        var createdDateParameter = createdDate.HasValue ?
+            new ObjectParameter("CreatedDate", createdDate) :
+            new ObjectParameter("CreatedDate", typeof(System.DateTime));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertHoliday_sp", holidayNameParameter, startDateParameter, endDateParameter, createdByParameter, createdDateParameter);
+    }
+
+
+    public virtual int UpdateHoliday_sp(Nullable<int> holidayID, string holidayName, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string modifyBy, Nullable<System.DateTime> modifyDate, string status)
     {
 
         var holidayIDParameter = holidayID.HasValue ?
@@ -1668,9 +1663,14 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("HolidayName", typeof(string));
 
 
-        var dateParameter = date.HasValue ?
-            new ObjectParameter("Date", date) :
-            new ObjectParameter("Date", typeof(System.DateTime));
+        var startDateParameter = startDate.HasValue ?
+            new ObjectParameter("StartDate", startDate) :
+            new ObjectParameter("StartDate", typeof(System.DateTime));
+
+
+        var endDateParameter = endDate.HasValue ?
+            new ObjectParameter("EndDate", endDate) :
+            new ObjectParameter("EndDate", typeof(System.DateTime));
 
 
         var modifyByParameter = modifyBy != null ?
@@ -1688,7 +1688,7 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("Status", typeof(string));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateHoliday_sp", holidayIDParameter, holidayNameParameter, dateParameter, modifyByParameter, modifyDateParameter, statusParameter);
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateHoliday_sp", holidayIDParameter, holidayNameParameter, startDateParameter, endDateParameter, modifyByParameter, modifyDateParameter, statusParameter);
     }
 
 }

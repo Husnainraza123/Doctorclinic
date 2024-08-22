@@ -22,7 +22,9 @@ public partial class Holiday
 
     public string HolidayName { get; set; }
 
-    public System.DateTime Date { get; set; }
+    public System.DateTime StartDate { get; set; }
+
+    public System.DateTime EndDate { get; set; }
 
     public string CreatedBy { get; set; }
 

@@ -21,7 +21,9 @@ public partial class BrowseHoliday_sp_Result
 
     public string Name { get; set; }
 
-    public System.DateTime Date { get; set; }
+    public System.DateTime StartDate { get; set; }
+
+    public System.DateTime EndDate { get; set; }
 
 }
 
