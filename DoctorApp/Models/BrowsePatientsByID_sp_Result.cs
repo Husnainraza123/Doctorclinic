@@ -45,8 +45,6 @@ public partial class BrowsePatientsByID_sp_Result
 
     public Nullable<int> Age { get; set; }
 
-    public string Description { get; set; }
-
     public string Status { get; set; }
 
 }

@@ -189,6 +189,9 @@
 
 
     function Add() {
+        if (!ValidateTimeTable()) {
+            return false;
+        }
         debugger;
         /*var imgFiles = $("#PatientImage")[0];*/
         var currentDate = new Date().toISOString();
@@ -271,9 +274,8 @@
             processData: false, // Set processData to false
             data: formData,
             success: function (response) {
-                debugger;
-                if (response.data == 1) { // Assuming your response has a status field
-                    notifySuccess("Data Added Successfully");
+                if (response.success == true) { // Assuming your response has a status field
+                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
 
                     $('#exampleModal').find('.close').click();
                     Bind();
@@ -281,7 +283,7 @@
 
                     //window.location.href = '/Admin/DisplayTeacher';
                 } else {
-                    notifyDanger("Data Not Added");
+                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
                 }
             },
             error: function (xhr, status, error) {
@@ -291,7 +293,114 @@
         });
 
     }
+    function ValidateTimeTable() {
+        if ($('#txtFName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtFName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">First Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtLName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtLName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Last Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtEmail').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtEmail').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Email is Required !</span>');
+            return false;
+        }
+        if ($('#txtDate').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtDate').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Date  is Required !</span>');
+            return false;
+        }
+        else if ($('#txtAdd').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtAdd').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Addrees is Required !</span>');
+            return false;
+        }
+        if ($('#Country').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#Country').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Country is Required !</span>');
+            return false;
+        }
+        else if ($('#txtCity').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtCity').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">City is Required !</span>');
+            return false;
+        }
+        if ($('#StateProvince').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#StateProvince').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Province is Required !</span>');
+            return false;
+        }
+        else if ($('#txtPostal').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtPostal').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Postal is Required !</span>');
+            return false;
+        }
 
+        if ($('#txtPhone').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtPhone').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Phone is Required !</span>');
+            return false;
+        }
+        else if ($('#txtAge').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtAge').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Age is Required !</span>');
+            return false;
+        }
+        else if ($('#txtdes').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtdes').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Description is Required !</span>');
+            return false;
+        }
+        else if ($('#input[name="status"]:checked').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#input[name="status"]:checked').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Status is Required !</span>');
+            return false;
+        }
+        return true;
+    }
 
    
 

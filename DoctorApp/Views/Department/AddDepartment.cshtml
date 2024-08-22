@@ -54,6 +54,9 @@
         }
     }
     function Add() {
+        if (!ValidateTimeTable()) {
+            return false;
+        }cccl
         debugger;
         var id = $('#hdnID').val();
         var formData = new FormData();
@@ -105,6 +108,33 @@
             }
         });
 
+    }
+
+
+    function notifyDanger(message) {
+        $('#notificationElement').html(message).addClass('large-text').show();
+        // Add your existing code to display the message
+    }
+
+
+    function ValidateTimeTable() {
+        if ($('#txtName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Role Name is Required !</span>');
+            return false;
+        }
+        else if ($('#input[name="status"]:checked').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#input[name="status"]:checked').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Status is Required !</span>');
+            return false;
+        }
+        return true;
     }
 </script>
 
