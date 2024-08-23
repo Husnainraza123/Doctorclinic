@@ -1,0 +1,49 @@
+﻿@model DoctorApp.Models.Holiday
+
+@{
+    ViewBag.Title = "AddHoliday";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Add Holiday</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-lg-8 offset-lg-2">
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Holiday Name  <span class="text-danger">*</span></label>
+                            <input ID="txtFName" ClientIDMode="Static" class="form-control" placeholder="Holiday-Name" />
+                        </div>
+                    </div>
+                   
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Start Date <span class="text-danger">*</span></label>
+                            <input ID="txtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>End Date<span class="text-danger">*</span></label>
+                            <div class="cal-icon">
+                                <input ID="txtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-t-20 text-center">
+                  
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Holiday</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

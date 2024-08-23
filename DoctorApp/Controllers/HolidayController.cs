@@ -20,5 +20,9 @@ namespace DoctorApp.Controllers
             List<Holiday> dc = db.Holidays.ToList();
             return View(dc);
         }
+        public ActionResult AddHoliday()
+        {
+            return View();
+        }
     }
 }
