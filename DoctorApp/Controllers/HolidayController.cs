@@ -24,5 +24,20 @@ namespace DoctorApp.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public JsonResult AddHoliday(Holiday h)
+        {
+            //r.CreatedDate = DateTime.Now;
+            db.Holidays.Add(h);
+            int c = db.SaveChanges();
+            if (c > 0)
+            {
+                return Json(new { success = true, message = "Holiday added successfully." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Error occurred while adding the Role." });
+            }
+        }
     }
 }

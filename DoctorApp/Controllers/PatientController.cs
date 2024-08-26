@@ -25,8 +25,6 @@ namespace DoctorApp.Controllers
         {
             return View();
         }
-
-
         [HttpPost]
         public JsonResult AddPatient(Patient p)
         {
