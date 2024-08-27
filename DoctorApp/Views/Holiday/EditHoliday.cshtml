@@ -1,7 +1,7 @@
 ﻿@model DoctorApp.Models.Holiday
 
 @{
-    ViewBag.Title = "AddHoliday";
+    ViewBag.Title = "EditHoliday";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,6 +11,7 @@
             <h4 class="page-title">Add Holiday</h4>
         </div>
     </div>
+    @Html.HiddenFor(x => x.HolidayID, new { id = "hdnID" })
     <div class="row">
         <div class=" col-lg-8 offset-lg-2">
             <div>
@@ -18,7 +19,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Holiday Name  <span class="text-danger">*</span></label>
-                            <input ID="txtFName" ClientIDMode="Static" class="form-control" placeholder="Holiday-Name" />
+                            @Html.EditorFor(model => model.HolidayName, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
 
@@ -26,7 +27,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Start Date <span class="text-danger">*</span></label>
-                            <input ID="txtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
 
@@ -34,20 +35,19 @@
                         <div class="form-group">
                             <label>End Date<span class="text-danger">*</span></label>
                             <div class="cal-icon">
-                                <input ID="EndtxtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="m-t-20 text-center">
-
-                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Holiday</button>
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 15px;">Save Holiday</button>
+                    @*<button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 15px;">Save Holiday</button>*@
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     function readURL(input, hiddenInputId) {
         if (input.files && input.files[0]) {
@@ -61,24 +61,21 @@
     }
 
     // Function to handle image upload
-    function Add() {
-        if (!ValidateTimeTable()) {
-            return false;
-        }
+    function Edit() {
+        
         debugger;
         /*var imgFiles = $("#PatientImage")[0];*/
         var currentDate = new Date().toISOString();
-        var hdnimg = $('#hdnImg').val();
-
-
         var id = $('#hdnID').val();
-
         var formData = new FormData();
 
         if (id > 0) {
-            formData.append('HolidayName', $('#txtFName').val());
-            formData.append('StartDate', $('#txtDate').val());
-            formData.append('EndDate', $('#EndtxtDate').val());
+            formData.append('HolidayID', id);
+            formData.append('HolidayName', $('#HolidayName').val());
+            formData.append('StartDate', $('#StartDate').val());
+            formData.append('EndDate', $('#EndDate').val());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
             formData.append('ModifyBy', 'Husnain Memon');
             formData.append('ModifyDate', currentDate);
 
@@ -86,17 +83,17 @@
         }
 
         else {
-
-            formData.append('HolidayName', $('#txtFName').val());
-            formData.append('StartDate', $('#txtDate').val());
-            formData.append('EndDate', $('#EndtxtDate').val());
+            formData.append('HolidayID', id);
+            formData.append('HolidayName', $('#HolidayName').val());
+            formData.append('StartDate', $('#StartDate').val());
+            formData.append('EndDate', $('#EndDate').val());
             formData.append('CreatedBy', 'Husnain Memon');
             formData.append('CreatedDate', currentDate);
 
         }
 
         $.ajax({
-            url: "/Holiday/AddHoliday",
+            url: "/Holiday/EditHoliday",
             dataType: "json", // Lowercase "json"
             type: "POST",
             contentType: false, // Set contentType to false
@@ -104,17 +101,16 @@
             data: formData,
             success: function (response) {
                 debugger;
-                if (response.success == true) { // Assuming your response has a status field
-                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
-                    clearfield();
+                if (response == 1) { // Assuming your response has a status field
+                    notifySuccess("Data Added Successfully");
 
                     $('#exampleModal').find('.close').click();
-     
+                    Bind();
 
 
                     //window.location.href = '/Admin/DisplayTeacher';
                 } else {
-                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
+                    notifyDanger("Data Not Added");
                 }
             },
             error: function (xhr, status, error) {
@@ -124,47 +120,4 @@
         });
 
     }
-
-    function notifyDanger(message) {
-        $('#notificationElement').html(message).addClass('large-text').show();
-        // Add your existing code to display the message
-    }
-
-
-    function ValidateTimeTable() {
-        if ($('#txtFName').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtFName').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Holiday Name is Required !</span>');
-            return false;
-        }
-        else if ($('#txtDate').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#txtDate').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Start Date is Required !</span>');
-            return false;
-        }
-        else if ($('#EndtxtDate').val() == '') {
-            $("html, body").animate({
-                scrollTop: 500
-            }, 1500);
-            $('#EndtxtDate').focus();
-            notifyDanger('<span style="font-size: 15px; font-weight: bold;">End Date is Required !</span>');
-            return false;
-        }
-        return true;
-    }
-
-    function clearfield() {
-
-        $('#txtFName').val('');
-        $('#txtDate').val('');
-        $('#EndtxtDate').val('');
-
-    }
-
 </script>
