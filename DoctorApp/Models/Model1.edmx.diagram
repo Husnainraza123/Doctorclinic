@@ -18,6 +18,8 @@
         <EntityTypeShape EntityType="DoctorClinicModel.Leave_" Width="1.5" PointX="9.375" PointY="4.75" />
         <EntityTypeShape EntityType="DoctorClinicModel.Attendance" Width="1.5" PointX="7.375" PointY="9.75" />
         <EntityTypeShape EntityType="DoctorClinicModel.Holiday" Width="1.5" PointX="9.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DoctorClinicModel.CodeType" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DoctorClinicModel.Invoice" Width="1.5" PointX="11.375" PointY="3.75" />
       </Diagram>
       <Diagram DiagramId="7abb58c62c4742d3b4d1beaaeb5982b7" Name="Diagram2" >
         <EntityTypeShape EntityType="DoctorClinicModel.Schedule" Width="1.5" PointX="0.75" PointY="0.75" />

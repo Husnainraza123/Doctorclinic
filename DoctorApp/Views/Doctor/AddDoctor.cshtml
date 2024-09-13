@@ -25,14 +25,15 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Last Name</label>
-                                <input ID="txtLName" ClientIDMode="Static"  class="form-control" placeholder="Last-Name" />
+                                <input ID="txtLName" ClientIDMode="Static" class="form-control" placeholder="Last-Name" />
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Email <span class="text-danger">*</span></label>
-                                <input ID="txtEmail" ClientIDMode="Static"  class="form-control" placeholder="Email" />
+
+                                <input ID="txtEmail" ClientIDMode="Static" class="form-control" placeholder="Email" />
                             </div>
                         </div>
 
@@ -40,7 +41,7 @@
                             <div class="form-group">
                                 <label>Date of Birth</label>
                                 <div class="cal-icon">
-                                    <input ID="txtDate" ClientIDMode="Static" type="date"  class="form-control" placeholder="YYYY-MM-DD" />
+                                    <input ID="txtDate" ClientIDMode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
 
                                 </div>
                             </div>
@@ -66,7 +67,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Address</label>
-                                <input ID="txtAdd" ClientIDMode="Static"  class="form-control" placeholder="Address" />
+                                <input ID="txtAdd" ClientIDMode="Static" class="form-control" placeholder="Address" />
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -91,7 +92,7 @@
                                 <div class="col-sm-6 col-md-6 col-lg-3">
                                     <div class="form-group">
                                         <label>City</label>
-                                        <input ID="txtCity" ClientIDMode="Static"  class="form-control" placeholder="City" />
+                                        <input ID="txtCity" ClientIDMode="Static" class="form-control" placeholder="City" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-3">
@@ -113,7 +114,7 @@
                                 <div class="col-sm-6 col-md-6 col-lg-3">
                                     <div class="form-group">
                                         <label>Postal Code</label>
-                                        <input ID="txtPostal" ClientIDMode="Static"  class="form-control" placeholder="Postal-Code" />
+                                        <input ID="txtPostal" ClientIDMode="Static" class="form-control" placeholder="Postal-Code" />
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +122,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone </label>
-                                <input ID="txtPhone" ClientIDMode="Static"  class="form-control" placeholder="Phone" />
+                                <input ID="txtPhone" ClientIDMode="Static" class="form-control" placeholder="Phone" />
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -141,8 +142,8 @@
                     </div>
                     <div class="form-group">
                         <label>Short Biography</label>
-                        <input ID="txtdes" ClientIDMode="Static"  class="form-control" placeholder="Description" />
-                    @*<input type="hidden" id="hdnID" />*@
+                        <input ID="txtdes" ClientIDMode="Static" class="form-control" placeholder="Description" />
+                        @*<input type="hidden" id="hdnID" />*@
                     </div>
 
                     <div class="m-t-20 text-center">
@@ -161,6 +162,8 @@
 
 
 <script>
+
+
     function readURL(input, hiddenInputId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -189,7 +192,15 @@
 
 
     function Add() {
+
+        if (!ValidateTimeTable()) {
+            return false;
+        }
         debugger;
+
+
+
+
         /*var imgFiles = $("#PatientImage")[0];*/
         var currentDate = new Date().toISOString();
         var hdnimg = $('#hdnImg').val();
@@ -271,9 +282,8 @@
             processData: false, // Set processData to false
             data: formData,
             success: function (response) {
-                debugger;
-                if (response.data == 1) { // Assuming your response has a status field
-                    notifySuccess("Data Added Successfully");
+                if (response.success == true) { // Assuming your response has a status field
+                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
 
                     $('#exampleModal').find('.close').click();
                     Bind();
@@ -281,7 +291,7 @@
 
                     //window.location.href = '/Admin/DisplayTeacher';
                 } else {
-                    notifyDanger("Data Not Added");
+                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
                 }
             },
             error: function (xhr, status, error) {
@@ -291,9 +301,196 @@
         });
 
     }
+    function notifyDanger(message) {
+        $('#notificationElement').html(message).addClass('large-text').show();
+        // Add your existing code to display the message
+    }
 
 
-   
+    function ValidateTimeTable() {
+        if ($('#txtFName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtFName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">First Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtLName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtLName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Last Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtEmail').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtEmail').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Email is Required !</span>');
+            return false;
+        }
+        if ($('#txtDate').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtDate').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Date is Required !</span>');
+            return false;
+        }
+        else if ($('#rdbMale').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#rdbMale').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Male is Required !</span>');
+            return false;
+        }
+        if ($('#txtAdd').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtAdd').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Address is Required !</span>');
+            return false;
+        }
+        else if ($('#txtCity').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtCity').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">City is Required !</span>');
+            return false;
+        }
+        if ($('#txtPostal').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtPostal').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Postal is Required !</span>');
+            return false;
+        }
+        if ($('#txtPhone').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtPhone').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Phone is Required !</span>');
+            return false;
+        }
+        else if ($('#txtdes').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtdes').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Description is Required !</span>');
+            return false;
+        }
+        else if ($('#input[name="status"]:checked').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#input[name="status"]:checked').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Status is Required !</span>');
+            return false;
+        }
+        return true;
+    }
 
 
-   </script>
+    function ValidateTimeTable() {
+        if ($('#txtFName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtFName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">First Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtLName').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtLName').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Last Name is Required !</span>');
+            return false;
+        }
+        else if ($('#txtEmail').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtEmail').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Email is Required !</span>');
+            return false;
+        }
+        if ($('#txtDate').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtDate').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Date is Required !</span>');
+            return false;
+        }
+        else if ($('#rdbMale').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#rdbMale').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Male is Required !</span>');
+            return false;
+        }
+        if ($('#txtAdd').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtAdd').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Address is Required !</span>');
+            return false;
+        }
+        else if ($('#txtCity').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtCity').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">City is Required !</span>');
+            return false;
+        }
+        if ($('#txtPostal').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtPostal').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Postal is Required !</span>');
+            return false;
+        }
+        if ($('#txtPhone').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtPhone').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Phone is Required !</span>');
+            return false;
+        }
+        else if ($('#txtdes').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#txtdes').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Description is Required !</span>');
+            return false;
+        }
+        else if ($('#input[name="status"]:checked').val() == '') {
+            $("html, body").animate({
+                scrollTop: 500
+            }, 1500);
+            $('#input[name="status"]:checked').focus();
+            notifyDanger('<span style="font-size: 15px; font-weight: bold;">Status is Required !</span>');
+            return false;
+        }
+        return true;
+    }
+
+
+</script>

@@ -39,6 +39,13 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="Status" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CodeType">
+          <Key>
+            <PropertyRef Name="CodeTypeID" />
+          </Key>
+          <Property Name="CodeTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentsID" />
@@ -131,6 +138,27 @@
           <Property Name="ModifyBy" Type="varchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientsID" Type="int" Nullable="false" />
+          <Property Name="Patient_Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Billing_Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" Nullable="false" />
+          <Property Name="Item" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UnitCost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GrandTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifyDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Leave ">
           <Key>
             <PropertyRef Name="LeaveID" />
@@ -216,6 +244,7 @@
         <Function Name="BrowseAttendanceByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AttendanceID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BrowseCodeType_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="BrowseDepartment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="BrowseDepartmentsByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
@@ -241,6 +270,10 @@
         <Function Name="BrowseHolidayByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="HolidayID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BrowseInvoice_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="BrowseInvoiceByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
+        </Function>
         <Function Name="BrowseLeave__sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="BrowseLeave _sp" />
         <Function Name="BrowseLeaveByID_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LeaveID" Type="int" Mode="In" />
@@ -260,6 +293,9 @@
         <Function Name="DeleteAttendance_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AttendanceID" Type="int" Mode="In" />
         </Function>
+        <Function Name="DeleteCodeType_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodeTypeID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeleteDepartement_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
         </Function>
@@ -278,6 +314,9 @@
         <Function Name="DeleteHoliday_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="HolidayID" Type="int" Mode="In" />
         </Function>
+        <Function Name="DeleteInvoice_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeleteLeave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LeaveID" Type="int" Mode="In" />
         </Function>
@@ -289,6 +328,9 @@
         </Function>
         <Function Name="DeleteSchedule_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ScheduleID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getsCodeType_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodeTypeID" Type="int" Mode="In" />
         </Function>
         <Function Name="insertAppointment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PatientsID" Type="int" Mode="In" />
@@ -311,6 +353,9 @@
           <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="insertCodeType_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodeType" Type="varchar" Mode="In" />
         </Function>
         <Function Name="insertDepartment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsName" Type="nvarchar" Mode="In" />
@@ -368,6 +413,21 @@
           <Parameter Name="StartDate" Type="datetime" Mode="In" />
           <Parameter Name="EndDate" Type="datetime" Mode="In" />
           <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="insertInvoice_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PatientsID" Type="int" Mode="In" />
+          <Parameter Name="Patient_Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Billing_Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="InvoiceDate" Type="date" Mode="In" />
+          <Parameter Name="Item" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="UnitCost" Type="decimal" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" />
+          <Parameter Name="Amount" Type="decimal" Mode="In" />
+          <Parameter Name="Discount" Type="decimal" Mode="In" />
+          <Parameter Name="GrandTotal" Type="decimal" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="insertleave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -442,6 +502,10 @@
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
           <Parameter Name="AttendanceID" Type="int" Mode="In" />
         </Function>
+        <Function Name="updateCodeType_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodeType" Type="varchar" Mode="In" />
+          <Parameter Name="CodeTypeID" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdateDepartment_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepartmentsID" Type="int" Mode="In" />
           <Parameter Name="DepartmentsName" Type="nvarchar" Mode="In" />
@@ -495,6 +559,22 @@
           <Parameter Name="ModifyBy" Type="varchar" Mode="In" />
           <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateInvoice_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PatientsID" Type="int" Mode="In" />
+          <Parameter Name="Patient_Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Billing_Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="InvoiceDate" Type="date" Mode="In" />
+          <Parameter Name="Item" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="UnitCost" Type="decimal" Mode="In" />
+          <Parameter Name="Quantity" Type="decimal" Mode="In" />
+          <Parameter Name="Amount" Type="decimal" Mode="In" />
+          <Parameter Name="Discount" Type="decimal" Mode="In" />
+          <Parameter Name="GrandTotal" Type="decimal" Mode="In" />
+          <Parameter Name="ModifyBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
         </Function>
         <Function Name="UpdateLeave_sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmployeeID" Type="nvarchar" Mode="In" />
@@ -560,12 +640,14 @@
         <EntityContainer Name="DoctorClinicModelStoreContainer">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CodeType" EntityType="Self.CodeType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EducationInformation" EntityType="Self.EducationInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExperienceInformation" EntityType="Self.ExperienceInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holiday" EntityType="Self.Holiday" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave " EntityType="Self.Leave " Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -985,7 +1067,7 @@
           <EntitySet Name="Holidays" EntityType="DoctorClinicModel.Holiday" />
           <FunctionImport Name="BrowseHoliday_sp" ReturnType="Collection(DoctorClinicModel.BrowseHoliday_sp_Result)" />
           <FunctionImport Name="BrowseHolidayByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseHolidayByID_sp_Result)">
-            <Parameter Name="HolidayID" Mode="In" Type="Int32" />
+          <Parameter Name="HolidayID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="insertHoliday_sp">
             <Parameter Name="HolidayName" Mode="In" Type="String" />
@@ -1002,6 +1084,63 @@
             <Parameter Name="ModifyBy" Mode="In" Type="String" />
             <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
             <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CodeTypes" EntityType="DoctorClinicModel.CodeType" />
+          <EntitySet Name="Invoices" EntityType="DoctorClinicModel.Invoice" />
+          <FunctionImport Name="BrowseCodeType_sp" ReturnType="Collection(DoctorClinicModel.BrowseCodeType_sp_Result)" />
+         
+          
+         
+          <FunctionImport Name="DeleteCodeType_sp">
+          <Parameter Name="CodeTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteInvoice_sp">
+          <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getsCodeType_sp" ReturnType="Collection(DoctorClinicModel.getsCodeType_sp_Result)">
+          <Parameter Name="CodeTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertCodeType_sp">
+          <Parameter Name="CodeType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertInvoice_sp">
+            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
+            <Parameter Name="Patient_Address" Mode="In" Type="String" />
+            <Parameter Name="Billing_Address" Mode="In" Type="String" />
+            <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Item" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="UnitCost" Mode="In" Type="Decimal" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="Discount" Mode="In" Type="Decimal" />
+            <Parameter Name="GrandTotal" Mode="In" Type="Decimal" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="updateCodeType_sp">
+            <Parameter Name="CodeType" Mode="In" Type="String" />
+            <Parameter Name="CodeTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateInvoice_sp">
+            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
+            <Parameter Name="Patient_Address" Mode="In" Type="String" />
+            <Parameter Name="Billing_Address" Mode="In" Type="String" />
+            <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Item" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="UnitCost" Mode="In" Type="Decimal" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="Discount" Mode="In" Type="Decimal" />
+            <Parameter Name="GrandTotal" Mode="In" Type="Decimal" />
+            <Parameter Name="ModifyBy" Mode="In" Type="String" />
+            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BrowseInvoice_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoice_sp_Result)" />
+          <FunctionImport Name="BrowseInvoiceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceByID_sp_Result)">
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
          
        
@@ -1420,6 +1559,72 @@
           <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="CodeType">
+          <Key>
+            <PropertyRef Name="CodeTypeID" />
+          </Key>
+          <Property Name="CodeTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeType1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientsID" Type="Int32" Nullable="false" />
+          <Property Name="Patient_Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Billing_Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Item" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnitCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="GrandTotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <ComplexType Name="BrowseCodeType_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+       
+        
+        <ComplexType Name="getsCodeType_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="BrowseInvoice_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Patient_Name" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="Items" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="UnitCost" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Qty" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Amount" Nullable="true" />
+          <Property Type="Int32" Name="Discount" Nullable="true" />
+          <Property Type="Int32" Name="GrandTotal" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="BrowseInvoiceByID_sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Patient_Name" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="Items" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="UnitCost" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Qty" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Amount" Nullable="true" />
+          <Property Type="Int32" Name="Discount" Nullable="true" />
+          <Property Type="Int32" Name="GrandTotal" Nullable="true" />
         </ComplexType>
       
         
@@ -2043,6 +2248,96 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="insertHoliday_sp" FunctionName="DoctorClinicModel.Store.insertHoliday_sp" />
           <FunctionImportMapping FunctionImportName="UpdateHoliday_sp" FunctionName="DoctorClinicModel.Store.UpdateHoliday_sp" />
+          <EntitySetMapping Name="CodeTypes">
+            <EntityTypeMapping TypeName="DoctorClinicModel.CodeType">
+              <MappingFragment StoreEntitySet="CodeType">
+                <ScalarProperty Name="CodeType1" ColumnName="CodeType" />
+                <ScalarProperty Name="CodeTypeID" ColumnName="CodeTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="DoctorClinicModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
+                <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
+                <ScalarProperty Name="PatientsID" ColumnName="PatientsID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BrowseCodeType_sp" FunctionName="DoctorClinicModel.Store.BrowseCodeType_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseCodeType_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          
+          
+          <FunctionImportMapping FunctionImportName="DeleteCodeType_sp" FunctionName="DoctorClinicModel.Store.DeleteCodeType_sp" />
+          <FunctionImportMapping FunctionImportName="DeleteInvoice_sp" FunctionName="DoctorClinicModel.Store.DeleteInvoice_sp" />
+          <FunctionImportMapping FunctionImportName="getsCodeType_sp" FunctionName="DoctorClinicModel.Store.getsCodeType_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.getsCodeType_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insertCodeType_sp" FunctionName="DoctorClinicModel.Store.insertCodeType_sp" />
+          <FunctionImportMapping FunctionImportName="insertInvoice_sp" FunctionName="DoctorClinicModel.Store.insertInvoice_sp" />
+          <FunctionImportMapping FunctionImportName="updateCodeType_sp" FunctionName="DoctorClinicModel.Store.updateCodeType_sp" />
+          <FunctionImportMapping FunctionImportName="UpdateInvoice_sp" FunctionName="DoctorClinicModel.Store.UpdateInvoice_sp" />
+          <FunctionImportMapping FunctionImportName="BrowseInvoice_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoice_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseInvoice_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
+                <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
+                <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
+                <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
+                <ScalarProperty Name="Items" ColumnName="Items" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BrowseInvoiceByID_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoiceByID_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseInvoiceByID_sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
+                <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
+                <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
+                <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
+                <ScalarProperty Name="Items" ColumnName="Items" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
          
           
        

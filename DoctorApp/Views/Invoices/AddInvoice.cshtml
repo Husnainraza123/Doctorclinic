@@ -1,0 +1,337 @@
+﻿@model DoctorApp.Models.Invoice
+
+@{
+    ViewBag.Title = "AddInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="page-title">Create Invoice</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Patient <span class="text-danger">*</span></label>
+                            <select name="ddlPatient" id="ddlPatient" class="form-control">
+                                <option value="">Select Patient Name</option>
+                                @if (ViewBag.patientnames != null)
+                                {
+                                    foreach (var pn in ViewBag.patientnames)
+                                    {
+                                        <option value="@pn.PatientsID">@pn.FirstName @pn.LastName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Patient Address</label>
+                            <input ID="txtPatAdd" ClientIDMode="Static" class="form-control" placeholder="Patient-Address" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Billing Address</label>
+                            <input ID="txtBAdd" ClientIDMode="Static" class="form-control" placeholder="Bill-Address" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Invoice date <span class="text-danger">*</span></label>
+                            <div class="cal">
+                                <input id="txtDate" clientidmode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-white" id="invoiceTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20px">#</th>
+                                        <th class="col-sm-2">Item</th>
+                                        <th class="col-md-6">Description</th>
+                                        <th style="width:100px;">Unit Cost</th>
+                                        <th style="width:80px;">Qty</th>
+                                        <th>Amount</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input id="txtItem" class="form-control" type="text" style="min-width:150px">
+                                        </td>
+                                        <td>
+                                            <input id="txtdes" class="form-control" type="text" style="min-width:150px">
+                                        </td>
+                                        <td>
+                                            <input id="txtprice" class="form-control" style="width:100px" type="text" name="unit-cost" onchange="Calc(this);">
+                                        </td>
+                                        <td>
+                                            <input id="txtqty" class="form-control" style="width:80px" type="text" name="qty" onchange="Calc(this);">
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-amt" readonly="" style="width:120px" type="text" name="Amt" id="amtInput" value="0">
+                                        </td>
+                                        <td><a href="javascript:void(0)" class="text-success font-18 addRow" title="Add"><i class="fa fa-plus"></i></a></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-white">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right; font-weight: bold">
+                                            Total
+                                        </td>
+                                        <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px; width: 230px">
+                                            <span id="total"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right; font-weight: bold">
+                                            Discount
+                                        </td>
+                                        <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px;width: 230px">
+                                            <input id="txtDis"  class="form-control" style="width:80px; margin-left:60%" type="text" name="Dis" onchange="updateGrandTotal();">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="5" style="text-align: right; font-weight: bold">
+                                            Grand Total
+                                        </td>
+                                        <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px;width: 230px">
+                                            <span id="grandtotal"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text-center m-t-20">
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Invoice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to add a new row to the table
+    function addNewRow() {
+        if (Validate()) {
+            var tableBody = document.querySelector("#invoiceTable tbody");
+
+            // Create a new row element
+            var newRow = document.createElement("tr");
+
+            // Set the HTML content for the new row
+            newRow.innerHTML = `
+                <td></td>
+                <td><input class="form-control" type="text" style="min-width:150px"></td>
+                <td><input class="form-control" type="text" style="min-width:150px"></td>
+                <td><input class="form-control" style="width:100px" type="text" name="unit-cost" onchange="Calc(this);"></td>
+                <td><input class="form-control" style="width:80px" type="text" name="qty" onchange="Calc(this);"></td>
+                <td>  <input class="form-control form-amt" readonly="" style="width:120px" type="text" name="Amt" id="amtInput" value="0"></td>
+                <td><a href="javascript:void(0)" class="text-success font-18 addRow" title="Add"><i class="fa fa-plus"></i></a></td>
+            `;
+
+            // Append the new row to the table body
+            tableBody.appendChild(newRow);
+
+            // Update the row numbers
+            updateRowNumbers();
+        }
+      
+    }
+
+    // Function to update row numbers in the first column
+    function updateRowNumbers() {
+        var rows = document.querySelectorAll("#invoiceTable tbody tr");
+        rows.forEach((row, index) => {
+            row.cells[0].innerText = index + 1; // Update the row number (first column)
+        });
+    }
+
+    // Event delegation to handle clicks on dynamically added "Add" buttons
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('.addRow')) {
+            if (Validate()) {
+                addNewRow();
+            }
+
+
+        }
+    });
+
+    function Calc(v) {
+        // Find the closest row (using jQuery's closest method)
+        var row = $(v).closest('tr');
+
+        // Get the values of qty and unit cost from the input fields
+        var qty = parseFloat(row.find('input[name="qty"]').val()) || 0;
+        var unitCost = parseFloat(row.find('input[name="unit-cost"]').val()) || 0;
+
+        // Calculate the amount
+        var amount = qty * unitCost;
+
+        // Set the calculated amount to the element with id #grandtotal within this row
+        row.find('#amtInput').val(amount.toFixed(2)); // Use toFixed(2) to ensure two decimal places
+
+        // Call updateTotal() to update the total and grand total
+        updateTotal();
+    }
+
+
+    // Function to update the total for all rows
+    function updateTotal() {
+        var total = 0;
+        var amounts = document.querySelectorAll('input[name="Amt"]');
+        amounts.forEach(function (amountField) {
+            total += parseFloat(amountField.value) || 0;
+        });
+
+        // Update the total display
+        document.getElementById('total').innerText = total.toFixed(2);
+
+        // Update the grand total
+        updateGrandTotal();
+    }
+
+    // Function to update the grand total based on total and discount
+    function updateGrandTotal() {
+        var total = parseFloat(document.getElementById('total').innerText) || 0;
+        var discount = parseFloat(document.querySelector('input[name="Dis"]').value) || 0;
+        var grandTotal = total - discount;
+
+        // Update the grand total display
+        document.getElementById('grandtotal').innerText = grandTotal.toFixed(2);
+    }
+
+    // Add event listeners for existing rows on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        var unitCosts = document.querySelectorAll('input[name="unit-cost"]');
+        var qtys = document.querySelectorAll('input[name="qty"]');
+        unitCosts.forEach(function (input) {
+            input.addEventListener('change', function () {
+                Calc(this);
+            });
+        });
+        qtys.forEach(function (input) {
+            input.addEventListener('change', function () {
+                Calc(this);
+            });
+        });
+    });
+
+
+    function Add() {
+        debugger;
+        //if (!ValidateTimeTable())
+        //{
+        //    return false;
+        //}
+        var id = $('#hdnID').val();
+        var formData = new FormData();
+        var currentDate = new Date().toISOString();
+
+        if (id > 0) {
+
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Patient_Address', $('#txtPatAdd').val());
+            formData.append('Billing_Address', $('#txtBAdd').val());
+            formData.append('InvoiceDate', $('#txtDate').val());
+            formData.append('Item', $('#txtItem').val());
+            formData.append('Description', $('#txtdes').val());
+            formData.append('UnitCost', $('#txtprice').val());
+            formData.append('Quantity', $('#txtqty').val());
+            formData.append('Amount', $('#amtInput').val());
+            formData.append('Discount', $('#txtDis').val());
+            formData.append('GrandTotal', $('#grandtotal').val());
+            //formData.append('ImageFile', hdnimg);
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+        }
+        else {
+
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Patient_Address', $('#txtPatAdd').val());
+            formData.append('Billing_Address', $('#txtBAdd').val());
+            formData.append('InvoiceDate', $('#txtDate').val());
+            formData.append('Item', $('#txtItem').val());
+            formData.append('Description', $('#txtdes').val());
+            formData.append('UnitCost', $('#txtprice').val());
+            formData.append('Quantity', $('#txtqty').val());
+            formData.append('Amount', $('#amtInput').val());
+            formData.append('Discount', $('#txtDis').val());
+            formData.append('GrandTotal', $('#grandtotal').val());
+            //formData.append('ImageFile', hdnimg);
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+        }
+
+        $.ajax({
+            url: "/Invoices/AddInvoice",
+            dataType: "json", // Lowercase "json"
+            type: "POST",
+            contentType: false, // Set contentType to false
+            processData: false, // Set processData to false
+            data: formData,
+            success: function (response) {
+                if (response.success == true) { // Assuming your response has a status field
+                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
+
+                    $('#exampleModal').find('.close').click();
+                    Bind();
+
+
+                    //window.location.href = '/Admin/DisplayTeacher';
+                } else {
+                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+    }
+    function notifyDanger(message) {
+        $('#notificationElement').html(message).addClass('large-text').show();
+        // Add your existing code to display the message
+    }
+
+
+
+
+    function Validate() {
+        
+        let row = $("#invoiceTable").find("tr").last();/*$('table tr:last');*/
+
+        let amount = row.find('#amtInput').val();
+
+        if (amount == 0 || amount == '') {
+           
+            notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + 'Please enter amount' + '</span>');
+            return false;
+        }
+        return true;
+    }
+</script>

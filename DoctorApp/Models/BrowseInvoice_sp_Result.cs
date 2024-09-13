@@ -37,7 +37,9 @@ public partial class BrowseInvoice_sp_Result
 
     public Nullable<int> Amount { get; set; }
 
-    public Nullable<int> Grand_Total { get; set; }
+    public Nullable<int> Discount { get; set; }
+
+    public Nullable<int> GrandTotal { get; set; }
 
 }
 

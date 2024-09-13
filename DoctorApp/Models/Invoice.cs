@@ -48,6 +48,8 @@ public partial class Invoice
 
     public Nullable<System.DateTime> ModifyDate { get; set; }
 
+    public decimal GrandTotal { get; set; }
+
 }
 
 }

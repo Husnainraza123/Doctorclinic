@@ -150,7 +150,9 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\HolidayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -176,6 +178,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BrowseAttendance_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseCodeType_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BrowseDepartmentsByID_sp_Result.cs">
@@ -211,6 +216,12 @@
     <Compile Include="Models\BrowseHoliday_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BrowseInvoiceByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseInvoice_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BrowseLeaveByID_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -238,6 +249,9 @@
     <Compile Include="Models\BrowseSchedule_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CodeType.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -256,9 +270,16 @@
     <Compile Include="Models\ExperienceInformation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\getsCodeType_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Holiday.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Invoice.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvoiceViewModel.cs" />
     <Compile Include="Models\LeaveViewModel.cs" />
     <Compile Include="Models\Leave_.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -568,6 +589,11 @@
     <Content Include="Views\Attendance\Attendance.cshtml" />
     <Content Include="Views\Attendance\AddAttendance.cshtml" />
     <Content Include="Views\Attendance\EditAttendance.cshtml" />
+    <Content Include="Views\Holiday\Holiday.cshtml" />
+    <Content Include="Views\Holiday\AddHoliday.cshtml" />
+    <Content Include="Views\Holiday\EditHoliday.cshtml" />
+    <Content Include="Views\Invoices\Invoice.cshtml" />
+    <Content Include="Views\Invoices\AddInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

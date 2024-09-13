@@ -61,6 +61,10 @@ public partial class DoctorClinicEntities : DbContext
 
     public virtual DbSet<Holiday> Holidays { get; set; }
 
+    public virtual DbSet<CodeType> CodeTypes { get; set; }
+
+    public virtual DbSet<Invoice> Invoices { get; set; }
+
 
     public virtual ObjectResult<BrowseDoctor_sp_Result> BrowseDoctor_sp()
     {
@@ -1689,6 +1693,246 @@ public partial class DoctorClinicEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateHoliday_sp", holidayIDParameter, holidayNameParameter, startDateParameter, endDateParameter, modifyByParameter, modifyDateParameter, statusParameter);
+    }
+
+
+    public virtual ObjectResult<BrowseCodeType_sp_Result> BrowseCodeType_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseCodeType_sp_Result>("BrowseCodeType_sp");
+    }
+
+
+    public virtual int DeleteCodeType_sp(Nullable<int> codeTypeID)
+    {
+
+        var codeTypeIDParameter = codeTypeID.HasValue ?
+            new ObjectParameter("CodeTypeID", codeTypeID) :
+            new ObjectParameter("CodeTypeID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteCodeType_sp", codeTypeIDParameter);
+    }
+
+
+    public virtual int DeleteInvoice_sp(Nullable<int> invoiceID)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteInvoice_sp", invoiceIDParameter);
+    }
+
+
+    public virtual ObjectResult<getsCodeType_sp_Result> getsCodeType_sp(Nullable<int> codeTypeID)
+    {
+
+        var codeTypeIDParameter = codeTypeID.HasValue ?
+            new ObjectParameter("CodeTypeID", codeTypeID) :
+            new ObjectParameter("CodeTypeID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getsCodeType_sp_Result>("getsCodeType_sp", codeTypeIDParameter);
+    }
+
+
+    public virtual int insertCodeType_sp(string codeType)
+    {
+
+        var codeTypeParameter = codeType != null ?
+            new ObjectParameter("CodeType", codeType) :
+            new ObjectParameter("CodeType", typeof(string));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertCodeType_sp", codeTypeParameter);
+    }
+
+
+    public virtual int insertInvoice_sp(Nullable<int> patientsID, string patient_Address, string billing_Address, Nullable<System.DateTime> invoiceDate, string item, string description, Nullable<decimal> unitCost, Nullable<decimal> quantity, Nullable<decimal> amount, Nullable<decimal> discount, Nullable<decimal> grandTotal, string createdBy, Nullable<System.DateTime> createdDate)
+    {
+
+        var patientsIDParameter = patientsID.HasValue ?
+            new ObjectParameter("PatientsID", patientsID) :
+            new ObjectParameter("PatientsID", typeof(int));
+
+
+        var patient_AddressParameter = patient_Address != null ?
+            new ObjectParameter("Patient_Address", patient_Address) :
+            new ObjectParameter("Patient_Address", typeof(string));
+
+
+        var billing_AddressParameter = billing_Address != null ?
+            new ObjectParameter("Billing_Address", billing_Address) :
+            new ObjectParameter("Billing_Address", typeof(string));
+
+
+        var invoiceDateParameter = invoiceDate.HasValue ?
+            new ObjectParameter("InvoiceDate", invoiceDate) :
+            new ObjectParameter("InvoiceDate", typeof(System.DateTime));
+
+
+        var itemParameter = item != null ?
+            new ObjectParameter("Item", item) :
+            new ObjectParameter("Item", typeof(string));
+
+
+        var descriptionParameter = description != null ?
+            new ObjectParameter("Description", description) :
+            new ObjectParameter("Description", typeof(string));
+
+
+        var unitCostParameter = unitCost.HasValue ?
+            new ObjectParameter("UnitCost", unitCost) :
+            new ObjectParameter("UnitCost", typeof(decimal));
+
+
+        var quantityParameter = quantity.HasValue ?
+            new ObjectParameter("Quantity", quantity) :
+            new ObjectParameter("Quantity", typeof(decimal));
+
+
+        var amountParameter = amount.HasValue ?
+            new ObjectParameter("Amount", amount) :
+            new ObjectParameter("Amount", typeof(decimal));
+
+
+        var discountParameter = discount.HasValue ?
+            new ObjectParameter("Discount", discount) :
+            new ObjectParameter("Discount", typeof(decimal));
+
+
+        var grandTotalParameter = grandTotal.HasValue ?
+            new ObjectParameter("GrandTotal", grandTotal) :
+            new ObjectParameter("GrandTotal", typeof(decimal));
+
+
+        var createdByParameter = createdBy != null ?
+            new ObjectParameter("CreatedBy", createdBy) :
+            new ObjectParameter("CreatedBy", typeof(string));
+
+
+        var createdDateParameter = createdDate.HasValue ?
+            new ObjectParameter("CreatedDate", createdDate) :
+            new ObjectParameter("CreatedDate", typeof(System.DateTime));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertInvoice_sp", patientsIDParameter, patient_AddressParameter, billing_AddressParameter, invoiceDateParameter, itemParameter, descriptionParameter, unitCostParameter, quantityParameter, amountParameter, discountParameter, grandTotalParameter, createdByParameter, createdDateParameter);
+    }
+
+
+    public virtual int updateCodeType_sp(string codeType, Nullable<int> codeTypeID)
+    {
+
+        var codeTypeParameter = codeType != null ?
+            new ObjectParameter("CodeType", codeType) :
+            new ObjectParameter("CodeType", typeof(string));
+
+
+        var codeTypeIDParameter = codeTypeID.HasValue ?
+            new ObjectParameter("CodeTypeID", codeTypeID) :
+            new ObjectParameter("CodeTypeID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("updateCodeType_sp", codeTypeParameter, codeTypeIDParameter);
+    }
+
+
+    public virtual int UpdateInvoice_sp(Nullable<int> patientsID, string patient_Address, string billing_Address, Nullable<System.DateTime> invoiceDate, string item, string description, Nullable<decimal> unitCost, Nullable<decimal> quantity, Nullable<decimal> amount, Nullable<decimal> discount, Nullable<decimal> grandTotal, string modifyBy, Nullable<System.DateTime> modifyDate, Nullable<int> invoiceID)
+    {
+
+        var patientsIDParameter = patientsID.HasValue ?
+            new ObjectParameter("PatientsID", patientsID) :
+            new ObjectParameter("PatientsID", typeof(int));
+
+
+        var patient_AddressParameter = patient_Address != null ?
+            new ObjectParameter("Patient_Address", patient_Address) :
+            new ObjectParameter("Patient_Address", typeof(string));
+
+
+        var billing_AddressParameter = billing_Address != null ?
+            new ObjectParameter("Billing_Address", billing_Address) :
+            new ObjectParameter("Billing_Address", typeof(string));
+
+
+        var invoiceDateParameter = invoiceDate.HasValue ?
+            new ObjectParameter("InvoiceDate", invoiceDate) :
+            new ObjectParameter("InvoiceDate", typeof(System.DateTime));
+
+
+        var itemParameter = item != null ?
+            new ObjectParameter("Item", item) :
+            new ObjectParameter("Item", typeof(string));
+
+
+        var descriptionParameter = description != null ?
+            new ObjectParameter("Description", description) :
+            new ObjectParameter("Description", typeof(string));
+
+
+        var unitCostParameter = unitCost.HasValue ?
+            new ObjectParameter("UnitCost", unitCost) :
+            new ObjectParameter("UnitCost", typeof(decimal));
+
+
+        var quantityParameter = quantity.HasValue ?
+            new ObjectParameter("Quantity", quantity) :
+            new ObjectParameter("Quantity", typeof(decimal));
+
+
+        var amountParameter = amount.HasValue ?
+            new ObjectParameter("Amount", amount) :
+            new ObjectParameter("Amount", typeof(decimal));
+
+
+        var discountParameter = discount.HasValue ?
+            new ObjectParameter("Discount", discount) :
+            new ObjectParameter("Discount", typeof(decimal));
+
+
+        var grandTotalParameter = grandTotal.HasValue ?
+            new ObjectParameter("GrandTotal", grandTotal) :
+            new ObjectParameter("GrandTotal", typeof(decimal));
+
+
+        var modifyByParameter = modifyBy != null ?
+            new ObjectParameter("ModifyBy", modifyBy) :
+            new ObjectParameter("ModifyBy", typeof(string));
+
+
+        var modifyDateParameter = modifyDate.HasValue ?
+            new ObjectParameter("ModifyDate", modifyDate) :
+            new ObjectParameter("ModifyDate", typeof(System.DateTime));
+
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateInvoice_sp", patientsIDParameter, patient_AddressParameter, billing_AddressParameter, invoiceDateParameter, itemParameter, descriptionParameter, unitCostParameter, quantityParameter, amountParameter, discountParameter, grandTotalParameter, modifyByParameter, modifyDateParameter, invoiceIDParameter);
+    }
+
+
+    public virtual ObjectResult<BrowseInvoice_sp_Result> BrowseInvoice_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoice_sp_Result>("BrowseInvoice_sp");
+    }
+
+
+    public virtual ObjectResult<BrowseInvoiceByID_sp_Result> BrowseInvoiceByID_sp(Nullable<int> invoiceID)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoiceByID_sp_Result>("BrowseInvoiceByID_sp", invoiceIDParameter);
     }
 
 }
