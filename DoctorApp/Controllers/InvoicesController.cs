@@ -64,12 +64,12 @@ namespace DoctorApp.Controllers
                 Patient_Address = row.Patient_Address,
                 Billing_Address = row.Billing_Address,
                 InvoiceDate = Convert.ToDateTime(row.Invoice_Date),
-                Item = row.Items,
-                Description = row.Description,
-                UnitCost = row.UnitCost,
-                Quantity = row.Qty,
-                Amount = Convert.ToDecimal(row.Amount),
-                GrandTotal = Convert.ToDecimal(row.GrandTotal)
+                //Item = row.Items,
+                //Description = row.Description,
+                //UnitCost = row.UnitCost,
+                //Quantity = row.Qty,
+                //Amount = Convert.ToDecimal(row.Amount),
+                //GrandTotal = Convert.ToDecimal(row.GrandTotal)
 
 
             };
@@ -92,33 +92,33 @@ namespace DoctorApp.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult DeleteInvoice(int id)
-        {
-            if (id > 0)
-            {
-                try
-                {
-                    var invoice = db.Invoices.FirstOrDefault(model => model.InvoiceID == id);
-                    if (invoice != null)
-                    {
-                        db.Invoices.Remove(invoice);
-                        int result = db.SaveChanges();
+        //[HttpPost]
+        //public ActionResult DeleteInvoice(int id)
+        //{
+        //    if (id > 0)
+        //    {
+        //        try
+        //        {
+        //            var invoice = db.Invoices.FirstOrDefault(model => model.InvoiceID == id);
+        //            if (invoice != null)
+        //            {
+        //                db.Invoices.Remove(invoice);
+        //                int result = db.SaveChanges();
 
-                        if (result > 0)
-                        {
-                            return Json(new { success = true });
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log the exception
-                    Console.WriteLine(ex.Message);
-                }
-            }
-            return Json(new { success = false });
-        }
+        //                if (result > 0)
+        //                {
+        //                    return Json(new { success = true });
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Log the exception
+        //            Console.WriteLine(ex.Message);
+        //        }
+        //    }
+        //    return Json(new { success = false });
+        //}
 
 
     }

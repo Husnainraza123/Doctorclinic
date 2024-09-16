@@ -219,6 +219,12 @@
     <Compile Include="Models\BrowseInvoiceByID_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BrowseInvoiceDetailByID_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseInvoiceDetail_sp_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BrowseInvoice_sp_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -277,6 +283,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Invoice.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvoiceDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvoiceViewModel.cs" />
@@ -594,6 +603,7 @@
     <Content Include="Views\Holiday\EditHoliday.cshtml" />
     <Content Include="Views\Invoices\Invoice.cshtml" />
     <Content Include="Views\Invoices\AddInvoice.cshtml" />
+    <Content Include="Views\Invoices\EditInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
