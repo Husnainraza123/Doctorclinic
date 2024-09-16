@@ -65,6 +65,8 @@ public partial class DoctorClinicEntities : DbContext
 
     public virtual DbSet<Invoice> Invoices { get; set; }
 
+    public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+
 
     public virtual ObjectResult<BrowseDoctor_sp_Result> BrowseDoctor_sp()
     {
@@ -1715,18 +1717,6 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual int DeleteInvoice_sp(Nullable<int> invoiceID)
-    {
-
-        var invoiceIDParameter = invoiceID.HasValue ?
-            new ObjectParameter("InvoiceID", invoiceID) :
-            new ObjectParameter("InvoiceID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteInvoice_sp", invoiceIDParameter);
-    }
-
-
     public virtual ObjectResult<getsCodeType_sp_Result> getsCodeType_sp(Nullable<int> codeTypeID)
     {
 
@@ -1751,7 +1741,86 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual int insertInvoice_sp(Nullable<int> patientsID, string patient_Address, string billing_Address, Nullable<System.DateTime> invoiceDate, string item, string description, Nullable<decimal> unitCost, Nullable<decimal> quantity, Nullable<decimal> amount, Nullable<decimal> discount, Nullable<decimal> grandTotal, string createdBy, Nullable<System.DateTime> createdDate)
+    public virtual int updateCodeType_sp(string codeType, Nullable<int> codeTypeID)
+    {
+
+        var codeTypeParameter = codeType != null ?
+            new ObjectParameter("CodeType", codeType) :
+            new ObjectParameter("CodeType", typeof(string));
+
+
+        var codeTypeIDParameter = codeTypeID.HasValue ?
+            new ObjectParameter("CodeTypeID", codeTypeID) :
+            new ObjectParameter("CodeTypeID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("updateCodeType_sp", codeTypeParameter, codeTypeIDParameter);
+    }
+
+
+    public virtual ObjectResult<BrowseInvoice_sp_Result> BrowseInvoice_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoice_sp_Result>("BrowseInvoice_sp");
+    }
+
+
+    public virtual ObjectResult<BrowseInvoiceByID_sp_Result> BrowseInvoiceByID_sp(Nullable<int> invoiceID)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoiceByID_sp_Result>("BrowseInvoiceByID_sp", invoiceIDParameter);
+    }
+
+
+    public virtual ObjectResult<BrowseInvoiceDetail_sp_Result> BrowseInvoiceDetail_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoiceDetail_sp_Result>("BrowseInvoiceDetail_sp");
+    }
+
+
+    public virtual ObjectResult<BrowseInvoiceDetailByID_sp_Result> BrowseInvoiceDetailByID_sp(Nullable<int> invoiceDetailID)
+    {
+
+        var invoiceDetailIDParameter = invoiceDetailID.HasValue ?
+            new ObjectParameter("InvoiceDetailID", invoiceDetailID) :
+            new ObjectParameter("InvoiceDetailID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoiceDetailByID_sp_Result>("BrowseInvoiceDetailByID_sp", invoiceDetailIDParameter);
+    }
+
+
+    public virtual int DeleteInvoice_sp(Nullable<int> invoiceID)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteInvoice_sp", invoiceIDParameter);
+    }
+
+
+    public virtual int DeleteInvoiceDetail_sp(Nullable<int> invoiceDetailID)
+    {
+
+        var invoiceDetailIDParameter = invoiceDetailID.HasValue ?
+            new ObjectParameter("InvoiceDetailID", invoiceDetailID) :
+            new ObjectParameter("InvoiceDetailID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteInvoiceDetail_sp", invoiceDetailIDParameter);
+    }
+
+
+    public virtual int insertInvoice_sp(Nullable<int> patientsID, string patient_Address, string billing_Address, Nullable<System.DateTime> invoiceDate, string createdBy, Nullable<System.DateTime> createdDate)
     {
 
         var patientsIDParameter = patientsID.HasValue ?
@@ -1772,6 +1841,28 @@ public partial class DoctorClinicEntities : DbContext
         var invoiceDateParameter = invoiceDate.HasValue ?
             new ObjectParameter("InvoiceDate", invoiceDate) :
             new ObjectParameter("InvoiceDate", typeof(System.DateTime));
+
+
+        var createdByParameter = createdBy != null ?
+            new ObjectParameter("CreatedBy", createdBy) :
+            new ObjectParameter("CreatedBy", typeof(string));
+
+
+        var createdDateParameter = createdDate.HasValue ?
+            new ObjectParameter("CreatedDate", createdDate) :
+            new ObjectParameter("CreatedDate", typeof(System.DateTime));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertInvoice_sp", patientsIDParameter, patient_AddressParameter, billing_AddressParameter, invoiceDateParameter, createdByParameter, createdDateParameter);
+    }
+
+
+    public virtual int insertInvoiceDetail_sp(Nullable<int> invoiceID, string item, string description, Nullable<decimal> unitCost, Nullable<decimal> quantity, Nullable<decimal> amount, Nullable<decimal> discount, Nullable<decimal> grandTotal, string createdBy, Nullable<System.DateTime> createdDate)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
 
 
         var itemParameter = item != null ?
@@ -1819,28 +1910,11 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("CreatedDate", typeof(System.DateTime));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertInvoice_sp", patientsIDParameter, patient_AddressParameter, billing_AddressParameter, invoiceDateParameter, itemParameter, descriptionParameter, unitCostParameter, quantityParameter, amountParameter, discountParameter, grandTotalParameter, createdByParameter, createdDateParameter);
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertInvoiceDetail_sp", invoiceIDParameter, itemParameter, descriptionParameter, unitCostParameter, quantityParameter, amountParameter, discountParameter, grandTotalParameter, createdByParameter, createdDateParameter);
     }
 
 
-    public virtual int updateCodeType_sp(string codeType, Nullable<int> codeTypeID)
-    {
-
-        var codeTypeParameter = codeType != null ?
-            new ObjectParameter("CodeType", codeType) :
-            new ObjectParameter("CodeType", typeof(string));
-
-
-        var codeTypeIDParameter = codeTypeID.HasValue ?
-            new ObjectParameter("CodeTypeID", codeTypeID) :
-            new ObjectParameter("CodeTypeID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("updateCodeType_sp", codeTypeParameter, codeTypeIDParameter);
-    }
-
-
-    public virtual int UpdateInvoice_sp(Nullable<int> patientsID, string patient_Address, string billing_Address, Nullable<System.DateTime> invoiceDate, string item, string description, Nullable<decimal> unitCost, Nullable<decimal> quantity, Nullable<decimal> amount, Nullable<decimal> discount, Nullable<decimal> grandTotal, string modifyBy, Nullable<System.DateTime> modifyDate, Nullable<int> invoiceID)
+    public virtual int UpdateInvoice_sp(Nullable<int> patientsID, string patient_Address, string billing_Address, Nullable<System.DateTime> invoiceDate, string modifyBy, Nullable<System.DateTime> modifyDate, Nullable<int> invoiceID)
     {
 
         var patientsIDParameter = patientsID.HasValue ?
@@ -1861,6 +1935,33 @@ public partial class DoctorClinicEntities : DbContext
         var invoiceDateParameter = invoiceDate.HasValue ?
             new ObjectParameter("InvoiceDate", invoiceDate) :
             new ObjectParameter("InvoiceDate", typeof(System.DateTime));
+
+
+        var modifyByParameter = modifyBy != null ?
+            new ObjectParameter("ModifyBy", modifyBy) :
+            new ObjectParameter("ModifyBy", typeof(string));
+
+
+        var modifyDateParameter = modifyDate.HasValue ?
+            new ObjectParameter("ModifyDate", modifyDate) :
+            new ObjectParameter("ModifyDate", typeof(System.DateTime));
+
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateInvoice_sp", patientsIDParameter, patient_AddressParameter, billing_AddressParameter, invoiceDateParameter, modifyByParameter, modifyDateParameter, invoiceIDParameter);
+    }
+
+
+    public virtual int UpdateInvoiceDetail_sp(Nullable<int> invoiceID, string item, string description, Nullable<decimal> unitCost, Nullable<decimal> quantity, Nullable<decimal> amount, Nullable<decimal> discount, Nullable<decimal> grandTotal, string modifyBy, Nullable<System.DateTime> modifyDate, Nullable<int> invoiceDetailID)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
 
 
         var itemParameter = item != null ?
@@ -1908,31 +2009,12 @@ public partial class DoctorClinicEntities : DbContext
             new ObjectParameter("ModifyDate", typeof(System.DateTime));
 
 
-        var invoiceIDParameter = invoiceID.HasValue ?
-            new ObjectParameter("InvoiceID", invoiceID) :
-            new ObjectParameter("InvoiceID", typeof(int));
+        var invoiceDetailIDParameter = invoiceDetailID.HasValue ?
+            new ObjectParameter("InvoiceDetailID", invoiceDetailID) :
+            new ObjectParameter("InvoiceDetailID", typeof(int));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateInvoice_sp", patientsIDParameter, patient_AddressParameter, billing_AddressParameter, invoiceDateParameter, itemParameter, descriptionParameter, unitCostParameter, quantityParameter, amountParameter, discountParameter, grandTotalParameter, modifyByParameter, modifyDateParameter, invoiceIDParameter);
-    }
-
-
-    public virtual ObjectResult<BrowseInvoice_sp_Result> BrowseInvoice_sp()
-    {
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoice_sp_Result>("BrowseInvoice_sp");
-    }
-
-
-    public virtual ObjectResult<BrowseInvoiceByID_sp_Result> BrowseInvoiceByID_sp(Nullable<int> invoiceID)
-    {
-
-        var invoiceIDParameter = invoiceID.HasValue ?
-            new ObjectParameter("InvoiceID", invoiceID) :
-            new ObjectParameter("InvoiceID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoiceByID_sp_Result>("BrowseInvoiceByID_sp", invoiceIDParameter);
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateInvoiceDetail_sp", invoiceIDParameter, itemParameter, descriptionParameter, unitCostParameter, quantityParameter, amountParameter, discountParameter, grandTotalParameter, modifyByParameter, modifyDateParameter, invoiceDetailIDParameter);
     }
 
 }

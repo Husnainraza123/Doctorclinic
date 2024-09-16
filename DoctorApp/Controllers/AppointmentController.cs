@@ -129,8 +129,7 @@ namespace DoctorApp.Controllers
                     string subPath = string.Format("/assets/DoctorImage/AppointmentImage/");
                     bool exists = System.IO.Directory.Exists(Server.MapPath(subPath));
 
-                    if (!exists)
-                        System.IO.Directory.CreateDirectory(Server.MapPath(subPath));
+                    if (!exists)System.IO.Directory.CreateDirectory(Server.MapPath(subPath));
 
                     var ext = System.IO.Path.GetExtension(Imgfile.FileName);
                     uniquename = Guid.NewGuid().ToString() + ext;

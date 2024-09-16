@@ -1,16 +1,17 @@
 ﻿@model DoctorApp.Models.InvoiceViewModel
 
 @{
-    ViewBag.Title = "AddInvoice";
+    ViewBag.Title = "EditInvoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="content">
     <div class="row">
         <div class="col-sm-12">
-            <h4 class="page-title">Create Invoice</h4>
+            <h4 class="page-title">Edit Invoice</h4>
         </div>
     </div>
+    @Html.HiddenFor(x => x.InvoiceID, new { id = "hdnID" })
     <div class="row">
         <div class="col-sm-12">
             <form>
@@ -18,35 +19,26 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Patient <span class="text-danger">*</span></label>
-                            <select name="ddlPatient" id="ddlPatient" class="form-control">
-                                <option value="">Select Patient Name</option>
-                                @if (ViewBag.patientnames != null)
-                                {
-                                    foreach (var pn in ViewBag.patientnames)
-                                    {
-                                        <option value="@pn.PatientsID">@pn.FirstName @pn.LastName</option>
-                                    }
-                                }
-                            </select>
+                            @Html.EditorFor(model => model.PatientsID, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Patient Address</label>
-                            <input ID="txtPatAdd" ClientIDMode="Static" class="form-control" placeholder="Patient-Address" />
+                            @Html.EditorFor(model => model.Patient_Address, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Billing Address</label>
-                            <input ID="txtBAdd" ClientIDMode="Static" class="form-control" placeholder="Bill-Address" />
+                            @Html.EditorFor(model => model.Billing_Address, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Invoice date <span class="text-danger">*</span></label>
                             <div class="cal">
-                                <input id="txtDate" clientidmode="Static" type="date" class="form-control" placeholder="YYYY-MM-DD" />
+                                @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
                     </div>
@@ -70,19 +62,19 @@
                                     <tr>
                                         <td>1</td>
                                         <td>
-                                            <input id="txtItem" class="form-control" type="text" style="min-width:150px">
+                                            @Html.EditorFor(model => model.Item, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
                                         <td>
-                                            <input id="txtdes" class="form-control" type="text" style="min-width:150px">
+                                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
                                         <td>
-                                            <input id="txtprice" class="form-control" style="width:100px" type="text" name="unit-cost" onchange="Calc(this);">
+                                            @Html.EditorFor(model => model.UnitCost, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
                                         <td>
-                                            <input id="txtqty" class="form-control" style="width:80px" type="text" name="qty" onchange="Calc(this);">
+                                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
                                         <td>
-                                            <input class="form-control form-amt" readonly="" style="width:120px" type="text" name="Amt" id="amtInput" value="0">
+                                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
                                         <td><a href="javascript:void(0)" class="text-success font-18 addRow" title="Add"><i class="fa fa-plus"></i></a></td>
                                         <td>
@@ -111,7 +103,7 @@
                                             Discount
                                         </td>
                                         <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px;width: 230px">
-                                            <input id="txtDis"  class="form-control" style="width:80px; margin-left:60%" type="text" name="Dis" onchange="updateGrandTotal();">
+                                            <input id="txtDis" class="form-control" style="width:80px; margin-left:60%" type="text" name="Dis" onchange="updateGrandTotal();">
                                         </td>
                                     </tr>
 
@@ -130,12 +122,13 @@
                     </div>
                 </div>
                 <div class="text-center m-t-20">
-                    <button type="button" class="btn btn-primary submit-btn" onclick="Add()" style=" padding-top: 7px; font-size: 12px;">Save Invoice</button>
+                    <button type="button" class="btn btn-primary submit-btn" onclick="Edit()" style=" padding-top: 7px; font-size: 12px;">Save Invoice</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 <script>
     // Function to add a new row to the table
@@ -164,7 +157,7 @@
             // Update the row numbers
             updateRowNumbers();
         }
-      
+
     }
 
     // Function to update row numbers in the first column
@@ -261,7 +254,7 @@
     });
 
 
-    function Add() {
+    function Edit() {
         debugger;
         //if (!ValidateTimeTable())
         //{
@@ -273,6 +266,7 @@
 
         if (id > 0) {
 
+            formData.append('InvoiceID', id);
             formData.append('PatientsID', $('#ddlPatient').val());
             formData.append('Patient_Address', $('#txtPatAdd').val());
             formData.append('Billing_Address', $('#txtBAdd').val());
@@ -284,30 +278,49 @@
             formData.append('Amount', $('#amtInput').val());
             formData.append('Discount', $('#txtDis').val());
             formData.append('GrandTotal', $('#grandtotal').val());
-            //formData.append('ImageFile', hdnimg);
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+
+
+
+            $('#invoiceTable tbody tr').each(function (index, row) {
+                var item = $(row).find('input[name="item"]').val();
+                var description = $(row).find('input[name="description"]').val();
+                var unitCost = $(row).find('input[name="unit-cost"]').val();
+                var quantity = $(row).find('input[name="qty"]').val();
+                var amount = $(row).find('input[name="Amt"]').val();
+
+                // Append each row's data with index for uniqueness
+                formData.append('Items[' + index + '].Item', item);
+                formData.append('Items[' + index + '].Description', description);
+                formData.append('Items[' + index + '].UnitCost', unitCost);
+                formData.append('Items[' + index + '].Quantity', quantity);
+                formData.append('Items[' + index + '].Amount', amount);
+            });
+        }
+        else {
+            formData.append('InvoiceID', id);
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Patient_Address', $('#txtPatAdd').val());
+            formData.append('Billing_Address', $('#txtBAdd').val());
+            formData.append('InvoiceDate', $('#txtDate').val());
+            formData.append('Item', $('#txtItem').val());
+            formData.append('Description', $('#txtdes').val());
+            formData.append('UnitCost', $('#txtprice').val());
+            formData.append('Quantity', $('#txtqty').val());
+            formData.append('Amount', $('#amtInput').val());
+            formData.append('Discount', $('#txtDis').val());
+            formData.append('GrandTotal', $('#grandtotal').val());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
             formData.append('ModifyBy', 'Husnain Memon');
             formData.append('ModifyDate', currentDate);
         }
-        else {
-
-            formData.append('PatientsID', $('#ddlPatient').val());
-            formData.append('Patient_Address', $('#txtPatAdd').val());
-            formData.append('Billing_Address', $('#txtBAdd').val());
-            formData.append('InvoiceDate', $('#txtDate').val());
-            formData.append('Item', $('#txtItem').val());
-            formData.append('Description', $('#txtdes').val());
-            formData.append('UnitCost', $('#txtprice').val());
-            formData.append('Quantity', $('#txtqty').val());
-            formData.append('Amount', $('#amtInput').val());
-            formData.append('Discount', $('#txtDis').val());
-            formData.append('GrandTotal', $('#grandtotal').val());
-            //formData.append('ImageFile', hdnimg);
-            formData.append('CreatedBy', 'Husnain Memon');
-            formData.append('CreatedDate', currentDate);
-        }
 
         $.ajax({
-            url: "/Invoices/AddInvoice",
+            url: "/Invoices/EditInvoice",
             dataType: "json", // Lowercase "json"
             type: "POST",
             contentType: false, // Set contentType to false
@@ -342,13 +355,13 @@
 
 
     function Validate() {
-        
+
         let row = $("#invoiceTable").find("tr").last();/*$('table tr:last');*/
 
         let amount = row.find('#amtInput').val();
 
         if (amount == 0 || amount == '') {
-           
+
             notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + 'Please enter amount' + '</span>');
             return false;
         }

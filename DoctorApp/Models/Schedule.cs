@@ -41,7 +41,7 @@ public partial class Schedule
     public Nullable<System.DateTime> ModifyDate { get; set; }
 
     public string Status { get; set; }
-        public string ImageFile { get; internal set; }
-    }
+
+}
 
 }

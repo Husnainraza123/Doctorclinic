@@ -29,7 +29,7 @@ public partial class ExperienceInformation
     public System.DateTime PeriodFrom { get; set; }
 
     public Nullable<System.DateTime> PeriodTo { get; set; }
-        public string ExperiencePeriod { get; internal set; }
-    }
+
+}
 
 }

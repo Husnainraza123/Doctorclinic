@@ -49,7 +49,7 @@ public partial class Appointment
     public bool Status { get; set; }
 
     public string Description { get; set; }
-        public string ImageFile { get; internal set; }
-    }
+
+}
 
 }

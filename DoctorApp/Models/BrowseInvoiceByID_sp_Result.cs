@@ -27,20 +27,6 @@ public partial class BrowseInvoiceByID_sp_Result
 
     public string Invoice_Date { get; set; }
 
-    public string Items { get; set; }
-
-    public string Description { get; set; }
-
-    public decimal UnitCost { get; set; }
-
-    public decimal Qty { get; set; }
-
-    public Nullable<int> Amount { get; set; }
-
-    public Nullable<int> Discount { get; set; }
-
-    public Nullable<int> GrandTotal { get; set; }
-
 }
 
 }

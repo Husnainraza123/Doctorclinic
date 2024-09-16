@@ -27,7 +27,7 @@
                             <th>Amount</th>
                             <th>Discount</th>
                             <th>GrandTotal</th>
-                            @*<th>Status</th>*@
+                            <th>Status</th>
                             <th class="text-right">Action</th>
                         </tr>
                     </thead>
@@ -42,15 +42,15 @@
                             <td>@item.Amount</td>
                             <td>@item.Discount</td>
                             <td>@item.GrandTotal</td>
-                            @*<td><span class="custom-badge status-green">Paid</span></td>*@
+                            <td><span class="custom-badge status-green">Paid</span></td>
                             <td class="text-right">
                                 <div class="dropdown dropdown-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" onclick="EditHoliday(@item.InvoiceID)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" onclick="EditInvoice(@item.InvoiceID)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
                                         <a class="dropdown-item" href="invoice-view.html"><i class="fa fa-eye m-r-5"></i>View</a>
                                         <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o m-r-5"></i>Download</a>
-                                        < <a class="dropdown-item" onclick="Delete(@item.InvoiceID)" data-toggle="modal" data-target="#delete_holiday"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                        < <a class="dropdown-item" onclick="Delete(@item.InvoiceID)"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                     </div>
                                 </div>
                             </td>
@@ -65,3 +65,82 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    function EditInvoice(InvoiceID) {
+
+        window.location.href = '/Invoices/EditInvoice?Id=' + InvoiceID;
+        return;
+    }
+
+    $('Edit').click(function () {
+        debugger;
+        var InvoiceID = $(this).data('id');
+
+        $('#exampleModalLabel').text("Edit Invoice");
+
+        $.ajax({
+            url: "/Invoices/EditInvoice",
+            dataType: "json",
+            type: "POST",
+            data: { id: InvoiceID },
+            success: function (response) {
+                debugger;
+                if (response) {
+                    console.log(response);
+                    $('#PatientsID').val(response.PatientsID);
+                    $('#Patient_Address').val(response.Patient_Address);
+                    $('#Billing_Address').val(response.Billing_Address);
+                    $('#InvoiceDate').val(response.InvoiceDate);
+                    $('#Item,').val(response.Item);
+                   /* $('#Status').val(response.Status);*/
+
+                    $('#Description').val(response.Description);
+                    $('#UnitCost').val(response.UnitCost);
+                    $('#Quantity').val(response.Quantity);
+                    $('#Amount').val(response.Amount);
+                    $('#Discount').val(response.Discount);
+                    $('#GrandTotal').val(response.GrandTotal);
+                   
+                }
+
+                else {
+                    notifyDanger("Invoice data not found");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+                notifyDanger("Error occurred while fetching Appointment data");
+            }
+        });
+    });
+ function Delete(id) {
+    console.log("Deleting InvoiceID with ID:", id);
+
+    $.ajax({
+        url: "/Invoice/DeleteInvoice",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json", // Set the contentType to "application/json" for sending JSON data
+        data: JSON.stringify({ id: id }), // Send data as a JSON string
+        success: function (response) {
+            if (response && response.success) {
+                notifySuccess("Invoice deleted successfully");
+                $('#exampleModal').find('.close').click();
+                Bind(); // Refresh the data
+            } else {
+                notifyDanger("Failed to delete Invoice");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error:", xhr.responseText);
+            notifyDanger("An error occurred while deleting the Invoice");
+        }
+    });
+}
+
+
+
+
+</script>
