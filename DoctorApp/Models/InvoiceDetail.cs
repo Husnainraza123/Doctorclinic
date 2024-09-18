@@ -15,7 +15,7 @@ namespace DoctorApp.Models
 using System;
     using System.Collections.Generic;
     
-public partial class InvoiceDetail:Invoice
+public partial class InvoiceDetail
 {
 
     public int InvoiceDetailID { get; set; }
@@ -30,11 +30,11 @@ public partial class InvoiceDetail:Invoice
 
     public decimal Quantity { get; set; }
 
-    public decimal Amount { get; set; }
+    public Nullable<decimal> Amount { get; set; }
 
-    public decimal Discount { get; set; }
+    public Nullable<decimal> Discount { get; set; }
 
-    public decimal GrandTotal { get; set; }
+    public Nullable<decimal> GrandTotal { get; set; }
 
     public string CreatedBy { get; set; }
 

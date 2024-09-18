@@ -27,6 +27,12 @@ public partial class BrowseInvoice_sp_Result
 
     public string Invoice_Date { get; set; }
 
+    public Nullable<decimal> Amount { get; set; }
+
+    public Nullable<decimal> Discount { get; set; }
+
+    public Nullable<decimal> GrandTotal { get; set; }
+
 }
 
 }

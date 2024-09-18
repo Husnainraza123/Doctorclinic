@@ -50,6 +50,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
@@ -111,7 +112,7 @@
                                             Discount
                                         </td>
                                         <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px;width: 230px">
-                                            <input id="txtDis"  class="form-control" style="width:80px; margin-left:60%" type="text" name="Dis" onchange="updateGrandTotal();">
+                                            <input id="txtDis" class="form-control" style="width:80px; margin-left:60%" type="text" name="Dis" onchange="updateGrandTotal();">
                                         </td>
                                     </tr>
 
@@ -138,7 +139,77 @@
 </div>
 
 <script>
-    // Function to add a new row to the table
+
+
+function Add() {
+    debugger;
+    var id = $('#hdnID').val();
+    var formData = new FormData();
+    var currentDate = new Date().toISOString();
+
+    // Basic data
+    formData.append('PatientsID', $('#ddlPatient').val());
+    formData.append('Patient_Address', $('#txtPatAdd').val());
+    formData.append('Billing_Address', $('#txtBAdd').val());
+    formData.append('InvoiceDate', $('#txtDate').val());
+
+    if (id > 0) {
+        formData.append('InvoiceID', id);
+        formData.append('ModifyBy', 'Husnain Memon');
+        formData.append('ModifyDate', currentDate);
+    } else {
+        formData.append('CreatedBy', 'Husnain Memon');
+        formData.append('CreatedDate', currentDate);
+    }
+
+    // Loop through the invoice details and append each field
+    $('#invoiceTable tbody tr').each(function () {
+        var item = $(this).find('#txtItem').val();
+        var description = $(this).find('#txtdes').val();
+        var unitCost = $(this).find('#txtprice').val();
+        var quantity = $(this).find('#txtqty').val();
+        var amount = $(this).find('#amtInput').val();
+        var discount = $(this).find('#txtDis').val();
+        var grandTotal = $(this).find('#grandtotal').val();
+
+        // Append each detail
+        formData.append('Item[]', item);
+        formData.append('Description[]', description);
+        formData.append('UnitCost[]', unitCost);
+        formData.append('Quantity[]', quantity);
+        formData.append('Amount[]', amount);
+        formData.append('Discount[]', discount);
+        formData.append('GrandTotal[]', grandTotal);
+    });
+
+    // Debugging: log formData entries to check if they are being populated correctly
+    for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+    }
+
+    // Ajax call to send data to the backend
+    $.ajax({
+        url: "/Invoices/AddInvoice",
+        dataType: "json",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            if (response.success === true) {
+                notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
+                $('#exampleModal').find('.close').click();
+                Bind();
+            } else {
+                notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error:", xhr.responseText);
+        }
+    });
+}
+
     function addNewRow() {
         if (Validate()) {
             var tableBody = document.querySelector("#invoiceTable tbody");
@@ -149,11 +220,11 @@
             // Set the HTML content for the new row
             newRow.innerHTML = `
                 <td></td>
-                <td><input class="form-control" type="text" style="min-width:150px"></td>
-                <td><input class="form-control" type="text" style="min-width:150px"></td>
-                <td><input class="form-control" style="width:100px" type="text" name="unit-cost" onchange="Calc(this);"></td>
-                <td><input class="form-control" style="width:80px" type="text" name="qty" onchange="Calc(this);"></td>
-                <td>  <input class="form-control form-amt" readonly="" style="width:120px" type="text" name="Amt" id="amtInput" value="0"></td>
+                <td><input id="txtItem" class="form-control" type="text" style="min-width:150px"></td>
+                <td><input id="txtdes" class="form-control" type="text" style="min-width:150px"></td>
+                <td><input  id="txtprice" class="form-control" style="width:100px" type="text" name="unit-cost" onchange="Calc(this);"></td>
+                <td><input id="txtqty" class="form-control" style="width:80px" type="text" name="qty" onchange="Calc(this);"></td>
+                <td>  <input  class="form-control form-amt" readonly="" style="width:120px" type="text" name="Amt" id="amtInput" value="0"></td>
                 <td><a href="javascript:void(0)" class="text-success font-18 addRow" title="Add"><i class="fa fa-plus"></i></a></td>
                 <td><a href="javascript:void(0)" class="text-danger font-18 deleteRow" title="Delete" onclick="deleteRow(this);"><i class="fa fa-trash"></i></a></td>
             `;
@@ -164,7 +235,7 @@
             // Update the row numbers
             updateRowNumbers();
         }
-      
+
     }
 
     // Function to update row numbers in the first column
@@ -193,7 +264,7 @@
         if (event.target.closest('.addRow')) {
             if (Validate()) {
                 addNewRow();
-                deleteRow();
+                //deleteRow();
             }
 
 
@@ -261,78 +332,6 @@
     });
 
 
-    function Add() {
-        debugger;
-        //if (!ValidateTimeTable())
-        //{
-        //    return false;
-        //}
-        var id = $('#hdnID').val();
-        var formData = new FormData();
-        var currentDate = new Date().toISOString();
-
-        if (id > 0) {
-
-            formData.append('PatientsID', $('#ddlPatient').val());
-            formData.append('Patient_Address', $('#txtPatAdd').val());
-            formData.append('Billing_Address', $('#txtBAdd').val());
-            formData.append('InvoiceDate', $('#txtDate').val());
-            formData.append('Item', $('#txtItem').val());
-            formData.append('Description', $('#txtdes').val());
-            formData.append('UnitCost', $('#txtprice').val());
-            formData.append('Quantity', $('#txtqty').val());
-            formData.append('Amount', $('#amtInput').val());
-            formData.append('Discount', $('#txtDis').val());
-            formData.append('GrandTotal', $('#grandtotal').val());
-            //formData.append('ImageFile', hdnimg);
-            formData.append('ModifyBy', 'Husnain Memon');
-            formData.append('ModifyDate', currentDate);
-        }
-        else {
-
-            formData.append('PatientsID', $('#ddlPatient').val());
-            formData.append('Patient_Address', $('#txtPatAdd').val());
-            formData.append('Billing_Address', $('#txtBAdd').val());
-            formData.append('InvoiceDate', $('#txtDate').val());
-            formData.append('Item', $('#txtItem').val());
-            formData.append('Description', $('#txtdes').val());
-            formData.append('UnitCost', $('#txtprice').val());
-            formData.append('Quantity', $('#txtqty').val());
-            formData.append('Amount', $('#amtInput').val());
-            formData.append('Discount', $('#txtDis').val());
-            formData.append('GrandTotal', $('#grandtotal').val());
-            //formData.append('ImageFile', hdnimg);
-            formData.append('CreatedBy', 'Husnain Memon');
-            formData.append('CreatedDate', currentDate);
-        }
-
-        $.ajax({
-            url: "/Invoices/AddInvoice",
-            dataType: "json", // Lowercase "json"
-            type: "POST",
-            contentType: false, // Set contentType to false
-            processData: false, // Set processData to false
-            data: formData,
-            success: function (response) {
-                if (response.success == true) { // Assuming your response has a status field
-                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
-
-                    $('#exampleModal').find('.close').click();
-                    Bind();
-
-
-                    //window.location.href = '/Admin/DisplayTeacher';
-                } else {
-                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
-                }
-            },
-            error: function (xhr, status, error) {
-                debugger
-                console.error("Error:", xhr.responseText);
-            }
-        });
-
-    }
     function notifyDanger(message) {
         $('#notificationElement').html(message).addClass('large-text').show();
         // Add your existing code to display the message
@@ -342,13 +341,13 @@
 
 
     function Validate() {
-        
+
         let row = $("#invoiceTable").find("tr").last();/*$('table tr:last');*/
 
         let amount = row.find('#amtInput').val();
 
         if (amount == 0 || amount == '') {
-           
+
             notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + 'Please enter amount' + '</span>');
             return false;
         }

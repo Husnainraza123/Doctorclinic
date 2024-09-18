@@ -18,12 +18,14 @@ namespace DoctorApp.Controllers
             List<InvoiceViewModel> invoices = db.BrowseInvoice_sp().Select(
                 s => new InvoiceViewModel()
                 {
-                    
                     InvoiceID = s.ID,
-                    PatientName = s.Patient_Name,                    
+                    PatientName = s.Patient_Name,
                     Patient_Address = s.Patient_Address,
                     Billing_Address = s.Billing_Address,
                     InvoiceDate = Convert.ToDateTime(s.Invoice_Date),
+                    Amount = s.Amount,
+                    Discount = s.Discount,
+                    GrandTotal = s.GrandTotal,
                 }).ToList();
             return View(invoices);
         }
@@ -38,20 +40,61 @@ namespace DoctorApp.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AddInvoice(Invoice i)
+        public JsonResult AddInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount, string[] Discount, string[] GrandTotal)
         {
-            i.CreatedDate = DateTime.Now;
-            db.Invoices.Add(i);
-            int c = db.SaveChanges();
-            if (c > 0)
+            try
             {
-                return Json(new { success = true, message = "Invoice added successfully." });
+                // Insert the Invoice first
+                i.CreatedDate = DateTime.Now;
+                db.Invoices.Add(i);
+                int invoiceSaveResult = db.SaveChanges();
+
+                if (invoiceSaveResult > 0)
+                {
+                    // Loop through the details arrays and add them to the InvoiceDetails table
+                    for (int j = 0; j < Item.Length; j++)
+                    {
+                        InvoiceDetail detail = new InvoiceDetail
+                        {
+                            InvoiceID = i.InvoiceID, // Ensure the foreign key is set
+
+                            // Ensure the Item and Description arrays are not empty and indices are valid
+                            Item = Item.Length > j ? Item[j] : string.Empty,
+                            Description = Description.Length > j ? Description[j] : string.Empty,
+
+                            // Use TryParse to safely parse the strings
+                            UnitCost = decimal.TryParse(UnitCost[j], out decimal unitCostValue) ? (decimal)unitCostValue : 0,
+                            Quantity = int.TryParse(Quantity[j], out int quantityValue) ? (decimal)quantityValue : 0,
+                            Amount = decimal.TryParse(Amount[j], out decimal amountValue) ? (decimal?)amountValue : null,
+                            Discount = decimal.TryParse(Discount[j], out decimal discountValue) ? (decimal?)discountValue : null,
+                            GrandTotal = decimal.TryParse(GrandTotal[j], out decimal grandTotalValue) ? (decimal?)grandTotalValue : null,
+
+                            CreatedBy = "system", // You can set this or modify as per your context
+                            CreatedDate = DateTime.Now
+                        };
+
+
+                        db.InvoiceDetails.Add(detail);
+                    }
+
+                    int detailsSaveResult = db.SaveChanges();
+
+                    if (detailsSaveResult > 0)
+                    {
+                        return Json(new { success = true, message = "Invoice and details added successfully." });
+                    }
+                }
+
+                return Json(new { success = false, message = "Error occurred while saving the Invoice." });
             }
-            else
+            catch (Exception ex)
             {
-                return Json(new { success = false, message = "Error occurred while adding the Invoice." });
+                // Log the exception
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
+
 
 
         public ActionResult EditInvoice(int id)
