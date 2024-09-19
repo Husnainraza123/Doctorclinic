@@ -35,10 +35,6 @@ public partial class BrowseInvoiceDetailByID_sp_Result
 
     public Nullable<int> Amount { get; set; }
 
-    public Nullable<int> Discount { get; set; }
-
-    public Nullable<int> GrandTotal { get; set; }
-
 }
 
 }

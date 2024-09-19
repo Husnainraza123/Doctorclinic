@@ -19,7 +19,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Patient <span class="text-danger">*</span></label>
-                            @Html.EditorFor(model => model.PatientsID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.PatientName, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
@@ -131,7 +131,70 @@
 
 
 <script>
-    // Function to add a new row to the table
+
+    function Edit() {
+        debugger;
+        var id = $('#hdnID').val();
+        var formData = new FormData();
+        var currentDate = new Date().toISOString();
+
+        if (id > 0) { // if editing an existing invoice
+            formData.append('InvoiceID', id);
+            formData.append('PatientsID', $('#ddlPatient').val());
+            formData.append('Patient_Address', $('#txtPatAdd').val());
+            formData.append('Billing_Address', $('#txtBAdd').val());
+            formData.append('InvoiceDate', $('#txtDate').val());
+            formData.append('Item', $('#txtItem').val());
+            formData.append('Description', $('#txtdes').val());
+            formData.append('UnitCost', $('#txtprice').val());
+            formData.append('Quantity', $('#txtqty').val());
+            formData.append('Amount', $('#amtInput').val());
+            formData.append('Discount', $('#txtDis').val());
+            formData.append('GrandTotal', $('#grandtotal').text());
+            formData.append('CreatedBy', 'Husnain Memon');
+            formData.append('CreatedDate', currentDate);
+            formData.append('ModifyBy', 'Husnain Memon');
+            formData.append('ModifyDate', currentDate);
+
+            // Get each row's data for the invoice items
+            $('#invoiceTable tbody tr').each(function (index, row) {
+                var item = $(row).find('input[name="item"]').val();
+                var description = $(row).find('input[name="description"]').val();
+                var unitCost = $(row).find('input[name="unit-cost"]').val();
+                var quantity = $(row).find('input[name="qty"]').val();
+                var amount = $(row).find('input[name="Amt"]').val();
+
+                // Append row data with index to formData
+                formData.append('Items[' + index + '].Item', item);
+                formData.append('Items[' + index + '].Description', description);
+                formData.append('Items[' + index + '].UnitCost', unitCost);
+                formData.append('Items[' + index + '].Quantity', quantity);
+                formData.append('Items[' + index + '].Amount', amount);
+            });
+
+            $.ajax({
+                url: "/Invoices/EditInvoice",
+                dataType: "json",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        notifySuccess(response.message);
+                        $('#exampleModal').find('.close').click();
+                        Bind(); // Call your Bind function here to refresh the invoice list
+                    } else {
+                        notifyDanger(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        }
+    }
+  
     function addNewRow() {
         if (Validate()) {
             var tableBody = document.querySelector("#invoiceTable tbody");
@@ -254,98 +317,8 @@
     });
 
 
-    function Edit() {
-        debugger;
-        //if (!ValidateTimeTable())
-        //{
-        //    return false;
-        //}
-        var id = $('#hdnID').val();
-        var formData = new FormData();
-        var currentDate = new Date().toISOString();
+    
 
-        if (id > 0) {
-
-            formData.append('InvoiceID', id);
-            formData.append('PatientsID', $('#ddlPatient').val());
-            formData.append('Patient_Address', $('#txtPatAdd').val());
-            formData.append('Billing_Address', $('#txtBAdd').val());
-            formData.append('InvoiceDate', $('#txtDate').val());
-            formData.append('Item', $('#txtItem').val());
-            formData.append('Description', $('#txtdes').val());
-            formData.append('UnitCost', $('#txtprice').val());
-            formData.append('Quantity', $('#txtqty').val());
-            formData.append('Amount', $('#amtInput').val());
-            formData.append('Discount', $('#txtDis').val());
-            formData.append('GrandTotal', $('#grandtotal').val());
-            formData.append('CreatedBy', 'Husnain Memon');
-            formData.append('CreatedDate', currentDate);
-            formData.append('ModifyBy', 'Husnain Memon');
-            formData.append('ModifyDate', currentDate);
-
-
-
-            $('#invoiceTable tbody tr').each(function (index, row) {
-                var item = $(row).find('input[name="item"]').val();
-                var description = $(row).find('input[name="description"]').val();
-                var unitCost = $(row).find('input[name="unit-cost"]').val();
-                var quantity = $(row).find('input[name="qty"]').val();
-                var amount = $(row).find('input[name="Amt"]').val();
-
-                // Append each row's data with index for uniqueness
-                formData.append('Items[' + index + '].Item', item);
-                formData.append('Items[' + index + '].Description', description);
-                formData.append('Items[' + index + '].UnitCost', unitCost);
-                formData.append('Items[' + index + '].Quantity', quantity);
-                formData.append('Items[' + index + '].Amount', amount);
-            });
-        }
-        else {
-            formData.append('InvoiceID', id);
-            formData.append('PatientsID', $('#ddlPatient').val());
-            formData.append('Patient_Address', $('#txtPatAdd').val());
-            formData.append('Billing_Address', $('#txtBAdd').val());
-            formData.append('InvoiceDate', $('#txtDate').val());
-            formData.append('Item', $('#txtItem').val());
-            formData.append('Description', $('#txtdes').val());
-            formData.append('UnitCost', $('#txtprice').val());
-            formData.append('Quantity', $('#txtqty').val());
-            formData.append('Amount', $('#amtInput').val());
-            formData.append('Discount', $('#txtDis').val());
-            formData.append('GrandTotal', $('#grandtotal').val());
-            formData.append('CreatedBy', 'Husnain Memon');
-            formData.append('CreatedDate', currentDate);
-            formData.append('ModifyBy', 'Husnain Memon');
-            formData.append('ModifyDate', currentDate);
-        }
-
-        $.ajax({
-            url: "/Invoices/EditInvoice",
-            dataType: "json", // Lowercase "json"
-            type: "POST",
-            contentType: false, // Set contentType to false
-            processData: false, // Set processData to false
-            data: formData,
-            success: function (response) {
-                if (response.success == true) { // Assuming your response has a status field
-                    notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
-
-                    $('#exampleModal').find('.close').click();
-                    Bind();
-
-
-                    //window.location.href = '/Admin/DisplayTeacher';
-                } else {
-                    notifyDanger('<span style="font-size: 12px; font-weight:bold;">' + response.message + '</span>');
-                }
-            },
-            error: function (xhr, status, error) {
-                debugger
-                console.error("Error:", xhr.responseText);
-            }
-        });
-
-    }
     function notifyDanger(message) {
         $('#notificationElement').html(message).addClass('large-text').show();
         // Add your existing code to display the message

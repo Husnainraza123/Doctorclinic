@@ -17,11 +17,9 @@ using System;
 public partial class BrowseInvoiceDetail_sp_Result
 {
 
-    public Nullable<int> ID { get; set; }
+    public Nullable<int> InvoiceID { get; set; }
 
     public Nullable<int> PatientsID { get; set; }
-
-    public string PatientAddress { get; set; }
 
     public string BillAddress { get; set; }
 
@@ -34,10 +32,6 @@ public partial class BrowseInvoiceDetail_sp_Result
     public decimal Qty { get; set; }
 
     public Nullable<int> Amount { get; set; }
-
-    public Nullable<int> Discount { get; set; }
-
-    public Nullable<int> GrandTotal { get; set; }
 
 }
 

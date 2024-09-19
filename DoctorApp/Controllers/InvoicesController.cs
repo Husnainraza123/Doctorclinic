@@ -23,7 +23,8 @@ namespace DoctorApp.Controllers
                     Patient_Address = s.Patient_Address,
                     Billing_Address = s.Billing_Address,
                     InvoiceDate = Convert.ToDateTime(s.Invoice_Date),
-                    Amount = s.Amount,
+                    //Amount=s.Amount,
+                    Total = s.Total,
                     Discount = s.Discount,
                     GrandTotal = s.GrandTotal,
                 }).ToList();
@@ -40,7 +41,7 @@ namespace DoctorApp.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AddInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount, string[] Discount, string[] GrandTotal)
+        public JsonResult AddInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount,string[] Total, string[] Discount, string[] GrandTotal)
         {
             try
             {
@@ -66,10 +67,11 @@ namespace DoctorApp.Controllers
                             UnitCost = decimal.TryParse(UnitCost[j], out decimal unitCostValue) ? (decimal)unitCostValue : 0,
                             Quantity = int.TryParse(Quantity[j], out int quantityValue) ? (decimal)quantityValue : 0,
                             Amount = decimal.TryParse(Amount[j], out decimal amountValue) ? (decimal?)amountValue : null,
+                            Total = decimal.TryParse(Total[j], out decimal TotaltValue) ? (decimal?)TotaltValue : null,
                             Discount = decimal.TryParse(Discount[j], out decimal discountValue) ? (decimal?)discountValue : null,
                             GrandTotal = decimal.TryParse(GrandTotal[j], out decimal grandTotalValue) ? (decimal?)grandTotalValue : null,
 
-                            CreatedBy = "system", // You can set this or modify as per your context
+                            CreatedBy = "Husnain Mmeon", // You can set this or modify as per your context
                             CreatedDate = DateTime.Now
                         };
 
@@ -107,12 +109,9 @@ namespace DoctorApp.Controllers
                 Patient_Address = row.Patient_Address,
                 Billing_Address = row.Billing_Address,
                 InvoiceDate = Convert.ToDateTime(row.Invoice_Date),
-                //Item = row.Items,
-                //Description = row.Description,
-                //UnitCost = row.UnitCost,
-                //Quantity = row.Qty,
-                //Amount = Convert.ToDecimal(row.Amount),
-                //GrandTotal = Convert.ToDecimal(row.GrandTotal)
+                Total = row.Total,
+                Discount = row.Discount,
+                GrandTotal = row.GrandTotal,
 
 
             };

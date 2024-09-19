@@ -28,6 +28,12 @@ public partial class Invoice
 
     public System.DateTime InvoiceDate { get; set; }
 
+    public Nullable<decimal> Total { get; set; }
+
+    public Nullable<decimal> Discount { get; set; }
+
+    public Nullable<decimal> GrandTotal { get; set; }
+
     public string CreatedBy { get; set; }
 
     public System.DateTime CreatedDate { get; set; }

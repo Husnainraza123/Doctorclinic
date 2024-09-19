@@ -169,19 +169,24 @@ function Add() {
         var unitCost = $(this).find('#txtprice').val();
         var quantity = $(this).find('#txtqty').val();
         var amount = $(this).find('#amtInput').val();
-        var discount = $(this).find('#txtDis').val();
-        var grandTotal = $(this).find('#grandtotal').val();
-
+        let Total = $('#total').text();
+        var discount = $('#txtDis').val();
+        var grandTotal = $('#grandtotal').text();
+        
+        debugger
         // Append each detail
         formData.append('Item[]', item);
         formData.append('Description[]', description);
         formData.append('UnitCost[]', unitCost);
         formData.append('Quantity[]', quantity);
         formData.append('Amount[]', amount);
-        formData.append('Discount[]', discount);
-        formData.append('GrandTotal[]', grandTotal);
+        formData.append('Discount', discount);
+        formData.append('GrandTotal', grandTotal);
+        formData.append('Total', Total);
     });
-
+    
+  
+    
     // Debugging: log formData entries to check if they are being populated correctly
     for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]);
@@ -198,6 +203,8 @@ function Add() {
         success: function (response) {
             if (response.success === true) {
                 notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
+                clearfield();
+
                 $('#exampleModal').find('.close').click();
                 Bind();
             } else {
@@ -352,5 +359,23 @@ function Add() {
             return false;
         }
         return true;
+    }
+
+
+    function clearfield() {
+
+        $('#ddlPatient').val('');
+        $('#txtPatAdd').val('');
+        $('#txtBAdd').val('');
+        $('#txtDate').val('');
+        $('#txtItem').val('');
+        $('#txtdes').val('');
+        $('#txtprice').val('');
+        $('#txtqty').val('');
+        $('#amtInput').val('');
+        $('#total').text('');
+        $('#txtDis').val('');
+        $('#grandtotal').text('');
+
     }
 </script>

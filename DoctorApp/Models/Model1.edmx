@@ -147,6 +147,9 @@
           <Property Name="Patient_Address" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Billing_Address" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="InvoiceDate" Type="date" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GrandTotal" Type="decimal" Precision="18" Scale="0" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
@@ -163,8 +166,6 @@
           <Property Name="UnitCost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="GrandTotal" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="100" />
@@ -438,6 +439,9 @@
           <Parameter Name="Patient_Address" Type="nvarchar" Mode="In" />
           <Parameter Name="Billing_Address" Type="nvarchar" Mode="In" />
           <Parameter Name="InvoiceDate" Type="date" Mode="In" />
+          <Parameter Name="Total" Type="decimal" Mode="In" />
+          <Parameter Name="Discount" Type="decimal" Mode="In" />
+          <Parameter Name="GrandTotal" Type="decimal" Mode="In" />
           <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
         </Function>
@@ -448,8 +452,6 @@
           <Parameter Name="UnitCost" Type="decimal" Mode="In" />
           <Parameter Name="Quantity" Type="decimal" Mode="In" />
           <Parameter Name="Amount" Type="decimal" Mode="In" />
-          <Parameter Name="Discount" Type="decimal" Mode="In" />
-          <Parameter Name="GrandTotal" Type="decimal" Mode="In" />
           <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
           <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
         </Function>
@@ -588,6 +590,9 @@
           <Parameter Name="Patient_Address" Type="nvarchar" Mode="In" />
           <Parameter Name="Billing_Address" Type="nvarchar" Mode="In" />
           <Parameter Name="InvoiceDate" Type="date" Mode="In" />
+          <Parameter Name="Total" Type="decimal" Mode="In" />
+          <Parameter Name="Discount" Type="decimal" Mode="In" />
+          <Parameter Name="GrandTotal" Type="decimal" Mode="In" />
           <Parameter Name="ModifyBy" Type="nvarchar" Mode="In" />
           <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
           <Parameter Name="InvoiceID" Type="int" Mode="In" />
@@ -599,8 +604,6 @@
           <Parameter Name="UnitCost" Type="decimal" Mode="In" />
           <Parameter Name="Quantity" Type="decimal" Mode="In" />
           <Parameter Name="Amount" Type="decimal" Mode="In" />
-          <Parameter Name="Discount" Type="decimal" Mode="In" />
-          <Parameter Name="GrandTotal" Type="decimal" Mode="In" />
           <Parameter Name="ModifyBy" Type="nvarchar" Mode="In" />
           <Parameter Name="ModifyDate" Type="datetime" Mode="In" />
           <Parameter Name="InvoiceDetailID" Type="int" Mode="In" />
@@ -1136,13 +1139,6 @@
             <Parameter Name="CodeType" Mode="In" Type="String" />
             <Parameter Name="CodeTypeID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="InvoiceDetails" EntityType="DoctorClinicModel.InvoiceDetail" />
-          
-          
-          <FunctionImport Name="BrowseInvoiceDetail_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceDetail_sp_Result)" />
-          <FunctionImport Name="BrowseInvoiceDetailByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceDetailByID_sp_Result)">
-          <Parameter Name="InvoiceDetailID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="DeleteInvoice_sp">
           <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1150,6 +1146,22 @@
           <Parameter Name="InvoiceDetailID" Mode="In" Type="Int32" />
           </FunctionImport>
           
+          
+          <FunctionImport Name="BrowseInvoiceDetail_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceDetail_sp_Result)" />
+          <FunctionImport Name="BrowseInvoiceDetailByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceDetailByID_sp_Result)">
+          <Parameter Name="InvoiceDetailID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertInvoice_sp">
+            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
+            <Parameter Name="Patient_Address" Mode="In" Type="String" />
+            <Parameter Name="Billing_Address" Mode="In" Type="String" />
+            <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+            <Parameter Name="Discount" Mode="In" Type="Decimal" />
+            <Parameter Name="GrandTotal" Mode="In" Type="Decimal" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="insertInvoiceDetail_sp">
             <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="Item" Mode="In" Type="String" />
@@ -1157,35 +1169,6 @@
             <Parameter Name="UnitCost" Mode="In" Type="Decimal" />
             <Parameter Name="Quantity" Mode="In" Type="Decimal" />
             <Parameter Name="Amount" Mode="In" Type="Decimal" />
-            <Parameter Name="Discount" Mode="In" Type="Decimal" />
-            <Parameter Name="GrandTotal" Mode="In" Type="Decimal" />
-            <Parameter Name="CreatedBy" Mode="In" Type="String" />
-            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          
-          <FunctionImport Name="UpdateInvoiceDetail_sp">
-            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
-            <Parameter Name="Item" Mode="In" Type="String" />
-            <Parameter Name="Description" Mode="In" Type="String" />
-            <Parameter Name="UnitCost" Mode="In" Type="Decimal" />
-            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
-            <Parameter Name="Amount" Mode="In" Type="Decimal" />
-            <Parameter Name="Discount" Mode="In" Type="Decimal" />
-            <Parameter Name="GrandTotal" Mode="In" Type="Decimal" />
-            <Parameter Name="ModifyBy" Mode="In" Type="String" />
-            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
-            <Parameter Name="InvoiceDetailID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="Invoices" EntityType="DoctorClinicModel.Invoice" />
-         
-          <FunctionImport Name="BrowseInvoiceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceByID_sp_Result)">
-          <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="insertInvoice_sp">
-            <Parameter Name="PatientsID" Mode="In" Type="Int32" />
-            <Parameter Name="Patient_Address" Mode="In" Type="String" />
-            <Parameter Name="Billing_Address" Mode="In" Type="String" />
-            <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
             <Parameter Name="CreatedBy" Mode="In" Type="String" />
             <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
           </FunctionImport>
@@ -1194,9 +1177,29 @@
             <Parameter Name="Patient_Address" Mode="In" Type="String" />
             <Parameter Name="Billing_Address" Mode="In" Type="String" />
             <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+            <Parameter Name="Discount" Mode="In" Type="Decimal" />
+            <Parameter Name="GrandTotal" Mode="In" Type="Decimal" />
             <Parameter Name="ModifyBy" Mode="In" Type="String" />
             <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
             <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateInvoiceDetail_sp">
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="Item" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="UnitCost" Mode="In" Type="Decimal" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="ModifyBy" Mode="In" Type="String" />
+            <Parameter Name="ModifyDate" Mode="In" Type="DateTime" />
+            <Parameter Name="InvoiceDetailID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Invoices" EntityType="DoctorClinicModel.Invoice" />
+          <EntitySet Name="InvoiceDetails" EntityType="DoctorClinicModel.InvoiceDetail" />
+         
+          <FunctionImport Name="BrowseInvoiceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceByID_sp_Result)">
+          <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="BrowseInvoice_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoice_sp_Result)" />
         
@@ -1642,38 +1645,17 @@
 					<Property Type="Int32" Name="ID" Nullable="false" />
 					<Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
 				</ComplexType>
-        <EntityType Name="InvoiceDetail">
-          <Key>
-            <PropertyRef Name="InvoiceDetailID" />
-          </Key>
-          <Property Name="InvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
-          <Property Name="Item" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UnitCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
-          <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
-          <Property Name="GrandTotal" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        
-        
+       
+       
         <ComplexType Name="BrowseInvoiceDetail_sp_Result">
-          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="true" />
           <Property Type="Int32" Name="PatientsID" Nullable="true" />
-          <Property Type="String" Name="PatientAddress" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="BillAddress" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Items" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="100" />
           <Property Type="Decimal" Name="UnitCost" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Qty" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Int32" Name="Amount" Nullable="true" />
-          <Property Type="Int32" Name="Discount" Nullable="true" />
-          <Property Type="Int32" Name="GrandTotal" Nullable="true" />
         </ComplexType>
         <ComplexType Name="BrowseInvoiceDetailByID_sp_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -1685,8 +1667,6 @@
           <Property Type="Decimal" Name="UnitCost" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Qty" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Int32" Name="Amount" Nullable="true" />
-          <Property Type="Int32" Name="Discount" Nullable="true" />
-          <Property Type="Int32" Name="GrandTotal" Nullable="true" />
         </ComplexType>
         <EntityType Name="Invoice">
           <Key>
@@ -1697,6 +1677,25 @@
           <Property Name="Patient_Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Billing_Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GrandTotal" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="InvoiceDetail">
+          <Key>
+            <PropertyRef Name="InvoiceDetailID" />
+          </Key>
+          <Property Name="InvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="Item" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnitCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -1709,6 +1708,10 @@
           <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
         <ComplexType Name="BrowseInvoice_sp_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -1716,9 +1719,9 @@
           <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
         
 				
@@ -2377,41 +2380,21 @@
 					<FunctionImportMapping FunctionImportName="insertCodeType_sp" FunctionName="DoctorClinicModel.Store.insertCodeType_sp" />
 					
 					<FunctionImportMapping FunctionImportName="updateCodeType_sp" FunctionName="DoctorClinicModel.Store.updateCodeType_sp" />
-          <EntitySetMapping Name="InvoiceDetails">
-            <EntityTypeMapping TypeName="DoctorClinicModel.InvoiceDetail">
-              <MappingFragment StoreEntitySet="InvoiceDetail">
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Item" ColumnName="Item" />
-                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
-                <ScalarProperty Name="InvoiceDetailID" ColumnName="InvoiceDetailID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-         
+          <FunctionImportMapping FunctionImportName="DeleteInvoice_sp" FunctionName="DoctorClinicModel.Store.DeleteInvoice_sp" />
+          <FunctionImportMapping FunctionImportName="DeleteInvoiceDetail_sp" FunctionName="DoctorClinicModel.Store.DeleteInvoiceDetail_sp" />
+          
           
           <FunctionImportMapping FunctionImportName="BrowseInvoiceDetail_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoiceDetail_sp">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseInvoiceDetail_sp_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
                 <ScalarProperty Name="PatientsID" ColumnName="PatientsID" />
-                <ScalarProperty Name="PatientAddress" ColumnName="PatientAddress" />
                 <ScalarProperty Name="BillAddress" ColumnName="BillAddress" />
                 <ScalarProperty Name="Items" ColumnName="Items" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2427,16 +2410,12 @@
                 <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="DeleteInvoice_sp" FunctionName="DoctorClinicModel.Store.DeleteInvoice_sp" />
-          <FunctionImportMapping FunctionImportName="DeleteInvoiceDetail_sp" FunctionName="DoctorClinicModel.Store.DeleteInvoiceDetail_sp" />
-          
+          <FunctionImportMapping FunctionImportName="insertInvoice_sp" FunctionName="DoctorClinicModel.Store.insertInvoice_sp" />
           <FunctionImportMapping FunctionImportName="insertInvoiceDetail_sp" FunctionName="DoctorClinicModel.Store.insertInvoiceDetail_sp" />
-         
+          <FunctionImportMapping FunctionImportName="UpdateInvoice_sp" FunctionName="DoctorClinicModel.Store.UpdateInvoice_sp" />
           <FunctionImportMapping FunctionImportName="UpdateInvoiceDetail_sp" FunctionName="DoctorClinicModel.Store.UpdateInvoiceDetail_sp" />
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="DoctorClinicModel.Invoice">
@@ -2445,6 +2424,9 @@
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
                 <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
@@ -2453,7 +2435,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-         
+          <EntitySetMapping Name="InvoiceDetails">
+            <EntityTypeMapping TypeName="DoctorClinicModel.InvoiceDetail">
+              <MappingFragment StoreEntitySet="InvoiceDetail">
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="InvoiceDetailID" ColumnName="InvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          
           <FunctionImportMapping FunctionImportName="BrowseInvoiceByID_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoiceByID_sp">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseInvoiceByID_sp_Result">
@@ -2462,11 +2461,13 @@
                 <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
                 <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
                 <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="insertInvoice_sp" FunctionName="DoctorClinicModel.Store.insertInvoice_sp" />
-          <FunctionImportMapping FunctionImportName="UpdateInvoice_sp" FunctionName="DoctorClinicModel.Store.UpdateInvoice_sp" />
           <FunctionImportMapping FunctionImportName="BrowseInvoice_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoice_sp">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseInvoice_sp_Result">
@@ -2475,7 +2476,7 @@
                 <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
                 <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
                 <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
               </ComplexTypeMapping>

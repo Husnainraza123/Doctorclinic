@@ -266,7 +266,7 @@
             success: function (response) {
                 if (response.success == true) { // Assuming your response has a status field
                     notifySuccess('<span style="font-size: 10px; font-weight:bold;">' + response.message + '</span>');
-
+                    clearfield();
                     $('#exampleModal').find('.close').click();
                     Bind();
 
@@ -379,5 +379,13 @@
             return false;
         }
         return true;
+                    }
+
+    function clearfield() {
+
+        $('#txtFName').val('');
+        $('#txtDate').val('');
+        $('#EndtxtDate').val('');
+
     }
 </script>
