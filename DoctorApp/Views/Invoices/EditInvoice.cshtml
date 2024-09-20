@@ -60,7 +60,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                        <td></td>
                                         <td>
                                             @Html.EditorFor(model => model.Item, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
@@ -194,7 +194,7 @@
             });
         }
     }
-  
+
     function addNewRow() {
         if (Validate()) {
             var tableBody = document.querySelector("#invoiceTable tbody");
@@ -317,7 +317,7 @@
     });
 
 
-    
+
 
     function notifyDanger(message) {
         $('#notificationElement').html(message).addClass('large-text').show();

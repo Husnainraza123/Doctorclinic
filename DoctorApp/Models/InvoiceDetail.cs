@@ -29,12 +29,14 @@ namespace DoctorApp.Models
         public decimal UnitCost { get; set; }
 
         public decimal Quantity { get; set; }
-
-        public Nullable<decimal> Amount { get; set; }
         public decimal? Total { get; set; }
+
         public decimal? Discount { get; set; }
 
         public decimal? GrandTotal { get; set; }
+
+
+        public Nullable<decimal> Amount { get; set; }
 
         public string CreatedBy { get; set; }
 

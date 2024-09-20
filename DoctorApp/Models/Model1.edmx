@@ -1198,6 +1198,8 @@
           <EntitySet Name="Invoices" EntityType="DoctorClinicModel.Invoice" />
           <EntitySet Name="InvoiceDetails" EntityType="DoctorClinicModel.InvoiceDetail" />
          
+          
+         
           <FunctionImport Name="BrowseInvoiceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceByID_sp_Result)">
           <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1701,6 +1703,8 @@
           <Property Name="ModifyBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
         </EntityType>
+        
+        
         
         <ComplexType Name="BrowseInvoiceByID_sp_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2452,6 +2456,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          
+        
           
           <FunctionImportMapping FunctionImportName="BrowseInvoiceByID_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoiceByID_sp">
             <ResultMapping>

@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/assets/notify/toastr.css" rel="stylesheet" />
+
     <link href="~/assets/css/select2.min.css" rel="stylesheet" />
     <link href="~/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
@@ -29,6 +31,7 @@
     <link href="~/assets/notify/toastr.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="main-wrapper">
@@ -109,9 +112,9 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="topnav-dropdown-footer">
+                        @*<div class="topnav-dropdown-footer">
                             <a href="activities.html">View all Notifications</a>
-                        </div>
+                        </div>*@
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
@@ -325,7 +328,7 @@
                                         <div class="list-body">
                                             <span class="message-author">Richard Miles </span>
                                             <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
+                                            @*<div class="clearfix"></div>*@
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
                                         </div>
                                     </div>
@@ -340,7 +343,7 @@
                                         <div class="list-body">
                                             <span class="message-author">John Doe</span>
                                             <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
+                                            +
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
                                         </div>
                                     </div>
@@ -513,9 +516,9 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="topnav-dropdown-footer">
+                    @*<div class="topnav-dropdown-footer">
                         <a href="chat.html">See all messages</a>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
