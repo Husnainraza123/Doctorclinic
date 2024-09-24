@@ -17,7 +17,7 @@ namespace DoctorApp.Models
 
         public DateTime? InvoiceDate { get; set; }
 
-        public int InvoiceDetailID { get; set; }
+        public int? InvoiceDetailID { get; set; }
 
         public string Item { get; set; }
 

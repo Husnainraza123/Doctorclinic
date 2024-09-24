@@ -1,4 +1,4 @@
-﻿@model DoctorApp.Models.InvoiceViewModel
+﻿@model DoctorApp.ViewModel.InvoicesViewModel
 
 @{
     ViewBag.Title = "EditInvoice";
@@ -11,7 +11,7 @@
             <h4 class="page-title">Edit Invoice</h4>
         </div>
     </div>
-    @Html.HiddenFor(x => x.InvoiceID, new { id = "hdnID" })
+    @Html.HiddenFor(x => x.Invoice.ID, new { id = "hdnID" })
     <div class="row">
         <div class="col-sm-12">
             <form>
@@ -19,26 +19,26 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Patient <span class="text-danger">*</span></label>
-                            @Html.EditorFor(model => model.PatientName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Invoice.Patient_Name, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Patient Address</label>
-                            @Html.EditorFor(model => model.Patient_Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Invoice.Patient_Address, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Billing Address</label>
-                            @Html.EditorFor(model => model.Billing_Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Invoice.Billing_Address, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Invoice date <span class="text-danger">*</span></label>
                             <div class="cal">
-                                @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Invoice.Invoice_Date, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
                     </div>
@@ -59,31 +59,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            @Html.EditorFor(model => model.Item, new { htmlAttributes = new { @class = "form-control" } })
-                                        </td>
-                                        <td>
-                                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                        </td>
-                                        <td>
-                                            @Html.EditorFor(model => model.UnitCost, new { htmlAttributes = new { @class = "form-control" } })
-                                        </td>
-                                        <td>
-                                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                                        </td>
-                                        <td>
-                                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                                        </td>
-                                        <td><a href="javascript:void(0)" class="text-success font-18 addRow" title="Add"><i class="fa fa-plus"></i></a></td>
-                                        <td>
-                                            <a href="javascript:void(0)" class="text-danger font-18 deleteRow" title="Delete">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-
+                                    @foreach (var item in Model.ListInvoices)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                @Html.EditorFor(model => item.Item, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(model => item.des, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(model => item.price, new { htmlAttributes = new { @class = "form-control" ,@onchange = "Calc(this);" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(model => item.Qty, new { htmlAttributes = new { @class = "form-control", @onchange = "Calc(this);" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(model => item.Amount, new { htmlAttributes = new { @class = "form-control", @id = "amtInput" } })
+                                            </td>
+                                            <td><a href="javascript:void(0)" class="text-success font-18 addRow" title="Add"><i class="fa fa-plus"></i></a></td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="text-danger font-18 deleteRow" title="Delete">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -258,11 +260,12 @@
 
     function Calc(v) {
         // Find the closest row (using jQuery's closest method)
+        debugger
         var row = $(v).closest('tr');
 
         // Get the values of qty and unit cost from the input fields
-        var qty = parseFloat(row.find('input[name="qty"]').val()) || 0;
-        var unitCost = parseFloat(row.find('input[name="unit-cost"]').val()) || 0;
+        var qty = parseFloat(row.find('input[name="item.Qty"]').val()) || 0;
+        var unitCost = parseFloat(row.find('input[name="item.price"]').val()) || 0;
 
         // Calculate the amount
         var amount = qty * unitCost;
@@ -278,7 +281,7 @@
     // Function to update the total for all rows
     function updateTotal() {
         var total = 0;
-        var amounts = document.querySelectorAll('input[name="Amt"]');
+        var amounts = document.querySelectorAll('input[name="item.Amount"]');
         amounts.forEach(function (amountField) {
             total += parseFloat(amountField.value) || 0;
         });
@@ -302,8 +305,8 @@
 
     // Add event listeners for existing rows on page load
     document.addEventListener('DOMContentLoaded', function () {
-        var unitCosts = document.querySelectorAll('input[name="unit-cost"]');
-        var qtys = document.querySelectorAll('input[name="qty"]');
+        var unitCosts = document.querySelectorAll('input[name="item.price"]');
+        var qtys = document.querySelectorAll('input[name="item.Qty"]');
         unitCosts.forEach(function (input) {
             input.addEventListener('change', function () {
                 Calc(this);

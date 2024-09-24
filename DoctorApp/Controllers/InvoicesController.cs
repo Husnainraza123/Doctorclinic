@@ -1,4 +1,5 @@
 ﻿using DoctorApp.Models;
+using DoctorApp.ViewModel;
 using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace DoctorApp.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AddInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount,string[] Total, string[] Discount, string[] GrandTotal)
+        public JsonResult AddInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount, string[] Total, string[] Discount, string[] GrandTotal)
         {
             try
             {
@@ -101,43 +102,42 @@ namespace DoctorApp.Controllers
 
         public ActionResult EditInvoice(int id)
         {
-            var row = db.BrowseInvoiceByID_sp(id).FirstOrDefault();
-            InvoiceViewModel model1 = new InvoiceViewModel()
+            InvoicesViewModel model = new InvoicesViewModel
             {
-                InvoiceID = row.ID,
-                PatientName = row.Patient_Name,
-                Patient_Address = row.Patient_Address,
-                Billing_Address = row.Billing_Address,
-                InvoiceDate = Convert.ToDateTime(row.Invoice_Date),
-                Total = row.Total,
-                Discount = row.Discount,
-                GrandTotal = row.GrandTotal,
-
-
+                Invoice = db.BrowseInvoiceByID_sp(id).FirstOrDefault(),
+                ListInvoices = db.BrowseInvoiceByID_sp(id).ToList()
             };
-            return View(model1);
+            //InvoiceViewModel model1 = new InvoiceViewModel()
+            //{
+            //    InvoiceID = row.ID,
+            //    PatientName = row.Patient_Name,
+            //    Patient_Address = row.Patient_Address,
+            //    Billing_Address = row.Billing_Address,
+            //    InvoiceDate = Convert.ToDateTime(row.Invoice_Date),
+            //    Item = row.Item,
+            //    Description = row.des,
+            //    UnitCost = Convert.ToDecimal(row.price),
+            //    Quantity = Convert.ToDecimal(row.Qty),
+            //    Amount = row.Amount,
+            //    Total = row.Total,
+            //    Discount = row.Discount,
+            //    GrandTotal = row.GrandTotal,
+
+
+            //};
+            return View(model);
         }
+
         [HttpPost]
-        //public JsonResult EditInvoice(Invoice i)
-        //{
-        //    i.CreatedDate = DateTime.Now;
-        //    db.Entry(i).State = EntityState.Modified;
-        //    int a = db.SaveChanges();
-        //    if (a > 0)
-        //    {
-        //        return Json(data: 1);
-        //    }
-        //    else
-        //    {
-        //        return Json(data: 0);
-
-        //    }
-        //}
-
         public JsonResult EditInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount, string[] Total, string[] Discount, string[] GrandTotal)
         {
             try
             {
+                if (i == null)
+                {
+                    return Json(new { success = false, message = "Invoice data is missing." });
+                }
+
                 // Insert the Invoice record
                 i.CreatedDate = DateTime.Now;
                 db.Entry(i).State = EntityState.Modified;
@@ -145,22 +145,24 @@ namespace DoctorApp.Controllers
 
                 if (invoiceSaveResult > 0)
                 {
-                    // Loop through details and add to InvoiceDetails table
-                    for (int j = 0; j < Item.Length; j++)
+                    // Ensure arrays are not null and have matching lengths
+                    int detailCount = Item?.Length ?? 0;
+
+                    for (int j = 0; j < detailCount; j++)
                     {
                         InvoiceDetail detail = new InvoiceDetail
                         {
                             InvoiceID = i.InvoiceID,
 
-                            Item = Item.Length > j ? Item[j] : string.Empty,
-                            Description = Description.Length > j ? Description[j] : string.Empty,
+                            Item = (Item != null && Item.Length > j) ? Item[j] : string.Empty,
+                            Description = (Description != null && Description.Length > j) ? Description[j] : string.Empty,
 
-                            UnitCost = decimal.TryParse(UnitCost[j], out decimal unitCostValue) ? unitCostValue : 0,
-                            Quantity = int.TryParse(Quantity[j], out int quantityValue) ? quantityValue : 0,
-                            Amount = decimal.TryParse(Amount[j], out decimal amountValue) ? (decimal?)amountValue : null,
-                            Total = decimal.TryParse(Total[j], out decimal totalValue) ? (decimal?)totalValue : null,
-                            Discount = decimal.TryParse(Discount[j], out decimal discountValue) ? (decimal?)discountValue : null,
-                            GrandTotal = decimal.TryParse(GrandTotal[j], out decimal grandTotalValue) ? (decimal?)grandTotalValue : null,
+                            UnitCost = (UnitCost != null && UnitCost.Length > j && decimal.TryParse(UnitCost[j], out decimal unitCostValue)) ? unitCostValue : 0,
+                            Quantity = (Quantity != null && Quantity.Length > j && int.TryParse(Quantity[j], out int quantityValue)) ? quantityValue : 0,
+                            Amount = (Amount != null && Amount.Length > j && decimal.TryParse(Amount[j], out decimal amountValue)) ? (decimal?)amountValue : null,
+                            Total = (Total != null && Total.Length > j && decimal.TryParse(Total[j], out decimal totalValue)) ? (decimal?)totalValue : null,
+                            Discount = (Discount != null && Discount.Length > j && decimal.TryParse(Discount[j], out decimal discountValue)) ? (decimal?)discountValue : null,
+                            GrandTotal = (GrandTotal != null && GrandTotal.Length > j && decimal.TryParse(GrandTotal[j], out decimal grandTotalValue)) ? (decimal?)grandTotalValue : null,
 
                             CreatedBy = "Husnain Mmeon",
                             CreatedDate = DateTime.Now
@@ -173,11 +175,11 @@ namespace DoctorApp.Controllers
 
                     if (detailsSaveResult > 0)
                     {
-                        return Json(new { success = true, message = "Invoice and details Edit successfully." });
+                        return Json(new { success = true, message = "Invoice and details edited successfully." });
                     }
                 }
 
-                return Json(new { success = false, message = "Error occurred while saving the Invoice." });
+                return Json(new { success = false, message = "Error occurred while saving the invoice." });
             }
             catch (Exception ex)
             {
@@ -186,6 +188,7 @@ namespace DoctorApp.Controllers
                 return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
+
 
 
 
@@ -232,24 +235,7 @@ namespace DoctorApp.Controllers
         }
 
 
-        //[HttpPost]
-        //public JsonResult ViewInvoice(Invoice i)
-        //{
-        //    List<InvoiceViewModel> invoicesView = db.BrowseInvoice_sp().Select(
-        //         s => new InvoiceViewModel()
-        //         {
-        //             InvoiceID = s.ID,
-        //             PatientName = s.Patient_Name,
-        //             Patient_Address = s.Patient_Address,
-        //             Billing_Address = s.Billing_Address,
-        //             InvoiceDate = Convert.ToDateTime(s.Invoice_Date),
-        //            //Amount=s.Amount,
-        //            Total = s.Total,
-        //             Discount = s.Discount,
-        //             GrandTotal = s.GrandTotal,
-        //         }).ToList();
-        //    return View(invoicesView);
-        //}
+
 
 
 

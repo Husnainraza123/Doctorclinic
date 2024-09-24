@@ -14,7 +14,7 @@ namespace DoctorApp.Models
 
 using System;
     
-public partial class BrowseInvoiceByID_sp_Result
+public partial class GetInvoiceReport_sp_Result
 {
 
     public int ID { get; set; }
@@ -27,11 +27,11 @@ public partial class BrowseInvoiceByID_sp_Result
 
     public string Invoice_Date { get; set; }
 
-    public string Item { get; set; }
+    public string Items { get; set; }
 
-    public string des { get; set; }
+    public string Description { get; set; }
 
-    public Nullable<decimal> price { get; set; }
+    public Nullable<decimal> Price { get; set; }
 
     public Nullable<decimal> Qty { get; set; }
 

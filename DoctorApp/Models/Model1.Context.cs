@@ -2009,6 +2009,13 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
+    public virtual ObjectResult<BrowseInvoice_sp_Result> BrowseInvoice_sp()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoice_sp_Result>("BrowseInvoice_sp");
+    }
+
+
     public virtual ObjectResult<BrowseInvoiceByID_sp_Result> BrowseInvoiceByID_sp(Nullable<int> invoiceID)
     {
 
@@ -2021,10 +2028,15 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual ObjectResult<BrowseInvoice_sp_Result> BrowseInvoice_sp()
+    public virtual ObjectResult<GetInvoiceReport_sp_Result> GetInvoiceReport_sp(Nullable<int> invoiceID)
     {
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoice_sp_Result>("BrowseInvoice_sp");
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceReport_sp_Result>("GetInvoiceReport_sp", invoiceIDParameter);
     }
 
 }
