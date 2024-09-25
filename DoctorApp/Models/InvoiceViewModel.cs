@@ -15,7 +15,7 @@ namespace DoctorApp.Models
 
         public string Billing_Address { get; set; }
 
-        public DateTime? InvoiceDate { get; set; }
+        public string  InvoiceDate { get; set; }
 
         public int? InvoiceDetailID { get; set; }
 

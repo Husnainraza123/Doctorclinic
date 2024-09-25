@@ -23,7 +23,7 @@ namespace DoctorApp.Controllers
                     PatientName = s.Patient_Name,
                     Patient_Address = s.Patient_Address,
                     Billing_Address = s.Billing_Address,
-                    InvoiceDate = Convert.ToDateTime(s.Invoice_Date),
+                    InvoiceDate = s.Invoice_Date,
                     //Amount=s.Amount,
                     Total = s.Total,
                     Discount = s.Discount,
@@ -107,29 +107,11 @@ namespace DoctorApp.Controllers
                 Invoice = db.BrowseInvoiceByID_sp(id).FirstOrDefault(),
                 ListInvoices = db.BrowseInvoiceByID_sp(id).ToList()
             };
-            //InvoiceViewModel model1 = new InvoiceViewModel()
-            //{
-            //    InvoiceID = row.ID,
-            //    PatientName = row.Patient_Name,
-            //    Patient_Address = row.Patient_Address,
-            //    Billing_Address = row.Billing_Address,
-            //    InvoiceDate = Convert.ToDateTime(row.Invoice_Date),
-            //    Item = row.Item,
-            //    Description = row.des,
-            //    UnitCost = Convert.ToDecimal(row.price),
-            //    Quantity = Convert.ToDecimal(row.Qty),
-            //    Amount = row.Amount,
-            //    Total = row.Total,
-            //    Discount = row.Discount,
-            //    GrandTotal = row.GrandTotal,
-
-
-            //};
             return View(model);
         }
 
         [HttpPost]
-        public JsonResult EditInvoice(Invoice i, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount, string[] Total, string[] Discount, string[] GrandTotal)
+        public JsonResult EditInvoice(Invoice i, InvoiceDetail id, string[] Item, string[] Description, string[] UnitCost, string[] Quantity, string[] Amount, string[] Total, string[] Discount, string[] GrandTotal)
         {
             try
             {
@@ -138,7 +120,7 @@ namespace DoctorApp.Controllers
                     return Json(new { success = false, message = "Invoice data is missing." });
                 }
 
-                // Insert the Invoice record
+                // Update Invoice
                 i.CreatedDate = DateTime.Now;
                 db.Entry(i).State = EntityState.Modified;
                 int invoiceSaveResult = db.SaveChanges();
@@ -150,25 +132,34 @@ namespace DoctorApp.Controllers
 
                     for (int j = 0; j < detailCount; j++)
                     {
-                        InvoiceDetail detail = new InvoiceDetail
+                        // Try to fetch the existing detail if available, otherwise create new one
+                        var detail = db.InvoiceDetails
+                            .FirstOrDefault(d => d.InvoiceDetailID == id.InvoiceDetailID && d.InvoiceID == i.InvoiceID);
+
+                        if (detail == null)
                         {
-                            InvoiceID = i.InvoiceID,
+                            detail = new InvoiceDetail();
+                            db.InvoiceDetails.Add(detail); // Add new if not exist
+                        }
+                        else
+                        {
+                            db.Entry(detail).State = EntityState.Modified; // Mark as modified if exist
+                        }
 
-                            Item = (Item != null && Item.Length > j) ? Item[j] : string.Empty,
-                            Description = (Description != null && Description.Length > j) ? Description[j] : string.Empty,
+                        // Update the detail fields
+                        detail.InvoiceID = i.InvoiceID;
+                        detail.Item = (Item != null && Item.Length > j) ? Item[j] : string.Empty;
+                        detail.Description = (Description != null && Description.Length > j) ? Description[j] : string.Empty;
 
-                            UnitCost = (UnitCost != null && UnitCost.Length > j && decimal.TryParse(UnitCost[j], out decimal unitCostValue)) ? unitCostValue : 0,
-                            Quantity = (Quantity != null && Quantity.Length > j && int.TryParse(Quantity[j], out int quantityValue)) ? quantityValue : 0,
-                            Amount = (Amount != null && Amount.Length > j && decimal.TryParse(Amount[j], out decimal amountValue)) ? (decimal?)amountValue : null,
-                            Total = (Total != null && Total.Length > j && decimal.TryParse(Total[j], out decimal totalValue)) ? (decimal?)totalValue : null,
-                            Discount = (Discount != null && Discount.Length > j && decimal.TryParse(Discount[j], out decimal discountValue)) ? (decimal?)discountValue : null,
-                            GrandTotal = (GrandTotal != null && GrandTotal.Length > j && decimal.TryParse(GrandTotal[j], out decimal grandTotalValue)) ? (decimal?)grandTotalValue : null,
+                        detail.UnitCost = (UnitCost != null && UnitCost.Length > j && decimal.TryParse(UnitCost[j], out decimal unitCostValue)) ? unitCostValue : 0;
+                        detail.Quantity = (Quantity != null && Quantity.Length > j && int.TryParse(Quantity[j], out int quantityValue)) ? quantityValue : 0;
+                        detail.Amount = (Amount != null && Amount.Length > j && decimal.TryParse(Amount[j], out decimal amountValue)) ? (decimal?)amountValue : null;
+                        detail.Total = (Total != null && Total.Length > j && decimal.TryParse(Total[j], out decimal totalValue)) ? (decimal?)totalValue : null;
+                        detail.Discount = (Discount != null && Discount.Length > j && decimal.TryParse(Discount[j], out decimal discountValue)) ? (decimal?)discountValue : null;
+                        detail.GrandTotal = (GrandTotal != null && GrandTotal.Length > j && decimal.TryParse(GrandTotal[j], out decimal grandTotalValue)) ? (decimal?)grandTotalValue : null;
 
-                            CreatedBy = "Husnain Mmeon",
-                            CreatedDate = DateTime.Now
-                        };
-
-                        db.InvoiceDetails.Add(detail);
+                        detail.CreatedBy = "Husnain Mmeon";
+                        detail.CreatedDate = DateTime.Now;
                     }
 
                     int detailsSaveResult = db.SaveChanges();

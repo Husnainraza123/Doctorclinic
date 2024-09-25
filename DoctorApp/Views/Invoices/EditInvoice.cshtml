@@ -12,6 +12,8 @@
         </div>
     </div>
     @Html.HiddenFor(x => x.Invoice.ID, new { id = "hdnID" })
+    @Html.HiddenFor(x => x.Invoice.InvoiceDetailID, new { id = "hdnId" })
+    @Html.HiddenFor(x => x.Invoice.Patient_id, new { id = "hdnPatientId" })
     <div class="row">
         <div class="col-sm-12">
             <form>
@@ -19,6 +21,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Patient <span class="text-danger">*</span></label>
+
                             @Html.EditorFor(model => model.Invoice.Patient_Name, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
@@ -28,12 +31,16 @@
                             @Html.EditorFor(model => model.Invoice.Patient_Address, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
+
+
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Billing Address</label>
                             @Html.EditorFor(model => model.Invoice.Billing_Address, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
+
+
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Invoice date <span class="text-danger">*</span></label>
@@ -70,7 +77,7 @@
                                                 @Html.EditorFor(model => item.des, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => item.price, new { htmlAttributes = new { @class = "form-control" ,@onchange = "Calc(this);" } })
+                                                @Html.EditorFor(model => item.price, new { htmlAttributes = new { @class = "form-control", @onchange = "Calc(this);" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => item.Qty, new { htmlAttributes = new { @class = "form-control", @onchange = "Calc(this);" } })
@@ -92,12 +99,14 @@
                         <div class="table-responsive">
                             <table class="table table-hover table-white">
                                 <tbody>
+
                                     <tr>
                                         <td colspan="5" style="text-align: right; font-weight: bold">
                                             Total
+
                                         </td>
                                         <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px; width: 230px">
-                                            <span id="total"></span>
+                                            @Html.EditorFor(model => model.Invoice.Total, new { htmlAttributes = new { @class = "form-control" } })
                                         </td>
                                     </tr>
                                     <tr>
@@ -105,7 +114,8 @@
                                             Discount
                                         </td>
                                         <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px;width: 230px">
-                                            <input id="txtDis" class="form-control" style="width:80px; margin-left:60%" type="text" name="Dis" onchange="updateGrandTotal();">
+                                            @Html.EditorFor(model => model.Invoice.Discount, new { htmlAttributes = new { @class = "form-control", @name = "Dis", @onchange = "updateGrandTotal();" } })
+
                                         </td>
                                     </tr>
 
@@ -114,9 +124,11 @@
                                             Grand Total
                                         </td>
                                         <td style="text-align: right; padding-right: 30px; font-weight: bold; font-size: 16px;width: 230px">
+                                            @Html.EditorFor(model => model.Invoice.GrandTotal, new { htmlAttributes = new { @class = "form-control" } })
                                             <span id="grandtotal"></span>
                                         </td>
                                     </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -137,41 +149,52 @@
     function Edit() {
         debugger;
         var id = $('#hdnID').val();
+        var ID = $('#hdnId').val();
         var formData = new FormData();
         var currentDate = new Date().toISOString();
 
         if (id > 0) { // if editing an existing invoice
             formData.append('InvoiceID', id);
-            formData.append('PatientsID', $('#ddlPatient').val());
-            formData.append('Patient_Address', $('#txtPatAdd').val());
-            formData.append('Billing_Address', $('#txtBAdd').val());
-            formData.append('InvoiceDate', $('#txtDate').val());
-            formData.append('Item', $('#txtItem').val());
-            formData.append('Description', $('#txtdes').val());
-            formData.append('UnitCost', $('#txtprice').val());
-            formData.append('Quantity', $('#txtqty').val());
+            formData.append('InvoiceDetailID',ID);
+            formData.append('PatientsID', $('#hdnPatientId').val());
+            formData.append('Patient_Address', $('#Invoice_Patient_Address').val());
+            formData.append('Billing_Address', $('#Invoice_Billing_Address').val());
+            formData.append('InvoiceDate', $('#Invoice_Invoice_Date').val());
+            formData.append('Item', $('#item_Item').val());
+            formData.append('Description', $('#item_des').val());
+            formData.append('UnitCost', $('#item_price').val());
+            formData.append('Quantity', $('#item_Qty').val());
             formData.append('Amount', $('#amtInput').val());
-            formData.append('Discount', $('#txtDis').val());
-            formData.append('GrandTotal', $('#grandtotal').text());
+            formData.append('Total', $('#Invoice_Total').val());
+            formData.append('Discount', $('#Invoice_Discount').val());
+         
             formData.append('CreatedBy', 'Husnain Memon');
             formData.append('CreatedDate', currentDate);
             formData.append('ModifyBy', 'Husnain Memon');
             formData.append('ModifyDate', currentDate);
+            
+            formData.append('GrandTotal', $('#Invoice_GrandTotal').val());
 
             // Get each row's data for the invoice items
             $('#invoiceTable tbody tr').each(function (index, row) {
-                var item = $(row).find('input[name="item"]').val();
-                var description = $(row).find('input[name="description"]').val();
-                var unitCost = $(row).find('input[name="unit-cost"]').val();
-                var quantity = $(row).find('input[name="qty"]').val();
-                var amount = $(row).find('input[name="Amt"]').val();
-
+                var item = $(row).find('input[name="item.Item"]').val();
+                var description = $(row).find('input[name="item.des"]').val();
+                var unitCost = $(row).find('input[name="item.price"]').val();
+                var quantity = $(row).find('input[name="item.Qty"]').val();
+                var amount = $(row).find('input[name="item.Amount"]').val();
+             
+               
+                debugger;
                 // Append row data with index to formData
-                formData.append('Items[' + index + '].Item', item);
-                formData.append('Items[' + index + '].Description', description);
-                formData.append('Items[' + index + '].UnitCost', unitCost);
-                formData.append('Items[' + index + '].Quantity', quantity);
-                formData.append('Items[' + index + '].Amount', amount);
+                formData.append('Item[]', item);
+                formData.append('Description[]', description);
+                formData.append('UnitCost[]', unitCost);
+                formData.append('Quantity[]', quantity);
+                formData.append('Amount[]', amount);
+                
+             
+               
+               
             });
 
             $.ajax({
@@ -185,7 +208,7 @@
                     if (response.success) {
                         notifySuccess(response.message);
                         $('#exampleModal').find('.close').click();
-                        Bind(); // Call your Bind function here to refresh the invoice list
+                      /*  Bind(); // Call your Bind function here to refresh the invoice list*/
                     } else {
                         notifyDanger(response.message);
                     }
@@ -260,7 +283,6 @@
 
     function Calc(v) {
         // Find the closest row (using jQuery's closest method)
-        debugger
         var row = $(v).closest('tr');
 
         // Get the values of qty and unit cost from the input fields
@@ -280,6 +302,7 @@
 
     // Function to update the total for all rows
     function updateTotal() {
+        debugger
         var total = 0;
         var amounts = document.querySelectorAll('input[name="item.Amount"]');
         amounts.forEach(function (amountField) {
@@ -287,20 +310,20 @@
         });
 
         // Update the total display
-        document.getElementById('total').innerText = total.toFixed(2);
-
+        // document.getElementById('Invoice.Total').innerText = total.toFixed(2);
+        document.getElementById('Invoice_Total').value = total;
         // Update the grand total
         updateGrandTotal();
     }
 
     // Function to update the grand total based on total and discount
     function updateGrandTotal() {
-        var total = parseFloat(document.getElementById('total').innerText) || 0;
-        var discount = parseFloat(document.querySelector('input[name="Dis"]').value) || 0;
+        var total = parseFloat(document.getElementById('Invoice_Total').value) || 0;
+        var discount = parseFloat(document.querySelector('input[name="Invoice.Discount"]').value) || 0;
         var grandTotal = total - discount;
 
         // Update the grand total display
-        document.getElementById('grandtotal').innerText = grandTotal.toFixed(2);
+        document.getElementById('Invoice_GrandTotal').value = grandTotal.toFixed(2);
     }
 
     // Add event listeners for existing rows on page load

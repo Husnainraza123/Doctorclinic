@@ -19,6 +19,10 @@ public partial class BrowseInvoiceByID_sp_Result
 
     public int ID { get; set; }
 
+    public int Patient_id { get; set; }
+
+    public Nullable<int> InvoiceDetailID { get; set; }
+
     public string Patient_Name { get; set; }
 
     public string Patient_Address { get; set; }
