@@ -1205,10 +1205,11 @@
          
           <FunctionImport Name="BrowseInvoice_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoice_sp_Result)" />
           
-          <FunctionImport Name="GetInvoiceReport_sp" ReturnType="Collection(DoctorClinicModel.GetInvoiceReport_sp_Result)">
+         
+          <FunctionImport Name="BrowseInvoiceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceByID_sp_Result)">
           <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="BrowseInvoiceByID_sp" ReturnType="Collection(DoctorClinicModel.BrowseInvoiceByID_sp_Result)">
+          <FunctionImport Name="GetInvoiceReport_sp" ReturnType="Collection(DoctorClinicModel.GetInvoiceReport_sp_Result)">
             <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
         
@@ -1725,27 +1726,32 @@
           <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
        
-        <ComplexType Name="GetInvoiceReport_sp_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Patient_Name" Nullable="true" MaxLength="201" />
-          <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="Items" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Qty" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="18" Scale="0" />
-        </ComplexType>
+      
         <ComplexType Name="BrowseInvoiceByID_sp_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="Int32" Name="Patient_id" Nullable="false" />
           <Property Type="Int32" Name="InvoiceDetailID" Nullable="true" />
           <Property Type="String" Name="Patient_Name" Nullable="true" MaxLength="201" />
           <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="Item" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="des" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="price" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Qty" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="GetInvoiceReport_sp_Result">
+          <Property Type="Int32" Name="InvoiceID" Nullable="false" />
+          <Property Type="Int32" Name="Patient_id" Nullable="false" />
+          <Property Type="Int32" Name="InvoiceDetailID" Nullable="true" />
+          <Property Type="String" Name="Patient_Name" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="Patient_Address" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Billing_Address" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Invoice_Date" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="Item" Nullable="true" MaxLength="100" />
@@ -2506,25 +2512,8 @@
             </ResultMapping>
           </FunctionImportMapping>
           
-          <FunctionImportMapping FunctionImportName="GetInvoiceReport_sp" FunctionName="DoctorClinicModel.Store.GetInvoiceReport_sp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DoctorClinicModel.GetInvoiceReport_sp_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
-                <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
-                <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
-                <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
-                <ScalarProperty Name="Items" ColumnName="Items" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Qty" ColumnName="Qty" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+         
+          
           <FunctionImportMapping FunctionImportName="BrowseInvoiceByID_sp" FunctionName="DoctorClinicModel.Store.BrowseInvoiceByID_sp">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DoctorClinicModel.BrowseInvoiceByID_sp_Result">
@@ -2533,6 +2522,29 @@
                 <ScalarProperty Name="InvoiceDetailID" ColumnName="InvoiceDetailID" />
                 <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
                 <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
+                <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
+                <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInvoiceReport_sp" FunctionName="DoctorClinicModel.Store.GetInvoiceReport_sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DoctorClinicModel.GetInvoiceReport_sp_Result">
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="Patient_id" ColumnName="Patient_id" />
+                <ScalarProperty Name="InvoiceDetailID" ColumnName="InvoiceDetailID" />
+                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
+                <ScalarProperty Name="Patient_Address" ColumnName="Patient_Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="Billing_Address" ColumnName="Billing_Address" />
                 <ScalarProperty Name="Invoice_Date" ColumnName="Invoice_Date" />
                 <ScalarProperty Name="Item" ColumnName="Item" />

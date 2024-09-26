@@ -2016,18 +2016,6 @@ public partial class DoctorClinicEntities : DbContext
     }
 
 
-    public virtual ObjectResult<GetInvoiceReport_sp_Result> GetInvoiceReport_sp(Nullable<int> invoiceID)
-    {
-
-        var invoiceIDParameter = invoiceID.HasValue ?
-            new ObjectParameter("InvoiceID", invoiceID) :
-            new ObjectParameter("InvoiceID", typeof(int));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceReport_sp_Result>("GetInvoiceReport_sp", invoiceIDParameter);
-    }
-
-
     public virtual ObjectResult<BrowseInvoiceByID_sp_Result> BrowseInvoiceByID_sp(Nullable<int> invoiceID)
     {
 
@@ -2037,6 +2025,18 @@ public partial class DoctorClinicEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BrowseInvoiceByID_sp_Result>("BrowseInvoiceByID_sp", invoiceIDParameter);
+    }
+
+
+    public virtual ObjectResult<GetInvoiceReport_sp_Result> GetInvoiceReport_sp(Nullable<int> invoiceID)
+    {
+
+        var invoiceIDParameter = invoiceID.HasValue ?
+            new ObjectParameter("InvoiceID", invoiceID) :
+            new ObjectParameter("InvoiceID", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceReport_sp_Result>("GetInvoiceReport_sp", invoiceIDParameter);
     }
 
 }

@@ -43,7 +43,7 @@ public partial class Employee
     public Nullable<System.DateTime> ModifyDate { get; set; }
 
     public string Status { get; set; }
-        public string ImageFile { get; internal set; }
+    public string ImageFile { get; internal set; }
     }
 
 }

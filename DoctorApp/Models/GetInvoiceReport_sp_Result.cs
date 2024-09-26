@@ -17,21 +17,29 @@ using System;
 public partial class GetInvoiceReport_sp_Result
 {
 
-    public int ID { get; set; }
+    public int InvoiceID { get; set; }
+
+    public int Patient_id { get; set; }
+
+    public Nullable<int> InvoiceDetailID { get; set; }
 
     public string Patient_Name { get; set; }
 
     public string Patient_Address { get; set; }
 
+    public string City { get; set; }
+
+    public string Country { get; set; }
+
     public string Billing_Address { get; set; }
 
     public string Invoice_Date { get; set; }
 
-    public string Items { get; set; }
+    public string Item { get; set; }
 
-    public string Description { get; set; }
+    public string des { get; set; }
 
-    public Nullable<decimal> Price { get; set; }
+    public Nullable<decimal> price { get; set; }
 
     public Nullable<decimal> Qty { get; set; }
 

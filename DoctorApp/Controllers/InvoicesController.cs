@@ -228,7 +228,19 @@ namespace DoctorApp.Controllers
 
 
 
+        [HttpGet]
+        public ActionResult InvoiceView(int? id)
+        {
+            InvoicesViewModel invoices = new InvoicesViewModel
+            {
+                ListInvoicesView = db.GetInvoiceReport_sp(id).ToList(),
+                Invoice = db.BrowseInvoiceByID_sp(id).FirstOrDefault()
+            };
+            
+            return View(invoices);
 
+        }
+       
 
 
 
