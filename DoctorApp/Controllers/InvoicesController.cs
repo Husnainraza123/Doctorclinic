@@ -1,6 +1,8 @@
 ﻿using DoctorApp.Models;
 using DoctorApp.ViewModel;
 using Omu.ValueInjecter;
+using PdfLibrary;
+using PdfLibrary.Options;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -240,7 +242,30 @@ namespace DoctorApp.Controllers
             return View(invoices);
 
         }
-       
+
+        [HttpGet]
+        public ActionResult ReportView(int? id)
+        {
+            InvoicesViewModel invoices = new InvoicesViewModel
+            {
+                ListInvoicesView = db.GetInvoiceReport_sp(id).ToList(),
+                Invoice = db.BrowseInvoiceByID_sp(id).FirstOrDefault()
+            };
+
+            //return new ViewAsPdf("ReportView")
+            //{
+            //    FileName = "invoicesprint.pdf",
+            //    PageSize = Size.A4, // custom size for thermal printer
+            //    PageOrientation = Orientation.Portrait,
+            //    PageMargins = { Top = 5, Bottom = 1, Left = 10, Right = 10 },
+            //    ContentDisposition = ContentDisposition.Inline,
+            //    Model = invoices
+            //}
+            return View(invoices);
+
+
+        }
+
 
 
 

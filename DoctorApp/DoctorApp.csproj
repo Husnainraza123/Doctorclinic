@@ -55,6 +55,9 @@
     <Reference Include="Omu.ValueInjecter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5692a4ecdffbe736, processorArchitecture=MSIL">
       <HintPath>..\packages\ValueInjecter.3.2.0\lib\net45\Omu.ValueInjecter.dll</HintPath>
     </Reference>
+    <Reference Include="PdfLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PdfLibrary.0.0.1\lib\net45\PdfLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -518,6 +521,10 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="PdfLibrary\help-wkhtmltoimage.txt" />
+    <Content Include="PdfLibrary\help-wkhtmltopdf.txt" />
+    <Content Include="PdfLibrary\wkhtmltoimage.exe" />
+    <Content Include="PdfLibrary\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="assets\fonts\fontawesome-webfont3e6e.eot" />
@@ -609,6 +616,7 @@
     <Content Include="Views\Invoices\AddInvoice.cshtml" />
     <Content Include="Views\Invoices\EditInvoice.cshtml" />
     <Content Include="Views\Invoices\InvoiceView.cshtml" />
+    <Content Include="Views\Invoices\ReportView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
